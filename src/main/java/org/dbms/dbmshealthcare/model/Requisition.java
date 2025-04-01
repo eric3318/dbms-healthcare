@@ -7,6 +7,7 @@ import org.dbms.dbmshealthcare.constants.RequisitionStatus;
 import org.dbms.dbmshealthcare.model.pojo.RequisitionResult;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -33,5 +34,6 @@ public class Requisition {
   private Instant requestedAt;
 
   @Field(name = "updated_at")
+  @LastModifiedDate
   private Instant updatedAt;
 }

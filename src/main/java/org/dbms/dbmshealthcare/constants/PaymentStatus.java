@@ -1,15 +1,17 @@
 package org.dbms.dbmshealthcare.constants;
 
-public enum RequisitionStatus {
+public enum PaymentStatus {
   PENDING("Pending"),
-  PENDING_RESULT("Pending_result"),
-  COMPLETED("Completed");
+  PROCESSING("Processing"),
+  COMPLETED("Completed"),
+  FAILED("Failed");
 
   private final String status;
 
-  RequisitionStatus(String status) {
+  PaymentStatus(String status) {
     this.status = status;
   }
+
 
   @Override
   public String toString() {

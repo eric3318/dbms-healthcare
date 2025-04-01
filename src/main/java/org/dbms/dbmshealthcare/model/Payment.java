@@ -2,7 +2,11 @@ package org.dbms.dbmshealthcare.model;
 
 import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.time.Instant;
+import org.dbms.dbmshealthcare.constants.PaymentStatus;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -16,6 +20,13 @@ public class Payment {
 
   private BigDecimal amount;
 
-  private String status;
+  private PaymentStatus status = PaymentStatus.PENDING;
 
+  @Field(name = "requested_at")
+  @CreatedDate
+  private Instant requestedAt;
+
+  @Field(name = "updated_at")
+  @LastModifiedDate
+  private Instant updatedAt;
 }
