@@ -1,3 +1,8 @@
 spring:
   application:
     name: "dbms-healthcare"
+  data:
+    mongodb:
+      uri: mongodb://localhost/healthcare
+      username: root
+      password: password
