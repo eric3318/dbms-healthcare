@@ -2,6 +2,7 @@ package org.dbms.dbmshealthcare.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.security.Provider.Service;
 import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -23,6 +24,9 @@ public class Patient {
 
   @Field(name = "user_id")
   private String userId;
+
+  @Field(name = "doctor_id")
+  private String doctorId;
 
   @Field(name = "created_at")
   @CreatedDate

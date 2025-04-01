@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import lombok.Data;
+import org.dbms.dbmshealthcare.constants.AppointmentStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -31,6 +32,8 @@ public class Appointment {
   @NotBlank
   @Field(name = "end_time")
   private LocalDateTime endTime;
+
+  private AppointmentStatus status = AppointmentStatus.PENDING_APPROVAL;
 
   @Field(name = "created_at")
   @CreatedDate
