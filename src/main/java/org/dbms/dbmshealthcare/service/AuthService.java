@@ -2,7 +2,6 @@ package org.dbms.dbmshealthcare.service;
 
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
@@ -58,11 +57,15 @@ public class AuthService {
       JWT jwt = jwtUtils.decodeToken(refreshToken);
       JWTClaimsSet claimsSet = jwt.getJWTClaimsSet();
 
+      String jwtIdClaim = claimsSet.getJWTID();
+
+      String email = claimsSet.getSubject();
+
+      verifyJwtId( jwtIdClaim, email);
+
       List<Object> rolesClaim = claimsSet.getListClaim("roles");
 
       List<Role> roles = rolesClaim.stream().map(role -> Role.valueOf((String) role)).toList();
-
-      String email = claimsSet.getSubject();
 
       String accessToken = jwtUtils.generateToken(email, roles,
           Date.from(Instant.now().plusSeconds(5 * 60)), JwtType.ACCESS);
@@ -70,6 +73,16 @@ public class AuthService {
       return accessToken;
     } catch (Exception e) {
       throw new RuntimeException("Error refreshing token");
+    }
+  }
+
+  private void verifyJwtId(String jwtId, String email ){
+    User user = userService.getUserByEmail(email);
+
+    String jti = user.getJwtId();
+
+    if (!jwtId.equals(jti)){
+      throw new RuntimeException("Invalidated refresh token present");
     }
   }
 

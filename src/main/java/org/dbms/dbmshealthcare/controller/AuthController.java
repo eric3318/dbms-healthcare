@@ -41,7 +41,7 @@ public class AuthController {
     String refreshToken = tokens.refreshToken();
 
     Cookie refreshTokenCookie = buildCookie("refresh_token", refreshToken,
-        loginDto.rememberMe() ? 30 * 24 * 60 * 60 : 24 * 60 * 60);
+        loginDto.rememberMe() ? 15 * 24 * 60 * 60 : 24 * 60 * 60);
 
     Cookie accessTokenCookie = buildCookie("access_token", accessToken, 5 * 60);
 

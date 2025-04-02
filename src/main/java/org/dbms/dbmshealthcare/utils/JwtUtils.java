@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
 import org.dbms.dbmshealthcare.constants.Role;
@@ -49,14 +50,19 @@ public class JwtUtils {
 
     JWSSigner signer = new RSASSASigner(privateKey);
 
-    JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+    JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
         .subject(sub)
         .issuer("dbms-healthcare")
         .audience("dbms-healthcare-web-app")
         .expirationTime(expiration)
         .claim("roles", roles)
-        .claim("type", type)
-        .build();
+        .claim("type", type);
+
+    if (JwtType.REFRESH.equals(type)){
+      builder.claim("jti", UUID.randomUUID().toString());
+    }
+
+    JWTClaimsSet claimsSet = builder.build();
 
     SignedJWT jwt = new SignedJWT(new JWSHeader.Builder(
         JWSAlgorithm.RS256
