@@ -8,5 +8,7 @@ spring:
 server:
   max-http-request-header-size: 65536
 
-jwt:
-  rsa-public-key: classpath:keys/public_key.pem
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: TRACE
