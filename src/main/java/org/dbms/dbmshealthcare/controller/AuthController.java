@@ -3,6 +3,7 @@ package org.dbms.dbmshealthcare.controller;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
 import org.dbms.dbmshealthcare.dto.UserLoginDto;
@@ -63,6 +64,15 @@ public class AuthController {
     httpResponse.addCookie(accessTokenCookie);
 
     return ResponseEntity.ok("Token refreshed");
+  }
+
+  @PostMapping("/me")
+  public ResponseEntity<?> me() {
+    Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    Map<String, Object> infoMap = jwt.getClaims();
+
+    return ResponseEntity.ok(infoMap);
   }
 
   private Cookie buildCookie(String name, String value, int maxAge) {

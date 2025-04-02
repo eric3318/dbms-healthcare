@@ -5,6 +5,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
 import org.dbms.dbmshealthcare.constants.Role;
@@ -47,7 +48,17 @@ public class AuthService {
 
     List<Role> roles = user.getRoles();
 
-    TokenPair tokens = jwtUtils.generateToken(email, roles, rememberMe);
+    Map<String, Object> claims = Map.of(
+        "roles", roles,
+        "profile", Map.of(
+            "id", user.getId(),
+            "name", user.getName(),
+            "date_of_birth", user.getDateOfBirth().toString(),
+            "phone_number", user.getPhoneNumber()
+        )
+    );
+
+    TokenPair tokens = jwtUtils.generateToken(email, claims, rememberMe);
 
     return tokens;
   }
@@ -61,13 +72,13 @@ public class AuthService {
 
       String email = claimsSet.getSubject();
 
-      verifyJwtId( jwtIdClaim, email);
+      verifyJwtId(jwtIdClaim, email);
 
-      List<Object> rolesClaim = claimsSet.getListClaim("roles");
+      Map<String, Object> claims = Map.of(
+          "roles", claimsSet.getListClaim("roles"),
+          "profile", claimsSet.getJSONObjectClaim("profile"));
 
-      List<Role> roles = rolesClaim.stream().map(role -> Role.valueOf((String) role)).toList();
-
-      String accessToken = jwtUtils.generateToken(email, roles,
+      String accessToken = jwtUtils.generateToken(email, claims,
           Date.from(Instant.now().plusSeconds(5 * 60)), JwtType.ACCESS);
 
       return accessToken;
@@ -76,12 +87,12 @@ public class AuthService {
     }
   }
 
-  private void verifyJwtId(String jwtId, String email ){
+  private void verifyJwtId(String jwtId, String email) {
     User user = userService.getUserByEmail(email);
 
     String jti = user.getJwtId();
 
-    if (!jwtId.equals(jti)){
+    if (!jwtId.equals(jti)) {
       throw new RuntimeException("Invalidated refresh token present");
     }
   }

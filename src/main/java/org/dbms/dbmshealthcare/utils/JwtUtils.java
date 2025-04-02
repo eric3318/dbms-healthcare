@@ -12,11 +12,10 @@ import java.security.interfaces.RSAPrivateKey;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
-import org.dbms.dbmshealthcare.constants.Role;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +25,7 @@ public class JwtUtils {
 
   private final RSAKey rsaKey;
 
-  public TokenPair generateToken(String sub, List<Role> roles, boolean rememberMe)
+  public TokenPair generateToken(String sub, Map<String, Object> claims, boolean rememberMe)
       throws Exception {
     Date accessTokenExpiration = Date.from(Instant.now().plusSeconds(5 * 60));
 
@@ -38,13 +37,13 @@ public class JwtUtils {
       refreshTokenExpiration = Date.from(Instant.now().plusSeconds(24 * 60 * 60));
     }
 
-    String accessToken = generateToken(sub, roles, accessTokenExpiration, JwtType.ACCESS);
-    String refreshToken = generateToken(sub, roles, refreshTokenExpiration, JwtType.REFRESH);
+    String accessToken = generateToken(sub, claims, accessTokenExpiration, JwtType.ACCESS);
+    String refreshToken = generateToken(sub, claims, refreshTokenExpiration, JwtType.REFRESH);
 
     return new TokenPair(accessToken, refreshToken);
   }
 
-  public String generateToken(String sub, List<Role> roles, Date expiration, JwtType type)
+  public String generateToken(String sub, Map<String, Object> claims, Date expiration, JwtType type)
       throws Exception {
     RSAPrivateKey privateKey = rsaKey.toRSAPrivateKey();
 
@@ -55,10 +54,11 @@ public class JwtUtils {
         .issuer("dbms-healthcare")
         .audience("dbms-healthcare-web-app")
         .expirationTime(expiration)
-        .claim("roles", roles)
         .claim("type", type);
 
-    if (JwtType.REFRESH.equals(type)){
+    claims.forEach((key, value) -> builder.claim(key, value));
+
+    if (JwtType.REFRESH.equals(type)) {
       builder.claim("jti", UUID.randomUUID().toString());
     }
 
