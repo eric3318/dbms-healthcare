@@ -3,6 +3,12 @@ spring:
     name: "dbms-healthcare"
   data:
     mongodb:
-      uri: mongodb://localhost/healthcare
-      username: root
-      password: password
+      uri: mongodb://user:pass@localhost:27017/healthcare?authSource=admin
+
+server:
+  max-http-request-header-size: 65536
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: TRACE

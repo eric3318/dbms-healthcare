@@ -1,42 +1,39 @@
 package org.dbms.dbmshealthcare.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Document(collection = "users")
-public class User {
+@Data
+@RequiredArgsConstructor
+public class User implements UserDetails {
 
   @Id
   private String id;
 
-  @NotBlank
   private String name;
 
-  @Email(message = "Email should be valid")
-  @NotBlank
+  @Indexed(unique = true)
   private String email;
 
-  @Size(min = 8, message = "Password must be at least 8 characters long")
-  @NotBlank
   private String password;
 
-  @Past(message = "Date of birth must be in the past")
   @Field(name = "date_of_birth")
-  private LocalDateTime dateOfBirth;
+  private LocalDate dateOfBirth;
 
-  @Size(min = 10, max = 12, message = "Phone number must be between 10 and 12 digits")
   @Field(name = "phone_number")
   private String phoneNumber;
 
@@ -49,4 +46,19 @@ public class User {
   @Field(name = "updated_at")
   @LastModifiedDate
   private Instant updatedAt;
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of();
+  }
+
+  @Override
+  public String getPassword() {
+    return this.password;
+  }
+
+  @Override
+  public String getUsername() {
+    return this.email;
+  }
 }
