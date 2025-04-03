@@ -37,6 +37,17 @@ public abstract class BaseMongoRepository<T> {
     );
   }
 
+  public T delete(String id, Criteria criteria) {
+    Criteria combinedCriteria = new Criteria().andOperator(
+        criteria,
+        Criteria.where("_id").is(id)
+    );
+    return mongoTemplate.findAndRemove(
+        Query.query(combinedCriteria),
+        entityClass
+    );
+  }
+
   public T update(String id, Update updates) {
     Query query = Query.query(Criteria.where("_id").is(id));
 

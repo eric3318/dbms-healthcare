@@ -1,7 +1,7 @@
 package org.dbms.dbmshealthcare.dto;
 
-import org.dbms.dbmshealthcare.constants.AppointmentStatus;
+import org.dbms.dbmshealthcare.constants.SlotStatus;
 
-public record AppointmentUpdateDto(AppointmentStatus status) {
+public record AppointmentUpdateDto(SlotStatus status) {
 
 }

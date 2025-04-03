@@ -1,8 +1,8 @@
 package org.dbms.dbmshealthcare.constants;
 
 public enum JwtType {
-  ACCESS("access"),
-  REFRESH("refresh");
+  ACCESS("Access"),
+  REFRESH("Refresh");
 
   private final String type;
 

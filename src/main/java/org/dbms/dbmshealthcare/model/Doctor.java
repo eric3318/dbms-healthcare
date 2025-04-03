@@ -2,7 +2,6 @@ package org.dbms.dbmshealthcare.model;
 
 import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
-import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,10 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Doctor {
   @Id
   private String id;
-
-  private List<String> patients;
-
-  private List<String> appointments;
 
   @NotBlank
   private String specialization;

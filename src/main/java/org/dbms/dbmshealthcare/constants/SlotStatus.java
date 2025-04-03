@@ -1,6 +1,7 @@
 package org.dbms.dbmshealthcare.constants;
 
-public enum AppointmentStatus {
+public enum SlotStatus {
+  AVAILABLE,
   PENDING_APPROVAL,
   APPROVED,
   REJECTED,
