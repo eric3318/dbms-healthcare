@@ -44,7 +44,8 @@ public class SecurityConfig {
     http
         .securityMatcher(new OrRequestMatcher(
             new AntPathRequestMatcher("/api/appointments/**"),
-            new AntPathRequestMatcher("/api/users/**")
+            new AntPathRequestMatcher("/api/users/**"),
+            new AntPathRequestMatcher("/auth/me")
         ))
         .csrf(AbstractHttpConfigurer::disable)
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))

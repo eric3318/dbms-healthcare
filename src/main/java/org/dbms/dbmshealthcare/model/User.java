@@ -39,6 +39,9 @@ public class User implements UserDetails {
 
   private List<Role> roles;
 
+  @Field(name = "jwt_id")
+  private String jwtId;
+
   @Field(name = "created_at")
   @CreatedDate
   private Instant createdAt;
