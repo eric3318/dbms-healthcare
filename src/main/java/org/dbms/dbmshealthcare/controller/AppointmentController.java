@@ -63,13 +63,13 @@ public class AppointmentController {
 
   @GetMapping("/appointments/{id}")
   public ResponseEntity<Slot> getAppointment(@PathVariable String id) {
-    Slot slot = appointmentService.getAppointment(id);
+    Slot slot = appointmentService.getAppointmentById(id);
     return slot != null ? ResponseEntity.ok(slot) : ResponseEntity.notFound().build();
   }
 
   @PutMapping("/appointments/{id}")
   public ResponseEntity<String> updateAppointment(@PathVariable String id,
-      AppointmentUpdateDto appointmentUpdateDto) {
+      @RequestBody AppointmentUpdateDto appointmentUpdateDto) {
     appointmentService.updateAppointment(id, appointmentUpdateDto);
     return ResponseEntity.ok("Appointment updated successfully");
   }

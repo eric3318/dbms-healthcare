@@ -25,7 +25,9 @@ public class AppointmentService {
   }
 
   public Slot getSlotById(String id) {
-    return slotRepository.findById(id);
+    Slot slot = slotRepository.findById(id);
+
+    return (slot != null && !slot.isReserved()) ? slot : null;
   }
 
   public List<Slot> getSlots(SlotFilter filter) {
@@ -58,9 +60,9 @@ public class AppointmentService {
     return slotRepository.findAll(query);
   }
 
-  public Slot getAppointment(String id) {
+  public Slot getAppointmentById(String id) {
     Slot slot = slotRepository.findById(id);
-    return slot.isReserved() ? slot : null;
+    return (slot != null && slot.isReserved()) ? slot : null;
   }
 
   public void updateAppointment(String id, AppointmentUpdateDto appointmentUpdateDto) {
@@ -84,7 +86,7 @@ public class AppointmentService {
     Slot deleted = slotRepository.delete(id, criteria);
 
     if (deleted == null) {
-      throw new RuntimeException("Appointment update failed");
+      throw new RuntimeException("Appointment delete failed");
     }
   }
 
