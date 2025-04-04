@@ -4,8 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.dto.AppointmentCreateDto;
 import org.dbms.dbmshealthcare.dto.AppointmentUpdateDto;
-import org.dbms.dbmshealthcare.dto.SlotFilter;
 import org.dbms.dbmshealthcare.model.Slot;
+import org.dbms.dbmshealthcare.dto.SlotFilter;
 import org.dbms.dbmshealthcare.service.AppointmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,7 +26,7 @@ public class AppointmentController {
 
   @GetMapping("/slots")
   public ResponseEntity<List<Slot>> getSlots(
-      @RequestParam(required = false) SlotFilter filter) {
+      SlotFilter filter) {
     List<Slot> slots = appointmentService.getSlots(filter);
     return ResponseEntity.ok(slots);
   }
@@ -76,7 +75,7 @@ public class AppointmentController {
 
   @GetMapping("/appointments")
   public ResponseEntity<List<Slot>> getAppointments(
-      @RequestParam(required = false) SlotFilter filter) {
+      SlotFilter filter) {
     List<Slot> appointments = appointmentService.getAppointments(filter);
     return ResponseEntity.ok(appointments);
   }
