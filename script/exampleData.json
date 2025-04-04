@@ -1,0 +1,255 @@
+{
+  "slots":
+  {
+    "apiResource": true,
+    "entries":   [
+      {
+        "doctorId": "doc-1",
+        "startTime": "2025-04-04T09:00:00Z",
+        "endTime": "2025-04-04T09:30:00Z"
+      },
+      {
+        "doctorId": "doc-2",
+        "startTime": "2025-04-04T09:30:00Z",
+        "endTime": "2025-04-04T10:00:00Z"
+      },
+      {
+        "doctorId": "doc-3",
+        "startTime": "2025-04-04T10:00:00Z",
+        "endTime": "2025-04-04T10:30:00Z"
+      },
+      {
+        "doctorId": "doc-4",
+        "startTime": "2025-04-04T10:30:00Z",
+        "endTime": "2025-04-04T11:00:00Z"
+      },
+      {
+        "doctorId": "doc-5",
+        "startTime": "2025-04-04T11:00:00Z",
+        "endTime": "2025-04-04T11:30:00Z"
+      },
+      {
+        "doctorId": "doc-1",
+        "startTime": "2025-04-04T11:30:00Z",
+        "endTime": "2025-04-04T12:00:00Z"
+      },
+      {
+        "doctorId": "doc-2",
+        "startTime": "2025-04-04T12:00:00Z",
+        "endTime": "2025-04-04T12:30:00Z"
+      },
+      {
+        "doctorId": "doc-3",
+        "startTime": "2025-04-04T12:30:00Z",
+        "endTime": "2025-04-04T13:00:00Z"
+      },
+      {
+        "doctorId": "doc-4",
+        "startTime": "2025-04-04T13:00:00Z",
+        "endTime": "2025-04-04T13:30:00Z"
+      },
+      {
+        "doctorId": "doc-5",
+        "startTime": "2025-04-04T13:30:00Z",
+        "endTime": "2025-04-04T14:00:00Z"
+      },
+      {
+        "doctorId": "doc-1",
+        "startTime": "2025-04-04T14:00:00Z",
+        "endTime": "2025-04-04T14:30:00Z"
+      },
+      {
+        "doctorId": "doc-2",
+        "startTime": "2025-04-04T14:30:00Z",
+        "endTime": "2025-04-04T15:00:00Z"
+      },
+      {
+        "doctorId": "doc-3",
+        "startTime": "2025-04-04T15:00:00Z",
+        "endTime": "2025-04-04T15:30:00Z"
+      },
+      {
+        "doctorId": "doc-4",
+        "startTime": "2025-04-04T15:30:00Z",
+        "endTime": "2025-04-04T16:00:00Z"
+      },
+      {
+        "doctorId": "doc-5",
+        "startTime": "2025-04-04T16:00:00Z",
+        "endTime": "2025-04-04T16:30:00Z"
+      },
+      {
+        "doctorId": "doc-1",
+        "startTime": "2025-04-04T16:30:00Z",
+        "endTime": "2025-04-04T17:00:00Z"
+      },
+      {
+        "doctorId": "doc-2",
+        "startTime": "2025-04-04T17:00:00Z",
+        "endTime": "2025-04-04T17:30:00Z"
+      },
+      {
+        "doctorId": "doc-3",
+        "startTime": "2025-04-04T17:30:00Z",
+        "endTime": "2025-04-04T18:00:00Z"
+      },
+      {
+        "doctorId": "doc-4",
+        "startTime": "2025-04-04T18:00:00Z",
+        "endTime": "2025-04-04T18:30:00Z"
+      },
+      {
+        "doctorId": "doc-5",
+        "startTime": "2025-04-04T18:30:00Z",
+        "endTime": "2025-04-04T19:00:00Z"
+      }
+    ]
+  },
+
+  "users": {
+    "apiResource": false,
+    "endpoint": "register",
+    "entries": [
+      {
+        "name": "Alice Johnson",
+        "email": "alice1@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0001",
+        "dateOfBirth": "1990-01-01"
+      },
+      {
+        "name": "Bob Smith",
+        "email": "bob2@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0002",
+        "dateOfBirth": "1991-02-02"
+      },
+      {
+        "name": "Cathy Brown",
+        "email": "cathy3@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0003",
+        "dateOfBirth": "1992-03-03"
+      },
+      {
+        "name": "Dan White",
+        "email": "dan4@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0004",
+        "dateOfBirth": "1993-04-04"
+      },
+      {
+        "name": "Ella Black",
+        "email": "ella5@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0005",
+        "dateOfBirth": "1994-05-05"
+      },
+      {
+        "name": "Frank Green",
+        "email": "frank6@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0006",
+        "dateOfBirth": "1995-06-06"
+      },
+      {
+        "name": "Grace Lee",
+        "email": "grace7@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0007",
+        "dateOfBirth": "1996-07-07"
+      },
+      {
+        "name": "Henry King",
+        "email": "henry8@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0008",
+        "dateOfBirth": "1997-08-08"
+      },
+      {
+        "name": "Isla Reed",
+        "email": "isla9@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0009",
+        "dateOfBirth": "1998-09-09"
+      },
+      {
+        "name": "Jack Moss",
+        "email": "jack10@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0010",
+        "dateOfBirth": "1999-10-10"
+      },
+      {
+        "name": "Kara Dean",
+        "email": "kara11@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0011",
+        "dateOfBirth": "1980-11-11"
+      },
+      {
+        "name": "Leo Fox",
+        "email": "leo12@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0012",
+        "dateOfBirth": "1981-12-12"
+      },
+      {
+        "name": "Mia Nash",
+        "email": "mia13@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0013",
+        "dateOfBirth": "1982-01-13"
+      },
+      {
+        "name": "Noah Hart",
+        "email": "noah14@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0014",
+        "dateOfBirth": "1983-02-14"
+      },
+      {
+        "name": "Olivia Wood",
+        "email": "olivia15@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0015",
+        "dateOfBirth": "1984-03-15"
+      },
+      {
+        "name": "Paul Ray",
+        "email": "paul16@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0016",
+        "dateOfBirth": "1985-04-16"
+      },
+      {
+        "name": "Quinn Bell",
+        "email": "quinn17@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0017",
+        "dateOfBirth": "1986-05-17"
+      },
+      {
+        "name": "Ruby Stone",
+        "email": "ruby18@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0018",
+        "dateOfBirth": "1987-06-18"
+      },
+      {
+        "name": "Sam Young",
+        "email": "sam19@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0019",
+        "dateOfBirth": "1988-07-19"
+      },
+      {
+        "name": "Tina Vale",
+        "email": "tina20@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0020",
+        "dateOfBirth": "1989-08-20"
+      }
+    ]
+  }
+}
