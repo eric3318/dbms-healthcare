@@ -39,7 +39,7 @@ public class AuthController {
     return ResponseEntity.ok(user);
   }
 
-  @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")S
+  @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody UserLoginDto loginDto,
       HttpServletResponse httpResponse) throws Exception {
