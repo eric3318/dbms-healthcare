@@ -16,6 +16,9 @@ public class Doctor {
   private String id;
 
   @NotBlank
+  private String name;
+
+  @NotBlank
   private String specialization;
 
   @Field(name = "user_id")

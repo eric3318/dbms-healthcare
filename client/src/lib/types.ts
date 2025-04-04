@@ -10,3 +10,8 @@ export type AuthResponse = components['schemas']['User'];
 export type LoginParams = components['schemas']['UserLoginDto'];
 export type User = AuthResponse;
 export type RegisterParams = components['schemas']['UserCreateDto'];
+
+// Doctor related types
+export type Doctor = components['schemas']['Doctor'];
+export type DoctorCreateDto = components['schemas']['DoctorCreateDto'];
+export type DoctorUpdateDto = components['schemas']['DoctorUpdateDto'];

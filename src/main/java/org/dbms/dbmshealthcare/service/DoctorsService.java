@@ -23,6 +23,7 @@ public class DoctorsService {
   public Doctor createDoctor(DoctorCreateDto doctorCreateDto) {
     Doctor doctor = new Doctor();
     doctor.setUserId(doctorCreateDto.userId());
+    doctor.setName(doctorCreateDto.name());
     doctor.setSpecialization(doctorCreateDto.specialization());
     
     return doctorsRepository.save(doctor);
@@ -44,6 +45,10 @@ public class DoctorsService {
   // UPDATE operation
   public Doctor updateDoctor(String id, DoctorUpdateDto doctorUpdateDto) {
     Update update = new Update();
+    
+    if (doctorUpdateDto.name() != null) {
+      update.set("name", doctorUpdateDto.name());
+    }
     
     if (doctorUpdateDto.specialization() != null) {
       update.set("specialization", doctorUpdateDto.specialization());
