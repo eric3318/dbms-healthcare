@@ -68,13 +68,6 @@ public class RequisitionController {
     return requisitionService.updateRequisitionStatus(id, requisitionUpdateDto);
   }
 
-  @PutMapping("/{id}/results")
-  public Requisition submitRequisitionResult(
-      @PathVariable String id,
-      @RequestBody RequisitionResultDto resultDto) {
-    return requisitionService.submitRequisitionResult(id, resultDto);
-  }
-
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteRequisition(@PathVariable String id) {
