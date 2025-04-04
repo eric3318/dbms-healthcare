@@ -251,5 +251,172 @@
         "dateOfBirth": "1989-08-20"
       }
     ]
+  },
+  "doctors": {
+    "apiResource": true,
+    "endpoint": "doctors",
+    "entries":
+      [
+        {
+          "id": "doc-1",
+          "name": "Dr. Smith 1",
+          "specialization": "Cardiology",
+          "userId": "user-1",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-2",
+          "name": "Dr. Chen 2",
+          "specialization": "Dermatology",
+          "userId": "user-2",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-3",
+          "name": "Dr. Patel 3",
+          "specialization": "Neurology",
+          "userId": "user-3",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-4",
+          "name": "Dr. Lopez 4",
+          "specialization": "Pediatrics",
+          "userId": "user-4",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-5",
+          "name": "Dr. Taylor 5",
+          "specialization": "Oncology",
+          "userId": "user-5",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-6",
+          "name": "Dr. Ahmed 6",
+          "specialization": "Endocrinology",
+          "userId": "user-6",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-7",
+          "name": "Dr. Nguyen 7",
+          "specialization": "Psychiatry",
+          "userId": "user-7",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-8",
+          "name": "Dr. Kim 8",
+          "specialization": "Orthopedics",
+          "userId": "user-8",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-9",
+          "name": "Dr. Martinez 9",
+          "specialization": "Ophthalmology",
+          "userId": "user-9",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-10",
+          "name": "Dr. Brown 10",
+          "specialization": "ENT",
+          "userId": "user-10",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-11",
+          "name": "Dr. Davis 11",
+          "specialization": "Nephrology",
+          "userId": "user-11",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-12",
+          "name": "Dr. Singh 12",
+          "specialization": "Hematology",
+          "userId": "user-12",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-13",
+          "name": "Dr. Wilson 13",
+          "specialization": "Pulmonology",
+          "userId": "user-13",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-14",
+          "name": "Dr. Lee 14",
+          "specialization": "Rheumatology",
+          "userId": "user-14",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-15",
+          "name": "Dr. Garcia 15",
+          "specialization": "Gastroenterology",
+          "userId": "user-15",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-16",
+          "name": "Dr. Thomas 16",
+          "specialization": "Urology",
+          "userId": "user-16",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-17",
+          "name": "Dr. White 17",
+          "specialization": "Infectious Disease",
+          "userId": "user-17",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-18",
+          "name": "Dr. Allen 18",
+          "specialization": "Allergy & Immunology",
+          "userId": "user-18",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-19",
+          "name": "Dr. Clark 19",
+          "specialization": "General Medicine",
+          "userId": "user-19",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        },
+        {
+          "id": "doc-20",
+          "name": "Dr. Evans 20",
+          "specialization": "Anesthesiology",
+          "userId": "user-20",
+          "createdAt": "2025-04-01T10:00:00Z",
+          "updatedAt": "2025-04-01T10:00:00Z"
+        }
+    ]
   }
 }
