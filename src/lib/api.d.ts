@@ -365,9 +365,9 @@ export interface components {
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             enabled?: boolean;
-            accountNonLocked?: boolean;
-            credentialsNonExpired?: boolean;
             accountNonExpired?: boolean;
+            credentialsNonExpired?: boolean;
+            accountNonLocked?: boolean;
         };
         UserLoginDto: {
             email?: string;
