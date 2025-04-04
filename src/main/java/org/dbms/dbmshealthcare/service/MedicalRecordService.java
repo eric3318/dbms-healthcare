@@ -11,38 +11,59 @@ import org.springframework.stereotype.Service;
 public class MedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
 
-    public MedicalRecord createMedicalRecord(MedicalRecord medicalRecord) {
+    // CREATE
+    public MedicalRecord createMedicalRecord(MedicalRecordCreateDto medicalRecordCreateDto) {
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setId(medicalRecordCreateDto.id());
+        medicalRecord.setPatientId(medicalRecordCreateDto.patientId());
+        medicalRecord.setVisitReason(medicalRecordCreateDto.visitReason());
+        medicalRecord.setPatientDescription(medicalRecordCreateDto.patientDescription());
+        medicalRecord.setDoctorNotes(medicalRecordCreateDto.doctorNotes());
+        medicalRecord.setFinalDiagnosis(medicalRecordCreateDto.finalDiagnosis());
+        medicalRecord.setRequisitions(medicalRecordCreateDto.requisitions());
+        medicalRecord.setPrescriptions(medicalRecordCreateDto.prescriptions());
+        medicalRecord.setBillingAmount(medicalRecordCreateDto.billingAmount());
         return medicalRecordRepository.save(medicalRecord);
     }
 
+    // READ
     public MedicalRecord getMedicalRecordById(String id) {
         return medicalRecordRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Medical record not found with id: " + id));
     }
 
     public List<MedicalRecord> getMedicalRecordsByPatientId(String patientId) {
-        return medicalRecordRepository.findByPatientIdOrderByCreatedAtDesc(patientId);
+        return medicalRecordRepository.findByPatientId(patientId);
     }
 
-    public List<MedicalRecord> searchMedicalRecordsByDiagnosis(String diagnosis) {
-        return medicalRecordRepository.findByFinalDiagnosisContainingIgnoreCase(diagnosis);
+    public List<MedicalRecord> getMedicalRecordsByDoctorId(String doctorId) {
+        return medicalRecordRepository.findByDoctorId(doctorId);
     }
 
-    public MedicalRecord updateMedicalRecord(String id, MedicalRecord updatedRecord) {
-        MedicalRecord existingRecord = getMedicalRecordById(id);
+    // UPDATE
+    public MedicalRecord updateMedicalRecord(String id, MedicalRecordUpdateDto medicalRecordUpdateDto) {
+        Update update = new Update();
         
-        existingRecord.setVisitReason(updatedRecord.getVisitReason());
-        existingRecord.setPatientDescription(updatedRecord.getPatientDescription());
-        existingRecord.setDoctorNotes(updatedRecord.getDoctorNotes());
-        existingRecord.setFinalDiagnosis(updatedRecord.getFinalDiagnosis());
-        existingRecord.setRequisitions(updatedRecord.getRequisitions());
-        existingRecord.setPrescriptions(updatedRecord.getPrescriptions());
-        existingRecord.setBillingAmount(updatedRecord.getBillingAmount());
-        
-        return medicalRecordRepository.save(existingRecord);
+        if (medicalRecordUpdateDto.doctorNotes() != null) {
+            update.set("doctorNotes", medicalRecordUpdateDto.doctorNotes());
+        }
+        if (medicalRecordUpdateDto.finalDiagnosis() != null) {
+            update.set("finalDiagnosis", medicalRecordUpdateDto.finalDiagnosis());
+        }
+        if (medicalRecordUpdateDto.requisitions() != null) {
+            update.set("requisitions", medicalRecordUpdateDto.requisitions());
+        }
+        if (medicalRecordUpdateDto.prescriptions() != null) {
+            update.set("prescriptions", medicalRecordUpdateDto.prescriptions());
+        }
+        if (medicalRecordUpdateDto.billingAmount() != null) {
+            update.set("billingAmount", medicalRecordUpdateDto.billingAmount());
+        }
+        return medicalRecordRepository.update(id, update);
     }
 
-    public void deleteMedicalRecord(String id) {
-        medicalRecordRepository.deleteById(id);
+    // DELETE
+    public MedicalRecord deleteMedicalRecord(String id) {
+        return medicalRecordRepository.delete(id);
     }
 }
