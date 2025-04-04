@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@mantine/core": "^7.17.3",
+    "@mantine/dates": "^7.17.3",
     "@mantine/form": "^7.17.3",
     "@mantine/hooks": "^7.17.3",
+    "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.4.1",

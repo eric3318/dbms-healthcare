@@ -1,6 +1,5 @@
 package org.dbms.dbmshealthcare.controller;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -10,6 +9,7 @@ import org.dbms.dbmshealthcare.dto.UserLoginDto;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
 import org.dbms.dbmshealthcare.service.AuthService;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,13 +41,13 @@ public class AuthController {
     String accessToken = tokens.accessToken();
     String refreshToken = tokens.refreshToken();
 
-    Cookie refreshTokenCookie = buildCookie("refresh_token", refreshToken,
+    ResponseCookie refreshTokenCookie = buildCookie("refresh_token", refreshToken,
         loginDto.rememberMe() ? 15 * 24 * 60 * 60 : 24 * 60 * 60);
 
-    Cookie accessTokenCookie = buildCookie("access_token", accessToken, 5 * 60);
+    ResponseCookie accessTokenCookie = buildCookie("access_token", accessToken, 5 * 60);
 
-    httpResponse.addCookie(refreshTokenCookie);
-    httpResponse.addCookie(accessTokenCookie);
+    httpResponse.addHeader("Set-Cookie", refreshTokenCookie.toString());
+    httpResponse.addHeader("Set-Cookie", accessTokenCookie.toString());
 
     return ResponseEntity.ok("Login successful");
   }
@@ -59,9 +59,9 @@ public class AuthController {
 
     String accessToken = authService.refreshToken(refreshToken.getTokenValue());
 
-    Cookie accessTokenCookie = buildCookie("access_token", accessToken, 5 * 60);
+    ResponseCookie accessTokenCookie = buildCookie("access_token", accessToken, 5 * 60);
 
-    httpResponse.addCookie(accessTokenCookie);
+    httpResponse.addHeader("Set-Cookie", accessTokenCookie.toString());
 
     return ResponseEntity.ok("Token refreshed");
   }
@@ -75,12 +75,13 @@ public class AuthController {
     return ResponseEntity.ok(infoMap);
   }
 
-  private Cookie buildCookie(String name, String value, int maxAge) {
-    Cookie cookie = new Cookie(name, value);
-    cookie.setHttpOnly(true);
-    cookie.setSecure(true);
-    cookie.setPath("/");
-    cookie.setMaxAge(maxAge);
+  private ResponseCookie buildCookie(String name, String value, int maxAge) {
+    ResponseCookie cookie = ResponseCookie.from(name, value)
+        .httpOnly(true)
+        .secure(true)
+        .sameSite("None")
+        .path("/")
+        .maxAge(maxAge).build();
     return cookie;
   }
 }
