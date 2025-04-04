@@ -19,8 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/requisitions")
+@Tag(name = "Requisition Controller", description = "API endpoints for managing requisitions")
 public class RequisitionController {
 
   private final RequisitionService requisitionService;
@@ -29,12 +33,14 @@ public class RequisitionController {
     this.requisitionService = requisitionService;
   }
 
+  @Operation(summary = "Create a new requisition", description = "Creates a new requisition in the system based on the provided data")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Requisition createRequisition(@RequestBody RequisitionCreateDto requisitionCreateDto) {
     return requisitionService.createRequisition(requisitionCreateDto);
   }
 
+  @Operation(summary = "Get all requisitions", description = "Retrieves all requisitions with optional filtering by medical record ID and/or status")
   @GetMapping
   public List<Requisition> getAllRequisitions(
       @RequestParam(required = false) String medicalRecordId,
@@ -51,23 +57,13 @@ public class RequisitionController {
     }
   }
 
+  @Operation(summary = "Get requisition by ID", description = "Retrieves a specific requisition by its unique identifier")
   @GetMapping("/{id}")
   public Requisition getRequisitionById(@PathVariable String id) {
     return requisitionService.getRequisitionById(id);
   }
 
-  @GetMapping("/medical-record/{medicalRecordId}")
-  public List<Requisition> getRequisitionsByMedicalRecord(@PathVariable String medicalRecordId) {
-    return requisitionService.getRequisitionsByMedicalRecordId(medicalRecordId);
-  }
-
-  @PutMapping("/{id}/status")
-  public Requisition updateRequisitionStatus(
-      @PathVariable String id,
-      @RequestBody RequisitionUpdateDto requisitionUpdateDto) {
-    return requisitionService.updateRequisitionStatus(id, requisitionUpdateDto);
-  }
-
+  @Operation(summary = "Delete requisition", description = "Removes a requisition from the system by its ID")
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteRequisition(@PathVariable String id) {
