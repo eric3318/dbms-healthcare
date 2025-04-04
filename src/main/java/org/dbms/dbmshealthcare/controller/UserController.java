@@ -22,7 +22,6 @@ public class UserController {
   private final UserService userService;
 
   @Operation(summary = "Get user by ID", description = "Retrieves user information by their unique identifier (Admin only)")
-  @PreAuthorize("hasRole('Admin')")
   @GetMapping("/{id}")
   public ResponseEntity<User> getUser(@PathVariable String id) {
     User user = userService.getUserById(id);

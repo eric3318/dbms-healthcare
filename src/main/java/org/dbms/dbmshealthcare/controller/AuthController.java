@@ -1,5 +1,6 @@
 package org.dbms.dbmshealthcare.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class AuthController {
 
   private final AuthService authService;
 
+  @Operation(summary = "Register a new user", description = "Creates a new user account with the provided information.")
   @Operation(summary = "Register new user", description = "Creates a new user account in the system with the provided credentials")
   @PostMapping("/register")
   public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
@@ -38,6 +40,7 @@ public class AuthController {
     return ResponseEntity.ok(user);
   }
 
+  @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")
   @Operation(summary = "User login", description = "Authenticates user credentials and issues access and refresh tokens as cookies")
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody UserLoginDto loginDto,
@@ -58,7 +61,6 @@ public class AuthController {
     return ResponseEntity.ok("Login successful");
   }
 
-  @Operation(summary = "Refresh token", description = "Issues a new access token using the provided refresh token")
   @PreAuthorize("hasRole('refresh_token')")
   @PostMapping("/refresh")
   public ResponseEntity<String> refreshToken(HttpServletResponse httpResponse) {
@@ -73,7 +75,6 @@ public class AuthController {
     return ResponseEntity.ok("Token refreshed");
   }
 
-  @Operation(summary = "Get current user info", description = "Retrieves information about the currently authenticated user")
   @PostMapping("/me")
   public ResponseEntity<?> me() {
     Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
