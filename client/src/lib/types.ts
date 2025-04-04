@@ -21,3 +21,8 @@ export type RequisitionUpdateDto = components['schemas']['RequisitionUpdateDto']
 export type RequisitionResult = components['schemas']['RequisitionResult'];
 export type AppointmentUpdateDto = components['schemas']['AppointmentUpdateDto'];
 
+
+// Doctor related types
+export type Doctor = components['schemas']['Doctor'];
+export type DoctorCreateDto = components['schemas']['DoctorCreateDto'];
+export type DoctorUpdateDto = components['schemas']['DoctorUpdateDto'];
