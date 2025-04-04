@@ -1,5 +1,6 @@
 package org.dbms.dbmshealthcare.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -19,13 +20,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication Controller", description = "API endpoints for user authentication and authorization")
 public class AuthController {
 
   private final AuthService authService;
 
+  @Operation(summary = "Register a new user", description = "Creates a new user account with the provided information.")
+  @Operation(summary = "Register new user", description = "Creates a new user account in the system with the provided credentials")
   @PostMapping("/register")
   public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
 
@@ -33,6 +40,8 @@ public class AuthController {
     return ResponseEntity.ok(user);
   }
 
+  @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")
+  @Operation(summary = "User login", description = "Authenticates user credentials and issues access and refresh tokens as cookies")
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody UserLoginDto loginDto,
       HttpServletResponse httpResponse) throws Exception {

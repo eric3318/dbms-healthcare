@@ -1,5 +1,6 @@
 package org.dbms.dbmshealthcare.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.dto.AppointmentCreateDto;
@@ -17,13 +18,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Tag(name = "Appointment Controller", description = "API endpoints for managing appointments and slots")
 public class AppointmentController {
 
   private final AppointmentService appointmentService;
 
+  @Operation(summary = "Get available slots", description = "Retrieve a list of available slots, optionally filtered by doctor and time range.")
+  @Operation(summary = "Get available slots", description = "Retrieves a list of available time slots based on the provided filters")
   @GetMapping("/slots")
   public ResponseEntity<List<Slot>> getSlots(
       SlotFilter filter) {
@@ -38,6 +45,8 @@ public class AppointmentController {
         ResponseEntity.notFound().build();
   }
 
+  @Operation(summary = "Create a new slot", description = "Add a new slot with doctor and time details.")
+  @Operation(summary = "Create a new slot", description = "Creates a new available time slot based on the provided data")
   @PostMapping("/slots")
   public ResponseEntity<Slot> createSlot(
       @RequestBody Slot slotCreateDto) {
@@ -46,12 +55,16 @@ public class AppointmentController {
         : ResponseEntity.badRequest().build();
   }
 
+  @Operation(summary = "Delete a slot", description = "Delete a slot by its ID.")
+  @Operation(summary = "Delete slot", description = "Removes a time slot from the system by its ID")
   @DeleteMapping("/slots/{id}")
   public ResponseEntity<String> deleteSlot(@PathVariable String id) {
     appointmentService.deleteSlot(id);
     return ResponseEntity.ok("Slot deleted successfully");
   }
 
+  @Operation(summary = "Create an appointment", description = "Book an appointment for a patient using an available slot.")
+  @Operation(summary = "Create a new appointment", description = "Books an appointment in an available time slot based on the provided data")
   @PostMapping("/appointments")
   public ResponseEntity<Slot> createAppointment(
       @RequestBody AppointmentCreateDto appointmentCreateDto) {
@@ -66,6 +79,8 @@ public class AppointmentController {
     return slot != null ? ResponseEntity.ok(slot) : ResponseEntity.notFound().build();
   }
 
+  @Operation(summary = "Update appointment", description = "Update details of an existing appointment.")
+  @Operation(summary = "Update appointment", description = "Updates an existing appointment's information based on the provided data")
   @PutMapping("/appointments/{id}")
   public ResponseEntity<String> updateAppointment(@PathVariable String id,
       @RequestBody AppointmentUpdateDto appointmentUpdateDto) {
@@ -80,6 +95,8 @@ public class AppointmentController {
     return ResponseEntity.ok(appointments);
   }
 
+  @Operation(summary = "Delete appointment", description = "Delete an appointment by its ID.")
+  @Operation(summary = "Delete appointment", description = "Cancels and removes an appointment from the system by its ID")
   @DeleteMapping("/appointments/{id}")
   public ResponseEntity<String> deleteAppointment(@PathVariable String id) {
     appointmentService.deleteAppointment(id);

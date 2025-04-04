@@ -36,22 +36,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/doctors/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getDoctorById"];
-        put: operations["updateDoctor"];
-        post?: never;
-        delete: operations["deleteDoctor"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/appointments/{id}": {
         parameters: {
             query?: never;
@@ -174,22 +158,6 @@ export interface paths {
         get: operations["getAllPatients"];
         put?: never;
         post: operations["createPatient"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/doctors": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAllDoctors"];
-        put?: never;
-        post: operations["createDoctor"];
         delete?: never;
         options?: never;
         head?: never;
@@ -324,22 +292,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/doctors/user/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getDoctorByUserId"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -381,20 +333,6 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
-        DoctorUpdateDto: {
-            name?: string;
-            specialization?: string;
-        };
-        Doctor: {
-            id?: string;
-            name?: string;
-            specialization?: string;
-            userId?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-        };
         AppointmentUpdateDto: {
             /** @enum {string} */
             status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
@@ -427,9 +365,9 @@ export interface components {
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             enabled?: boolean;
-            accountNonLocked?: boolean;
-            credentialsNonExpired?: boolean;
             accountNonExpired?: boolean;
+            credentialsNonExpired?: boolean;
+            accountNonLocked?: boolean;
         };
         UserLoginDto: {
             email?: string;
@@ -461,11 +399,6 @@ export interface components {
             address?: string;
             userId?: string;
             doctorId?: string;
-        };
-        DoctorCreateDto: {
-            userId?: string;
-            name?: string;
-            specialization?: string;
         };
         AppointmentCreateDto: {
             slotId?: string;
@@ -566,74 +499,6 @@ export interface operations {
         };
     };
     deletePatient: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getDoctorById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Doctor"];
-                };
-            };
-        };
-    };
-    updateDoctor: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DoctorUpdateDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Doctor"];
-                };
-            };
-        };
-    };
-    deleteDoctor: {
         parameters: {
             query?: never;
             header?: never;
@@ -813,8 +678,8 @@ export interface operations {
     };
     getSlots: {
         parameters: {
-            query: {
-                filter: components["schemas"]["SlotFilter"];
+            query?: {
+                filter?: components["schemas"]["SlotFilter"];
             };
             header?: never;
             path?: never;
@@ -948,54 +813,10 @@ export interface operations {
             };
         };
     };
-    getAllDoctors: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Doctor"][];
-                };
-            };
-        };
-    };
-    createDoctor: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DoctorCreateDto"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Doctor"];
-                };
-            };
-        };
-    };
     getAppointments: {
         parameters: {
-            query: {
-                filter: components["schemas"]["SlotFilter"];
+            query?: {
+                filter?: components["schemas"]["SlotFilter"];
             };
             header?: never;
             path?: never;
@@ -1230,28 +1051,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Patient"][];
-                };
-            };
-        };
-    };
-    getDoctorByUserId: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Doctor"];
                 };
             };
         };

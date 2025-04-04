@@ -11,6 +11,17 @@ export type LoginParams = components['schemas']['UserLoginDto'];
 export type User = AuthResponse;
 export type RegisterParams = components['schemas']['UserCreateDto'];
 
+export type Patient = components['schemas']['Patient'];
+export type Requisition = components['schemas']['Requisition'];
+
+export type PatientCreateDto = components['schemas']['PatientCreateDto'];
+export type PatientUpdateDto = components['schemas']['PatientUpdateDto'];
+export type RequisitionCreateDto = components['schemas']['RequisitionCreateDto'];
+export type RequisitionUpdateDto = components['schemas']['RequisitionUpdateDto'];
+export type RequisitionResult = components['schemas']['RequisitionResult'];
+export type AppointmentUpdateDto = components['schemas']['AppointmentUpdateDto'];
+
+
 // Doctor related types
 export type Doctor = components['schemas']['Doctor'];
 export type DoctorCreateDto = components['schemas']['DoctorCreateDto'];
