@@ -7,7 +7,8 @@
 
 ### Get Started
 #### Prerequisites
-- docker desktop
+- [Docker desktop](https://www.docker.com/)
+- [Node.js](https://nodejs.org/en)
 
 1. Clone the repository:   
    `git clone git@github.com:eric3318/dbms-healthcare.git`
@@ -20,6 +21,9 @@
 5. Run the frontend:   
    `cd /client`   
    `npm run dev`
+6. Insert example data:   
+   `cd /script`   
+   `node insertData.js`
 
 
  
