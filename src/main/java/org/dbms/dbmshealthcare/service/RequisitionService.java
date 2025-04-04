@@ -36,7 +36,7 @@ public class RequisitionService {
   }
   
   public Requisition getRequisitionById(String id) {
-    return requisitionRepository.findById(id).orElse(null);
+    return requisitionRepository.findById(id);
   }
   
   public List<Requisition> getRequisitionsByMedicalRecordId(String medicalRecordId) {
@@ -53,7 +53,7 @@ public class RequisitionService {
   
   // UPDATE operations
   public Requisition updateRequisitionStatus(String id, RequisitionUpdateDto requisitionUpdateDto) {
-    Requisition existingRequisition = requisitionRepository.findById(id).orElse(null);
+    Requisition existingRequisition = requisitionRepository.findById(id);
     if (existingRequisition == null) {
       return null;
     }
@@ -63,27 +63,8 @@ public class RequisitionService {
     return requisitionRepository.save(existingRequisition);
   }
   
-  public Requisition submitRequisitionResult(String id, RequisitionResultDto resultDto) {
-    Requisition existingRequisition = requisitionRepository.findById(id).orElse(null);
-    if (existingRequisition == null) {
-      return null;
-    }
-    
-    // Create and set the result
-    RequisitionResult result = new RequisitionResult(
-        resultDto.description(),
-        resultDto.conclusion(),
-        Instant.now()
-    );
-    
-    existingRequisition.setResult(result);
-    existingRequisition.setStatus(RequisitionStatus.COMPLETED);
-    
-    return requisitionRepository.save(existingRequisition);
-  }
-  
   // DELETE operation
   public void deleteRequisition(String id) {
-    requisitionRepository.deleteById(id);
+    requisitionRepository.delete(id);
   }
 } 
