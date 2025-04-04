@@ -4,6 +4,38 @@
  */
 
 export interface paths {
+    "/api/requisitions/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateRequisitionStatus"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/patients/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPatientById"];
+        put: operations["updatePatient"];
+        post?: never;
+        delete: operations["deletePatient"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/appointments/{id}": {
         parameters: {
             query?: never;
@@ -100,6 +132,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/requisitions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllRequisitions"];
+        put?: never;
+        post: operations["createRequisition"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/patients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllPatients"];
+        put?: never;
+        post: operations["createPatient"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/appointments": {
         parameters: {
             query?: never;
@@ -148,10 +212,127 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/requisitions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRequisitionById"];
+        put?: never;
+        post?: never;
+        delete: operations["deleteRequisition"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/requisitions/medical-record/{medicalRecordId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRequisitionsByMedicalRecord"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/patients/user/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPatientsByUserId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/patients/phn/{phn}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPatientByPhn"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/patients/doctor/{doctorId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPatientsByDoctorId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        RequisitionUpdateDto: {
+            /** @enum {string} */
+            status?: "Pending" | "Pending_result" | "Completed";
+        };
+        Requisition: {
+            id?: string;
+            medicalRecordId?: string;
+            testName?: string;
+            /** @enum {string} */
+            status?: "Pending" | "Pending_result" | "Completed";
+            result?: components["schemas"]["RequisitionResult"];
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        RequisitionResult: {
+            description?: string;
+            conclusion?: string;
+            /** Format: date-time */
+            reportedAt?: string;
+        };
+        PatientUpdateDto: {
+            address?: string;
+            doctorId?: string;
+        };
+        Patient: {
+            id?: string;
+            personalHealthNumber?: string;
+            address?: string;
+            userId?: string;
+            doctorId?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         AppointmentUpdateDto: {
             /** @enum {string} */
             status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
@@ -184,9 +365,9 @@ export interface components {
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             enabled?: boolean;
-            accountNonExpired?: boolean;
             accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
+            accountNonExpired?: boolean;
         };
         UserLoginDto: {
             email?: string;
@@ -208,6 +389,16 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
             reserved?: boolean;
+        };
+        RequisitionCreateDto: {
+            medicalRecordId?: string;
+            testName?: string;
+        };
+        PatientCreateDto: {
+            personalHealthNumber?: string;
+            address?: string;
+            userId?: string;
+            doctorId?: string;
         };
         AppointmentCreateDto: {
             slotId?: string;
@@ -233,6 +424,100 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    updateRequisitionStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequisitionUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Requisition"];
+                };
+            };
+        };
+    };
+    getPatientById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    updatePatient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    deletePatient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getAppointment: {
         parameters: {
             query?: never;
@@ -437,6 +722,97 @@ export interface operations {
             };
         };
     };
+    getAllRequisitions: {
+        parameters: {
+            query?: {
+                medicalRecordId?: string;
+                status?: "Pending" | "Pending_result" | "Completed";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Requisition"][];
+                };
+            };
+        };
+    };
+    createRequisition: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequisitionCreateDto"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Requisition"];
+                };
+            };
+        };
+    };
+    getAllPatients: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"][];
+                };
+            };
+        };
+    };
+    createPatient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientCreateDto"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
     getAppointments: {
         parameters: {
             query?: {
@@ -545,6 +921,136 @@ export interface operations {
                 };
                 content: {
                     "*/*": string;
+                };
+            };
+        };
+    };
+    getRequisitionById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Requisition"];
+                };
+            };
+        };
+    };
+    deleteRequisition: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getRequisitionsByMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                medicalRecordId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Requisition"][];
+                };
+            };
+        };
+    };
+    getPatientsByUserId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"][];
+                };
+            };
+        };
+    };
+    getPatientByPhn: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                phn: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    getPatientsByDoctorId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                doctorId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Patient"][];
                 };
             };
         };
