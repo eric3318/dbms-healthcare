@@ -31,7 +31,6 @@ public class AuthController {
 
   private final AuthService authService;
 
-  @Operation(summary = "Register a new user", description = "Creates a new user account with the provided information.")
   @Operation(summary = "Register new user", description = "Creates a new user account in the system with the provided credentials")
   @PostMapping("/register")
   public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
@@ -40,8 +39,7 @@ public class AuthController {
     return ResponseEntity.ok(user);
   }
 
-  @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")
-  @Operation(summary = "User login", description = "Authenticates user credentials and issues access and refresh tokens as cookies")
+  @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")S
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody UserLoginDto loginDto,
       HttpServletResponse httpResponse) throws Exception {
