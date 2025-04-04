@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Tag(name = "User Controller", description = "API endpoints for user management")
 public class UserController {
 
   private final UserService userService;
 
+  @Operation(summary = "Get user by ID", description = "Retrieves user information by their unique identifier (Admin only)")
   @PreAuthorize("hasRole('Admin')")
   @GetMapping("/{id}")
   public ResponseEntity<User> getUser(@PathVariable String id) {
