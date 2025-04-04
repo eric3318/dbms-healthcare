@@ -39,7 +39,7 @@ public class PatientService {
   }
   
   public Patient getPatientById(String id) {
-    return patientRepository.findById(id).orElse(null);
+    return patientRepository.findById(id);
   }
   
   public List<Patient> getPatientsByDoctorId(String doctorId) {
@@ -56,7 +56,7 @@ public class PatientService {
   
   // UPDATE operation
   public Patient updatePatient(String id, PatientUpdateDto patientUpdateDto) {
-    Patient existingPatient = patientRepository.findById(id).orElse(null);
+    Patient existingPatient = patientRepository.findById(id);
     if (existingPatient == null) {
       return null;
     }
@@ -74,6 +74,6 @@ public class PatientService {
   
   // DELETE operation
   public void deletePatient(String id) {
-    patientRepository.deleteById(id);
+    patientRepository.delete(id);
   }
 } 
