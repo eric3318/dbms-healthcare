@@ -42,9 +42,11 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
             });
         } else {
             await register({
+                name: values.name, // add validation
                 email: values.email,
-                name: values.name as string, // add validation
                 password: values.password,
+                dateOfBirth: values.dateOfBirth,
+                phoneNumber: values.phoneNumber,
             });
         }
 
@@ -65,26 +67,37 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
             />
 
             {!isSignIn && (
-                <TextInput
-                    withAsterisk
-                    label="Name"
-                    placeholder="Enter your name"
-                    key={form.key('name')}
-                    {...form.getInputProps('name')}
-                    classNames={{
-                        input: styles.textInput,
-                    }}
-                />
-            )}
+                <>
+                    <TextInput
+                        withAsterisk
+                        label="Name"
+                        placeholder="Enter your name"
+                        key={form.key('name')}
+                        {...form.getInputProps('name')}
+                        classNames={{
+                            input: styles.textInput,
+                        }}
+                    />
 
-            {!isSignIn && (
-                <DateInput
-                    label="Date of birth"
-                    placeholder="Date of birth"
-                    withAsterisk
-                    key={form.key('dateOfBirth')}
-                    {...form.getInputProps('dateOfBirth')}
-                />
+                    <DateInput
+                        label="Date of birth"
+                        placeholder="Date of birth"
+                        withAsterisk
+                        key={form.key('dateOfBirth')}
+                        {...form.getInputProps('dateOfBirth')}
+                    />
+
+                    <TextInput
+                        withAsterisk
+                        label="Phone number"
+                        placeholder="Enter your phone number"
+                        key={form.key('phoneNumber')}
+                        {...form.getInputProps('phoneNumber')}
+                        classNames={{
+                            input: styles.textInput,
+                        }}
+                    />
+                </>
             )}
 
             <PasswordInput
