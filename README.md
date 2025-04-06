@@ -13,10 +13,10 @@
 1. Clone the repository:   
    `git clone git@github.com:eric3318/dbms-healthcare.git`
 2. Start and run a MongoDB container:  
-    `docker run --name mongodb -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:$MONGODB_VERSION`
-   (If you're not using authentication for MongoDB, run: `docker run --name mongodb -d -p 27017:27017 mongo`)
+   - `docker run --name mongodb -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:$MONGODB_VERSION`
+   - (If you're not using authentication for MongoDB, run: `docker run --name mongodb -d -p 27017:27017 mongo`)
 3. Configure the connection uri in `application.yaml` to use your own Mongo credentials
-   (If you're not using authentication for MongoDB, change the uri in `application.yaml` to `mongodb://localhost:27017/healthcare`)
+   - (If you're not using authentication for MongoDB, change the uri in `application.yaml` to `mongodb://localhost:27017/healthcare`)
 4. Run the backend:  
    `./mvnw spring-boot:run`  
    *(or `mvn spring-boot:run` if you have Maven installed)*
