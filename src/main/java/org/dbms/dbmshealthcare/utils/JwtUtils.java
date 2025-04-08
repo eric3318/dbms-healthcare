@@ -37,13 +37,14 @@ public class JwtUtils {
       refreshTokenExpiration = Date.from(Instant.now().plusSeconds(24 * 60 * 60));
     }
 
-    String accessToken = generateToken(sub, claims, accessTokenExpiration, JwtType.ACCESS);
-    String refreshToken = generateToken(sub, claims, refreshTokenExpiration, JwtType.REFRESH);
+    JWT accessToken = generateToken(sub, claims, accessTokenExpiration, JwtType.ACCESS);
+    JWT refreshToken = generateToken(sub, claims, refreshTokenExpiration, JwtType.REFRESH);
 
-    return new TokenPair(accessToken, refreshToken);
+    String jti = refreshToken.getJWTClaimsSet().getJWTID();
+    return new TokenPair(accessToken.serialize(), refreshToken.serialize(), jti);
   }
 
-  public String generateToken(String sub, Map<String, Object> claims, Date expiration, JwtType type)
+  public JWT generateToken(String sub, Map<String, Object> claims, Date expiration, JwtType type)
       throws Exception {
     RSAPrivateKey privateKey = rsaKey.toRSAPrivateKey();
 
@@ -70,7 +71,7 @@ public class JwtUtils {
 
     jwt.sign(signer);
 
-    return jwt.serialize();
+    return jwt;
   }
 
   public JWT decodeToken(String token) throws ParseException {

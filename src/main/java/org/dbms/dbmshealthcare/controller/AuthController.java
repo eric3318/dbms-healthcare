@@ -1,15 +1,19 @@
 package org.dbms.dbmshealthcare.controller;
 
+import com.nimbusds.jwt.JWT;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.dbms.dbmshealthcare.dto.UserCreateCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
 import org.dbms.dbmshealthcare.dto.UserLoginDto;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
 import org.dbms.dbmshealthcare.service.AuthService;
+import org.dbms.dbmshealthcare.service.UserService;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -30,6 +33,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AuthController {
 
   private final AuthService authService;
+  private final UserService userService;
 
   @Operation(summary = "Register new user", description = "Creates a new user account in the system with the provided credentials")
   @PostMapping("/register")
@@ -37,6 +41,12 @@ public class AuthController {
 
     User user = authService.register(userCreateDto);
     return ResponseEntity.ok(user);
+  }
+
+  @PostMapping("/pre-check")
+  public ResponseEntity<?> verifyIdentity(@Valid @RequestBody UserCreateCheckDto userCreateCheckDto){
+    boolean verified = authService.verifyIdentity(userCreateCheckDto);
+    return verified ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
   }
 
   @Operation(summary = "User login", description = "Authenticates a user and returns access and refresh tokens as HTTP-only cookies.")
@@ -59,14 +69,14 @@ public class AuthController {
     return ResponseEntity.ok("Login successful");
   }
 
-  @PreAuthorize("hasRole('refresh_token')")
+  @PreAuthorize("hasRole('Refresh_token')")
   @PostMapping("/refresh")
   public ResponseEntity<String> refreshToken(HttpServletResponse httpResponse) {
     Jwt refreshToken = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    String accessToken = authService.refreshToken(refreshToken.getTokenValue());
+    JWT accessToken = authService.refreshToken(refreshToken.getTokenValue());
 
-    ResponseCookie accessTokenCookie = buildCookie("access_token", accessToken, 5 * 60);
+    ResponseCookie accessTokenCookie = buildCookie("access_token", accessToken.serialize(), 5 * 60);
 
     httpResponse.addHeader("Set-Cookie", accessTokenCookie.toString());
 

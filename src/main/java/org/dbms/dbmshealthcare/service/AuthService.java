@@ -9,9 +9,11 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
 import org.dbms.dbmshealthcare.constants.Role;
+import org.dbms.dbmshealthcare.dto.UserCreateCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
+import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.UserRepository;
 import org.dbms.dbmshealthcare.utils.JwtUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,11 +25,11 @@ public class AuthService {
 
   private final UserService userService;
   private final UserRepository userRepository;
+  private final PatientRepository patientRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtUtils jwtUtils;
 
   public User register(UserCreateDto userCreateDto) {
-    // todo: add check if user is doctor or patient from database
     User user = new User();
     user.setName(userCreateDto.name());
     user.setEmail(userCreateDto.email());
@@ -36,6 +38,10 @@ public class AuthService {
     user.setPhoneNumber(userCreateDto.phoneNumber());
     user.setRoles(List.of(Role.PATIENT));
     return userRepository.save(user);
+  }
+
+  public boolean verifyIdentity(UserCreateCheckDto userCreateCheckDto) {
+    return false;
   }
 
   public TokenPair login(String email, String password, boolean rememberMe) throws Exception {
@@ -60,10 +66,14 @@ public class AuthService {
 
     TokenPair tokens = jwtUtils.generateToken(email, claims, rememberMe);
 
+    String jti = tokens.jti();
+
+    userService.updateUser(user.getId(), jti);
+
     return tokens;
   }
 
-  public String refreshToken(String refreshToken) {
+  public JWT refreshToken(String refreshToken) {
     try {
       JWT jwt = jwtUtils.decodeToken(refreshToken);
       JWTClaimsSet claimsSet = jwt.getJWTClaimsSet();
@@ -78,7 +88,7 @@ public class AuthService {
           "roles", claimsSet.getListClaim("roles"),
           "profile", claimsSet.getJSONObjectClaim("profile"));
 
-      String accessToken = jwtUtils.generateToken(email, claims,
+      JWT accessToken = jwtUtils.generateToken(email, claims,
           Date.from(Instant.now().plusSeconds(5 * 60)), JwtType.ACCESS);
 
       return accessToken;

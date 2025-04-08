@@ -59,7 +59,7 @@ public class SecurityConfig {
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(ex -> {
-          ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint());
+          ex.authenticationEntryPoint(new CustomAuthEntryPoint());
           ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
         })
         .addFilterBefore(JwtFilterFactory.create("access_token"), UsernamePasswordAuthenticationFilter.class);

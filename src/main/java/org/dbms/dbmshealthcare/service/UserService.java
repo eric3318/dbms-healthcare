@@ -1,9 +1,12 @@
 package org.dbms.dbmshealthcare.service;
 
 import lombok.RequiredArgsConstructor;
+import org.dbms.dbmshealthcare.constants.SlotStatus;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.repository.UserRepository;
 import org.dbms.dbmshealthcare.utils.JwtUtils;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,15 +31,19 @@ public class UserService implements UserDetailsService {
   }
 
   public User getUserByEmail(String email) {
-    return(User) loadUserByUsername(email);
+    return (User) loadUserByUsername(email);
   }
 
   public User getUserById(String id) {
     return userRepository.findById(id);
   }
 
-  public void updateUser() {
+  public void updateUser(String id, String jti) {
+    Update updates = new Update();
 
+    updates.set("jwt_id", jti);
+
+    userRepository.update(id, updates);
   }
 
 
