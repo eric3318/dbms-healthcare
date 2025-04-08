@@ -1,0 +1,6 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-right: var(--mantine-spacing-md);
+    border-right: 1px solid var(--mantine-color-gray-3);
+}

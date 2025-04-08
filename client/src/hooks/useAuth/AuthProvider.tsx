@@ -4,24 +4,24 @@ import { checkAuth } from '../../utils/data';
 import { login, logout, register } from '../../utils/data';
 
 export type AuthContextType = {
-    user: User | null;
-    authenticated: boolean;
+    user: User | null | undefined;
+    authenticated: boolean | undefined;
     login: ((params: LoginParams) => Promise<boolean>) | null;
     logout: (() => Promise<boolean>) | null;
     register: ((params: RegisterParams) => Promise<boolean>) | null;
 };
 
 export const AuthContext = createContext<AuthContextType>({
-    user: null,
-    authenticated: false,
+    user: undefined,
+    authenticated: undefined,
     login: null,
     logout: null,
     register: null,
 });
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-    const [authenticated, setAuthenticated] = useState(false);
+    const [user, setUser] = useState<User | null | undefined>(undefined);
+    const [authenticated, setAuthenticated] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
         getAuth();

@@ -6,7 +6,7 @@ import { Slot } from '../../lib/types';
 import { useNavigate } from 'react-router';
 import { fetchSlots } from '../../utils/data';
 
-export default function Appointment() {
+export default function Booking() {
     const navigate = useNavigate();
 
     const [slots, setSlots] = useState<Slot[]>([]);

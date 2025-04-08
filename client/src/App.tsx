@@ -4,13 +4,12 @@ import { MantineProvider } from '@mantine/core';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Profile from './pages/Profile/Profile';
 import Home from './pages/Home/Home';
-import { Doctors } from './pages/Doctors';
 import './App.css';
 import Root from './pages/Root/Root';
 import Auth from './pages/Auth/Auth';
 import OurTeam from './pages/OurTeam/OurTeam';
 import AuthProvider from './hooks/useAuth/AuthProvider';
-import Appointment from './pages/Appointment/Appointment';
+import Booking from './pages/Booking/Booking';
 import Information from './pages/Profile/Information/Information';
 import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -43,7 +42,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/booking',
-                Component: Appointment,
+                Component: Booking,
             },
             {
                 path: '/profile',

@@ -1,5 +1,5 @@
 import styles from './topbar.module.css';
-import { Button, Text, Group } from '@mantine/core';
+import { Button, Text, Group, Loader } from '@mantine/core';
 import { Link, useLocation } from 'react-router';
 import clsx from 'clsx';
 import UserOptions from './UserOptions/UserOptions';
@@ -46,7 +46,9 @@ export default function Topbar() {
                 ))}
             </Group>
 
-            {authenticated ? (
+            {authenticated === undefined ? (
+                <Loader />
+            ) : authenticated ? (
                 <Group>
                     <Text fw="bold" size="lg">
                         Welcome, {user?.profile?.name}

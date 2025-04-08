@@ -1,9 +1,9 @@
 import { Card, Stack, Group, Text, Button } from '@mantine/core';
 import { format } from 'date-fns';
-import { fetchAppointments } from '../../../utils/data';
+import { fetchAppointments } from '../../../../../utils/data';
 import { useEffect, useState } from 'react';
-import { cancelAppointment } from '../../../utils/data';
-import { Slot } from '../../../lib/types';
+import { cancelAppointment } from '../../../../../utils/data';
+import { Slot } from '../../../../../lib/types';
 import { Badge } from '@mantine/core';
 
 export default function MyAppointments() {
