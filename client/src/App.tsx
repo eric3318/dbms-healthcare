@@ -11,9 +11,11 @@ import Auth from './pages/Auth/Auth';
 import OurTeam from './pages/OurTeam/OurTeam';
 import AuthProvider from './hooks/useAuth/AuthProvider';
 import Appointment from './pages/Appointment/Appointment';
-import MyAppointments from './pages/Profile/MyAppointments/MyAppointments';
 import Information from './pages/Profile/Information/Information';
 import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Services from './pages/Services/Services';
+import ContactUs from './pages/ContactUs/ContactUs';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -28,17 +30,25 @@ const router = createBrowserRouter([
                 Component: OurTeam,
             },
             {
-                path: '/doctors',
-                Component: Doctors,
+                path: '/services',
+                Component: Services,
+            },
+            {
+                path: '/contact-us',
+                Component: ContactUs,
+            },
+            {
+                path: '/dashboard',
+                Component: Dashboard,
+            },
+            {
+                path: '/booking',
+                Component: Appointment,
             },
             {
                 path: '/profile',
                 Component: Profile,
                 children: [
-                    {
-                        path: 'appointments',
-                        Component: MyAppointments,
-                    },
                     {
                         path: 'personal-information',
                         Component: Information,
@@ -48,10 +58,6 @@ const router = createBrowserRouter([
                         Component: MedicalHistory,
                     },
                 ],
-            },
-            {
-                path: '/appointment',
-                Component: Appointment,
             },
         ],
     },

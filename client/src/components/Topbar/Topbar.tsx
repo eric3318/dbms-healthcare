@@ -52,6 +52,10 @@ export default function Topbar() {
                         Welcome, {user?.profile?.name}
                     </Text>
 
+                    <Button component={Link} to="/dashboard" size="lg" variant="light" radius="md" h={40}>
+                        Dashboard
+                    </Button>
+
                     <UserOptions />
                 </Group>
             ) : (

@@ -26,7 +26,7 @@ export default function UserOptions() {
                         justify="flex-start"
                         onClick={() => setIsOpen(false)}
                     >
-                        Profile
+                        My Profile
                     </Button>
 
                     <Button
