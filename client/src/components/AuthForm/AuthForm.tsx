@@ -1,9 +1,9 @@
 import { useForm } from '@mantine/form';
-import { Button, TextInput, PasswordInput } from '@mantine/core';
+import { Button, TextInput, PasswordInput, Text } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import styles from './authForm.module.css';
-import { login, register } from '../../utils/data';
 import { Link, useNavigate } from 'react-router';
+import useAuth from '../../hooks/useAuth/useAuth';
 
 type FormValues = {
     name?: string;
@@ -20,6 +20,7 @@ type AuthFormProps = {
 
 export default function AuthForm({ isSignIn }: AuthFormProps) {
     const navigate = useNavigate();
+    const { login, register } = useAuth();
 
     const form = useForm<FormValues>({
         mode: 'uncontrolled',
@@ -36,21 +37,27 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
 
     const handleSubmit = async (values: FormValues) => {
         if (isSignIn) {
-            await login({
+            const loginSuccess = await login({
                 email: values.email,
                 password: values.password,
             });
+
+            if (loginSuccess) {
+                navigate('/');
+            }
         } else {
-            await register({
-                name: values.name, // add validation
+            const registerSuccess = await register({
+                name: values.name,
                 email: values.email,
                 password: values.password,
                 dateOfBirth: values.dateOfBirth,
                 phoneNumber: values.phoneNumber,
             });
-        }
 
-        navigate('/');
+            if (registerSuccess) {
+                navigate('/');
+            }
+        }
     };
 
     return (
@@ -61,9 +68,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                 placeholder="Enter your email"
                 key={form.key('email')}
                 {...form.getInputProps('email')}
-                classNames={{
-                    input: styles.textInput,
-                }}
             />
 
             {!isSignIn && (
@@ -74,9 +78,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                         placeholder="Enter your name"
                         key={form.key('name')}
                         {...form.getInputProps('name')}
-                        classNames={{
-                            input: styles.textInput,
-                        }}
                     />
 
                     <DateInput
@@ -93,9 +94,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                         placeholder="Enter your phone number"
                         key={form.key('phoneNumber')}
                         {...form.getInputProps('phoneNumber')}
-                        classNames={{
-                            input: styles.textInput,
-                        }}
                     />
                 </>
             )}
@@ -107,9 +105,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                 type="password"
                 key={form.key('password')}
                 {...form.getInputProps('password')}
-                classNames={{
-                    input: styles.textInput,
-                }}
             />
 
             {!isSignIn && (
@@ -120,9 +115,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                     type="password"
                     key={form.key('confirmPassword')}
                     {...form.getInputProps('confirmPassword')}
-                    classNames={{
-                        input: styles.textInput,
-                    }}
                     styles={(theme) => ({
                         input: {
                             '&:focus': {
@@ -137,16 +129,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
             <Button type="submit" radius={'md'}>
                 {isSignIn ? 'Login' : 'Sign Up'}
             </Button>
-
-            {!isSignIn ? (
-                <p className={styles.text}>
-                    Already have an account? <Link to="/signin">Log in</Link>
-                </p>
-            ) : (
-                <p className={styles.text}>
-                    Don't have an account? <Link to="/signup">Sign up</Link>
-                </p>
-            )}
         </form>
     );
 }

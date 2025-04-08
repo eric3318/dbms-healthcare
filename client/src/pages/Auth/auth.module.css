@@ -1,0 +1,28 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--mantine-spacing-md);
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: var(--mantine-radius-lg);
+    box-shadow: var(--mantine-shadow-lg);
+}
+
+.alertMessage {
+    font-size: var(--mantine-font-size-md);
+}
+
+.alertLabel {
+    font-size: var(--mantine-font-size-lg);
+}
