@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 public record DoctorCreateDto(
     @NotBlank String userId,
     @NotBlank String name,
-    @NotBlank String specialization
+    @NotBlank String specialization,
+    @NotBlank String email,
+    @NotBlank String phoneNumber
 ) {
 } 

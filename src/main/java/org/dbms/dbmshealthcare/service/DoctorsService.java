@@ -25,6 +25,8 @@ public class DoctorsService {
     doctor.setUserId(doctorCreateDto.userId());
     doctor.setName(doctorCreateDto.name());
     doctor.setSpecialization(doctorCreateDto.specialization());
+    doctor.setEmail(doctorCreateDto.email());
+    doctor.setPhoneNumber(doctorCreateDto.phoneNumber());
     
     return doctorsRepository.save(doctor);
   }
@@ -52,6 +54,14 @@ public class DoctorsService {
     
     if (doctorUpdateDto.specialization() != null) {
       update.set("specialization", doctorUpdateDto.specialization());
+    }
+
+    if (doctorUpdateDto.email() != null) {
+      update.set("email", doctorUpdateDto.email());
+    }
+
+    if (doctorUpdateDto.phoneNumber() != null) {
+      update.set("phoneNumber", doctorUpdateDto.phoneNumber());
     }
     
     return doctorsRepository.update(id, update);
