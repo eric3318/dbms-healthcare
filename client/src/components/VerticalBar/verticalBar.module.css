@@ -6,4 +6,6 @@
     border-right: 1px solid var(--mantine-color-gray-3);
     height: calc(100vh - 100px);
     justify-content: space-between;
+    width: 250px;
+    flex-shrink: 0;
 }

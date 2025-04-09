@@ -1,9 +1,17 @@
-import styles from './admin.module.css';
+import Analytics from './Analytics/Analytics';
+import People from './People/People';
+import UserManagement from './UserManagement/UserManagement';
 
 type Props = {
     active: string;
 };
 
 export default function Admin({ active }: Props) {
-    return <div className={styles.container}></div>;
+    return (
+        <>
+            {active === 'userManagement' && <UserManagement />}
+            {active === 'analytics' && <Analytics />}
+            {active === 'people' && <People />}
+        </>
+    );
 }

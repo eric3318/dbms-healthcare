@@ -16,6 +16,7 @@ const options: Record<string, Option[]> = {
     admin: [
         { label: 'Users', value: 'userManagement' },
         { label: 'Analytics', value: 'analytics' },
+        { label: 'People', value: 'people' },
         // { label: 'Role Management', value: 'roleManagement' },
     ],
     patient: [
@@ -45,7 +46,8 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (userRoles) {
-            setSelectedRole(userRoles[0].toLowerCase());
+            // setSelectedRole(userRoles[0].toLowerCase());
+            setSelectedRole('admin');
             setActiveOption(options[userRoles[0].toLowerCase()][0].value);
         }
     }, [userRoles]);

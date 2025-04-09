@@ -7,6 +7,7 @@ import {
     AuthResponse,
     LoginParams,
     RegisterParams,
+    User,
 } from '../lib/types';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -121,6 +122,24 @@ export async function fetchUser(): Promise<AuthResponse | AuthErrorResponse | nu
     } catch (err) {
         console.log('Error checking auth');
         return null;
+    }
+}
+
+export async function fetchUsers(): Promise<User[] | []> {
+    try {
+        const res = await fetch(`${API_URL}/users`, {
+            credentials: 'include',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch users');
+        }
+
+        const data: User[] = await res.json();
+        return data;
+    } catch (err) {
+        console.log('Error fetching users');
+        return [];
     }
 }
 

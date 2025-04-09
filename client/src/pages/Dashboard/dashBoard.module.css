@@ -4,5 +4,5 @@
 }
 
 .contentContainer {
-    padding: var(--mantine-spacing-md);
+    overflow-x: scroll;
 }

@@ -1,4 +1,3 @@
-import styles from './patient.module.css';
 import MyAppointments from './MyAppointments/MyAppointments';
 
 type Props = {
@@ -15,12 +14,12 @@ const PastVisits = () => {
 
 export default function Patient({ active }: Props) {
     return (
-        <div className={styles.container}>
+        <>
             {active === 'appointments' && <MyAppointments />}
 
             {active === 'requisitions' && <Requisitions />}
 
             {active === 'pastVisits' && <PastVisits />}
-        </div>
+        </>
     );
 }

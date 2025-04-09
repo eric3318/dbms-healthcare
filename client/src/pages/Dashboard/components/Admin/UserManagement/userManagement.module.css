@@ -1,0 +1,11 @@
+.tableContainer {
+    border: 1px solid var(--mantine-color-gray-3);
+    border-radius: var(--mantine-radius-md);
+    padding: var(--mantine-spacing-md);
+}
+
+.tableContainer td {
+    white-space: normal;
+    word-break: break-word;
+    max-width: 200px;
+}
