@@ -77,7 +77,11 @@ export async function checkAuth(): Promise<AuthResponse | null> {
     try {
         const authRes = await fetchUser();
 
-        if (authRes && 'code' in authRes && authRes.code === 1) {
+        if (authRes && 'code' in authRes) {
+            if (authRes.code === 0) {
+                throw new Error();
+            }
+
             const refreshSuccess = await refreshToken();
 
             if (!refreshSuccess) {
@@ -91,7 +95,6 @@ export async function checkAuth(): Promise<AuthResponse | null> {
 
         return authRes as AuthResponse;
     } catch (err) {
-        console.log('Error checking auth');
         return null;
     }
 }

@@ -1,11 +1,11 @@
 import useAuth from '../../hooks/useAuth/useAuth';
 import styles from './dashboard.module.css';
-import { Loader } from '@mantine/core';
 import VerticalBar from '../../components/VerticalBar/VerticalBar';
 import Doctor from './components/Doctor/Doctor';
 import Patient from './components/Patient/Patient';
 import Admin from './components/Admin/Admin';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type Option = {
     label: string;
@@ -13,7 +13,11 @@ type Option = {
 };
 
 const options: Record<string, Option[]> = {
-    admin: [{ label: 'Directory', value: 'directory' }],
+    admin: [
+        { label: 'Users', value: 'userManagement' },
+        { label: 'Analytics', value: 'analytics' },
+        // { label: 'Role Management', value: 'roleManagement' },
+    ],
     patient: [
         { label: 'Appointments', value: 'appointments' },
         { label: 'Requisitions', value: 'requisitions' },
@@ -27,24 +31,43 @@ const options: Record<string, Option[]> = {
 
 export default function Dashboard() {
     const { user } = useAuth();
-    const userRole = user?.roles?.[0].toLowerCase();
-    const [active, setActive] = useState<string>('');
+    const navigate = useNavigate();
+
+    if (user === null) {
+        navigate('/signin');
+        return;
+    }
+
+    const userRoles = user?.roles;
+
+    const [activeOption, setActiveOption] = useState<string>('');
+    const [selectedRole, setSelectedRole] = useState<string>('');
 
     useEffect(() => {
-        if (userRole && options[userRole]) {
-            setActive(options[userRole][0].value);
+        if (userRoles) {
+            setSelectedRole(userRoles[0].toLowerCase());
+            setActiveOption(options[userRoles[0].toLowerCase()][0].value);
         }
-    }, [userRole]);
-
-    if (!userRole) return <Loader />;
+    }, [userRoles]);
 
     return (
         <div className={styles.container}>
-            <VerticalBar options={options[userRole]} active={active} onChange={setActive} />
+            {user && selectedRole && (
+                <VerticalBar
+                    user={user}
+                    selectedRole={selectedRole}
+                    onRoleChange={setSelectedRole}
+                    options={options[selectedRole]}
+                    active={activeOption}
+                    onChange={setActiveOption}
+                />
+            )}
 
-            {userRole === 'admin' && <Admin />}
-            {userRole === 'patient' && <Patient active={active} />}
-            {userRole === 'doctor' && <Doctor />}
+            <div className={styles.contentContainer}>
+                {selectedRole === 'admin' && <Admin active={activeOption} />}
+                {selectedRole === 'patient' && <Patient active={activeOption} />}
+                {selectedRole === 'doctor' && <Doctor active={activeOption} />}
+            </div>
         </div>
     );
 }

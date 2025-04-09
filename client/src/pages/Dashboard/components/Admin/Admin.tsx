@@ -1,5 +1,9 @@
 import styles from './admin.module.css';
 
-export default function Admin() {
-    return <div className={styles.container}>Admin</div>;
+type Props = {
+    active: string;
+};
+
+export default function Admin({ active }: Props) {
+    return <div className={styles.container}></div>;
 }
