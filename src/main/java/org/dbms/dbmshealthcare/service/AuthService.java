@@ -45,7 +45,7 @@ public class AuthService {
   }
 
   public TokenPair login(String email, String password, boolean rememberMe) throws Exception {
-    User user = userService.getUserByEmail(email);
+    User user = userService.loadUserByUsername(email);
     String hashedPassword = user.getPassword();
 
     if (!passwordEncoder.matches(password, hashedPassword)) {
@@ -98,7 +98,7 @@ public class AuthService {
   }
 
   private void verifyJwtId(String jwtId, String email) {
-    User user = userService.getUserByEmail(email);
+    User user = userService.loadUserByUsername(email);
 
     String jti = user.getJwtId();
 
