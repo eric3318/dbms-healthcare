@@ -4,87 +4,111 @@ import { createAppointment } from '../../utils/data';
 import { useState, useEffect } from 'react';
 import { Slot } from '../../lib/types';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchSlots } from '../../utils/data';
+import { fetchSlotsByDoctorUserId } from '../../utils/data';
 
-export default function SlotBooking() {
+export default function Booking() {
     const navigate = useNavigate();
     const { doctorId } = useParams<{ doctorId: string }>();
     
     const [slots, setSlots] = useState<Slot[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [doctorName, setDoctorName] = useState<string>('');
+    const [debugInfo, setDebugInfo] = useState<string[]>([]);
+    const [apiUrl, setApiUrl] = useState<string>('');
+
+    const addDebugInfo = (message: string) => {
+        setDebugInfo(prev => [...prev, message]);
+    };
 
     const handleNewAppointment = async (slotId: string) => {
         try {
             const createdAppointment = await createAppointment({
                 slotId,
-                patientId: '1' // You might want to get this from user context/authentication
-                // doctorId is not needed here because the slot already has doctorId
+                patientId: '1',
             });
 
             if (createdAppointment) {
                 navigate('/profile');
             }
         } catch (err) {
-            setError('Failed to create appointment. Please try again.');
-            console.error('Error creating appointment:', err);
+            setError('Failed to create appointment');
+            console.error(err);
         }
     };
 
     useEffect(() => {
         async function getData() {
             if (!doctorId) {
-                setError('Doctor ID is missing. Please select a doctor first.');
+                addDebugInfo("No doctorId provided in URL parameters");
+                setError('Doctor ID is missing');
                 setLoading(false);
                 return;
             }
 
+            // Capture the API URL for debugging
+            const url = `/api/slots/doctor/${doctorId}`;
+            setApiUrl(url);
+            
+            addDebugInfo(`Fetching slots from URL: ${url}`);
+            addDebugInfo(`Fetching slots for doctorId: ${doctorId}`);
+            setLoading(true);
+            
             try {
-                setLoading(true);
-                // Modify fetchSlots to filter by doctorId
-                const slots = await fetchSlots();
-                // Filter slots by doctorId if fetchSlots doesn't support filtering
-                const filteredSlots = slots ? slots.filter(slot => slot.doctorId === doctorId) : [];
+                // Fetch slots directly by doctor ID using the API endpoint
+                const doctorSlots = await fetchSlotsByDoctorUserId(doctorId);
                 
-                if (filteredSlots && filteredSlots.length > 0) {
-                    setSlots(filteredSlots);
-                    
-                    // If your slot data includes doctor name, you could set it here
-                    // For example, if slots[0].doctorName exists:
-                    // setDoctorName(slots[0].doctorName);
+                if (doctorSlots && doctorSlots.length > 0) {
+                    addDebugInfo(`Slots fetched successfully. Count: ${doctorSlots.length}`);
+                    // Add more detailed logging for debugging
+                    addDebugInfo(`First slot: ${JSON.stringify(doctorSlots[0])}`);
+                    setSlots(doctorSlots);
                 } else {
+                    addDebugInfo("No slots returned from API or empty array received");
                     setSlots([]);
                 }
                 
                 setLoading(false);
             } catch (err) {
-                setError('Failed to load available slots. Please try again later.');
+                const errorMessage = err instanceof Error ? err.message : String(err);
+                addDebugInfo(`Error fetching slots: ${errorMessage}`);
+                setError('Failed to load slots');
                 setLoading(false);
-                console.error('Error fetching slots:', err);
             }
         }
+        
         getData();
     }, [doctorId]);
 
-    if (loading) {
-        return <div>Loading available slots...</div>;
-    }
-
-    if (error) {
-        return <div className="error-message">{error}</div>;
-    }
-
     return (
-        <div className="slot-booking-container">
-            <Title order={3}>Book an Appointment {doctorName && `with ${doctorName}`}</Title>
+        <div>
+            <Title order={3}>Available Slots for Doctor</Title>
             
-            {slots.length === 0 ? (
+            {/* Debug Information */}
+            <div style={{ 
+                background: '#f5f5f5', 
+                padding: '10px', 
+                margin: '10px 0', 
+                borderRadius: '4px',
+                maxHeight: '200px',
+                overflowY: 'auto'
+            }}>
+                <Text>Debug Info:</Text>
+                <Text size="sm">Doctor ID: {doctorId || 'Not provided'}</Text>
+                <Text size="sm" color="blue">API URL: {apiUrl}</Text>
+                <Text size="sm">Loading: {loading ? 'Yes' : 'No'}</Text>
+                <Text size="sm">Slots count: {slots.length}</Text>
+                <Text size="sm">Log Messages:</Text>
+                {debugInfo.map((info, index) => (
+                    <Text key={index} size="sm">{info}</Text>
+                ))}
+            </div>
+            
+            {!loading && slots.length === 0 ? (
                 <Text>No available slots found for this doctor.</Text>
             ) : (
                 <Stack>
                     {slots.map((slot) => (
-                        <Card shadow="sm" p="xl" key={slot.id} className="slot-card">
+                        <Card shadow="sm" p="xl" key={slot.id}>
                             <Group justify="space-between">
                                 <Text>Start Time</Text>
                                 <Text>{slot.startTime ? format(new Date(slot.startTime), 'yyyy-MM-dd HH:mm') : 'N/A'}</Text>
@@ -94,19 +118,14 @@ export default function SlotBooking() {
                                 <Text>End Time</Text>
                                 <Text>{slot.endTime ? format(new Date(slot.endTime), 'yyyy-MM-dd HH:mm') : 'N/A'}</Text>
                             </Group>
-                            
-                            <Button 
-                                onClick={() => slot.id && handleNewAppointment(slot.id)}
-                                className="reserve-button"
-                                fullWidth
-                                mt="md"
-                            >
-                                Reserve
-                            </Button>
+                            <Group justify="space-between" mt="md">
+                                <Text>Status: {slot.status}</Text>
+                                <Button onClick={() => slot.id && handleNewAppointment(slot.id)}>Reserve</Button>
+                            </Group>
                         </Card>
                     ))}
                 </Stack>
             )}
         </div>
     );
-}
+}3.20
