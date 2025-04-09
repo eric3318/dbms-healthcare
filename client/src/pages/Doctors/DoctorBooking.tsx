@@ -39,9 +39,14 @@ const DoctorBooking = () => {
     fetchDoctors();
   }, []);
 
-  const handleBookAppointment = (doctorId: string) => {
-    // Navigate to slot selection page with the doctor ID
-    navigate(`/booking/${doctorId}`);
+  const handleBookAppointment = (doctor: Doctor) => {
+    // Navigate to slot selection page with the doctor's userId instead of id
+    if (doctor.userId) {
+      navigate(`/booking/doctor/${doctor.userId}`);
+    } else {
+      console.error("Doctor has no userId", doctor);
+      setError("Cannot book appointment - doctor data is incomplete");
+    }
   };
 
   const filteredDoctors = specialtyFilter 
@@ -83,12 +88,14 @@ const DoctorBooking = () => {
               <h3>{doctor.name}</h3>
               <div className="doctor-info">
                 <p><strong>Specialty:</strong> {doctor.specialization}</p>
-                <p><strong>Email:</strong> {doctor.email}</p>
-                <p><strong>Phone:</strong> {doctor.phoneNumber}</p>
+                {doctor.email && <p><strong>Email:</strong> {doctor.email}</p>}
+                {doctor.phoneNumber && <p><strong>Phone:</strong> {doctor.phoneNumber}</p>}
+                <p className="debug-info"><small>User ID: {doctor.userId || 'N/A'}</small></p>
               </div>
               <button 
                 className="book-button"
-                onClick={() => doctor.id && handleBookAppointment(doctor.id)}
+                onClick={() => handleBookAppointment(doctor)}
+                disabled={!doctor.userId}
               >
                 Book Appointment
               </button>

@@ -70,6 +70,14 @@
   color: #2c3e50;
 }
 
+.debug-info {
+  color: #7f8c8d;
+  font-size: 0.8rem;
+  border-top: 1px dashed #ddd;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
 .book-button {
   width: 100%;
   padding: 0.8rem;
@@ -84,6 +92,11 @@
 
 .book-button:hover {
   background-color: #2980b9;
+}
+
+.book-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
 }
 
 .loading, .error-message, .no-doctors {
