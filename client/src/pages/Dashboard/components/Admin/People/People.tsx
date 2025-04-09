@@ -1,5 +1,4 @@
 import { Tabs } from '@mantine/core';
-import styles from './people.module.css';
 import { IconPhoto } from '@tabler/icons-react';
 
 const tabs = [

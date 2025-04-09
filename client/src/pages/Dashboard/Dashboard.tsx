@@ -21,12 +21,13 @@ const options: Record<string, Option[]> = {
     ],
     patient: [
         { label: 'Appointments', value: 'appointments' },
-        { label: 'Requisitions', value: 'requisitions' },
-        { label: 'Past visits', value: 'pastVisits' },
+        { label: 'Records', value: 'records' },
+        { label: 'Requisitions', value: 'requisitions' }, // lab tests that need to be done
     ],
     doctor: [
         { label: 'Appointments', value: 'appointments' },
-        { label: 'Prescriptions', value: 'prescriptions' },
+        { label: 'Records', value: 'records' },
+        { label: 'Requisition Results', value: 'requisitionResults' }, // lab results that have come in
     ],
 };
 
@@ -47,7 +48,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (userRoles) {
             // setSelectedRole(userRoles[0].toLowerCase());
-            setSelectedRole('admin');
+            setSelectedRole('doctor');
             setActiveOption(options[userRoles[0].toLowerCase()][0].value);
         }
     }, [userRoles]);

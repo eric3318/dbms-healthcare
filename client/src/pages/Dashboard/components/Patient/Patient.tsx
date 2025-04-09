@@ -1,15 +1,9 @@
 import MyAppointments from './MyAppointments/MyAppointments';
+import Records from './Records/Records';
+import Requisitions from './Requisitions/Requisitions';
 
 type Props = {
     active: string;
-};
-
-const Requisitions = () => {
-    return <div>Requisitions</div>;
-};
-
-const PastVisits = () => {
-    return <div>PastVisits</div>;
 };
 
 export default function Patient({ active }: Props) {
@@ -19,7 +13,7 @@ export default function Patient({ active }: Props) {
 
             {active === 'requisitions' && <Requisitions />}
 
-            {active === 'pastVisits' && <PastVisits />}
+            {active === 'records' && <Records />}
         </>
     );
 }

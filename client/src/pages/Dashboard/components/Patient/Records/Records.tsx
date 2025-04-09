@@ -2,7 +2,7 @@ import { fetchAppointments } from '../../../../../utils/data';
 import { useEffect, useState } from 'react';
 import useAuth from '../../../../../hooks/useAuth/useAuth';
 
-export default function PastVisits() {
+export default function Records() {
     const { user } = useAuth();
     const [medicalRecords, setMedicalRecords] = useState([]);
 
