@@ -38,7 +38,11 @@ export async function createAppointment(params: CreateAppointmentParams): Promis
 
 export async function fetchAppointments(params?: SlotFilter): Promise<GetAppointmentsResponse | []> {
     try {
-        const res = await fetch(`${API_URL}/appointments?${params ? new URLSearchParams(params) : ''}`, {
+        const stringParams = params ? Object.fromEntries(
+            Object.entries(params).map(([key, value]) => [key, String(value)])
+        ) : undefined;
+        
+        const res = await fetch(`${API_URL}/appointments?${stringParams ? new URLSearchParams(stringParams) : ''}`, {
             credentials: 'include',
         });
 
@@ -57,7 +61,11 @@ export async function fetchAppointments(params?: SlotFilter): Promise<GetAppoint
 
 export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse | null> {
     try {
-        const res = await fetch(`${API_URL}/slots?${params ? new URLSearchParams(params) : ''}`, {
+        const stringParams = params ? Object.fromEntries(
+            Object.entries(params).map(([key, value]) => [key, String(value)])
+        ) : undefined;
+        
+        const res = await fetch(`${API_URL}/slots?${stringParams ? new URLSearchParams(stringParams) : ''}`, {
             credentials: 'include',
         });
 
@@ -72,6 +80,24 @@ export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse 
         console.error(err);
         return null;
     }
+}
+
+export async function fetchSlotsByDoctorUserId(userId: string): Promise<GetSlotsResponse | null> {
+  try {
+      const res = await fetch(`${API_URL}/doctor/${userId}`, {
+          credentials: 'include',
+      });
+
+      if (!res.ok) {
+          throw new Error(`Failed to fetch slots for doctor: ${res.status}`);
+      }
+
+      const data: GetSlotsResponse = await res.json();
+      return data;
+  } catch (err) {
+      console.error('Error fetching slots by doctor ID:', err);
+      return null;
+  }
 }
 
 export async function checkAuth(): Promise<AuthResponse | null> {
