@@ -4,22 +4,6 @@
  */
 
 export interface paths {
-    "/api/requisitions/{id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateRequisitionStatus"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/patients/{id}": {
         parameters: {
             query?: never;
@@ -27,9 +11,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get patient by ID
+         * @description Retrieves a specific patient by their unique identifier
+         */
         get: operations["getPatientById"];
+        /**
+         * Update patient information
+         * @description Updates an existing patient's information based on the provided data
+         */
         put: operations["updatePatient"];
         post?: never;
+        /**
+         * Delete patient
+         * @description Removes a patient record from the system by their ID
+         */
         delete: operations["deletePatient"];
         options?: never;
         head?: never;
@@ -60,8 +56,16 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getAppointment"];
+        /**
+         * Update appointment
+         * @description Updates an existing appointment's information based on the provided data
+         */
         put: operations["updateAppointment"];
         post?: never;
+        /**
+         * Delete appointment
+         * @description Cancels and removes an appointment from the system by its ID
+         */
         delete: operations["deleteAppointment"];
         options?: never;
         head?: never;
@@ -77,6 +81,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Register new user
+         * @description Creates a new user account in the system with the provided credentials
+         */
         post: operations["createUser"];
         delete?: never;
         options?: never;
@@ -94,6 +102,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["refreshToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/pre-check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["verifyIdentity"];
         delete?: never;
         options?: never;
         head?: never;
@@ -125,6 +149,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * User login
+         * @description Authenticates a user and returns access and refresh tokens as HTTP-only cookies.
+         */
         post: operations["login"];
         delete?: never;
         options?: never;
@@ -139,8 +167,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get available slots
+         * @description Retrieves a list of available time slots based on the provided filters
+         */
         get: operations["getSlots"];
         put?: never;
+        /**
+         * Create a new slot
+         * @description Creates a new available time slot based on the provided data
+         */
         post: operations["createSlot"];
         delete?: never;
         options?: never;
@@ -155,8 +191,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get all requisitions
+         * @description Retrieves all requisitions with optional filtering by medical record ID and/or status
+         */
         get: operations["getAllRequisitions"];
         put?: never;
+        /**
+         * Create a new requisition
+         * @description Creates a new requisition in the system based on the provided data
+         */
         post: operations["createRequisition"];
         delete?: never;
         options?: never;
@@ -171,8 +215,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get all patients
+         * @description Retrieves a list of all patients in the system
+         */
         get: operations["getAllPatients"];
         put?: never;
+        /**
+         * Create a new patient
+         * @description Creates a new patient record in the system based on the provided data
+         */
         post: operations["createPatient"];
         delete?: never;
         options?: never;
@@ -205,7 +257,27 @@ export interface paths {
         };
         get: operations["getAppointments"];
         put?: never;
+        /**
+         * Create a new appointment
+         * @description Books an appointment in an available time slot based on the provided data
+         */
         post: operations["createAppointment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getUsers"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -219,6 +291,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get user by ID
+         * @description Retrieves user information by their unique identifier (Admin only)
+         */
         get: operations["getUser"];
         put?: never;
         post?: never;
@@ -238,6 +314,10 @@ export interface paths {
         get: operations["getSlotById"];
         put?: never;
         post?: never;
+        /**
+         * Delete a slot
+         * @description Delete a slot by its ID.
+         */
         delete: operations["deleteSlot"];
         options?: never;
         head?: never;
@@ -251,74 +331,18 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get requisition by ID
+         * @description Retrieves a specific requisition by its unique identifier
+         */
         get: operations["getRequisitionById"];
         put?: never;
         post?: never;
+        /**
+         * Delete requisition
+         * @description Removes a requisition from the system by its ID
+         */
         delete: operations["deleteRequisition"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/requisitions/medical-record/{medicalRecordId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getRequisitionsByMedicalRecord"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/patients/user/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPatientsByUserId"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/patients/phn/{phn}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPatientByPhn"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/patients/doctor/{doctorId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPatientsByDoctorId"];
-        put?: never;
-        post?: never;
-        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -344,28 +368,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        RequisitionUpdateDto: {
-            /** @enum {string} */
-            status?: "Pending" | "Pending_result" | "Completed";
-        };
-        Requisition: {
-            id?: string;
-            medicalRecordId?: string;
-            testName?: string;
-            /** @enum {string} */
-            status?: "Pending" | "Pending_result" | "Completed";
-            result?: components["schemas"]["RequisitionResult"];
-            /** Format: date-time */
-            requestedAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-        };
-        RequisitionResult: {
-            description?: string;
-            conclusion?: string;
-            /** Format: date-time */
-            reportedAt?: string;
-        };
         PatientUpdateDto: {
             address?: string;
             doctorId?: string;
@@ -397,7 +399,8 @@ export interface components {
         };
         AppointmentUpdateDto: {
             /** @enum {string} */
-            status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            visitReason?: string;
         };
         UserCreateDto: {
             name?: string;
@@ -427,9 +430,15 @@ export interface components {
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             enabled?: boolean;
+            accountNonExpired?: boolean;
             accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
-            accountNonExpired?: boolean;
+        };
+        UserCreateCheckDto: {
+            name?: string;
+            personalHealthNumber?: string;
+            /** Format: date */
+            dateOfBirth?: string;
         };
         UserLoginDto: {
             email?: string;
@@ -439,22 +448,38 @@ export interface components {
         Slot: {
             id?: string;
             doctorId?: string;
-            patientId?: string;
             /** Format: date-time */
             startTime?: string;
             /** Format: date-time */
             endTime?: string;
             /** @enum {string} */
-            status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "AVAILABLE" | "BOOKED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
-            reserved?: boolean;
         };
         RequisitionCreateDto: {
             medicalRecordId?: string;
             testName?: string;
+        };
+        Requisition: {
+            id?: string;
+            medicalRecordId?: string;
+            testName?: string;
+            /** @enum {string} */
+            status?: "Pending" | "Pending_result" | "Completed";
+            result?: components["schemas"]["RequisitionResult"];
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        RequisitionResult: {
+            description?: string;
+            conclusion?: string;
+            /** Format: date-time */
+            reportedAt?: string;
         };
         PatientCreateDto: {
             personalHealthNumber?: string;
@@ -469,18 +494,45 @@ export interface components {
         };
         AppointmentCreateDto: {
             slotId?: string;
+            visitReason?: string;
+        };
+        Appointment: {
+            id?: string;
             patientId?: string;
+            doctorId?: string;
+            slot?: components["schemas"]["SlotDetails"];
+            visitReason?: string;
+            /** @enum {string} */
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        SlotDetails: {
+            /** Format: date-time */
+            startTime?: string;
+            /** Format: date-time */
+            endTime?: string;
         };
         SlotFilter: {
             doctorId?: string;
-            patientId?: string;
             /** Format: date-time */
             from?: string;
             /** Format: date-time */
             to?: string;
-            isReserved?: boolean;
             /** @enum {string} */
-            status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "AVAILABLE" | "BOOKED";
+        };
+        AppointmentFilter: {
+            patientId?: string;
+            doctorId?: string;
+            /** Format: date-time */
+            from?: string;
+            /** Format: date-time */
+            to?: string;
+            /** @enum {string} */
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
         };
     };
     responses: never;
@@ -491,32 +543,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    updateRequisitionStatus: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RequisitionUpdateDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Requisition"];
-                };
-            };
-        };
-    };
     getPatientById: {
         parameters: {
             query?: never;
@@ -670,7 +696,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Slot"];
+                    "*/*": components["schemas"]["Appointment"];
                 };
             };
         };
@@ -763,6 +789,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": string;
+                };
+            };
+        };
+    };
+    verifyIdentity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserCreateCheckDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
                 };
             };
         };
@@ -995,7 +1045,7 @@ export interface operations {
     getAppointments: {
         parameters: {
             query: {
-                filter: components["schemas"]["SlotFilter"];
+                filter: components["schemas"]["AppointmentFilter"];
             };
             header?: never;
             path?: never;
@@ -1009,7 +1059,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Slot"][];
+                    "*/*": components["schemas"]["Appointment"][];
                 };
             };
         };
@@ -1033,7 +1083,27 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Slot"];
+                    "*/*": components["schemas"]["Appointment"];
+                };
+            };
+        };
+    };
+    getUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["User"][];
                 };
             };
         };
@@ -1143,94 +1213,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    getRequisitionsByMedicalRecord: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                medicalRecordId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Requisition"][];
-                };
-            };
-        };
-    };
-    getPatientsByUserId: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Patient"][];
-                };
-            };
-        };
-    };
-    getPatientByPhn: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                phn: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Patient"];
-                };
-            };
-        };
-    };
-    getPatientsByDoctorId: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                doctorId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Patient"][];
-                };
             };
         };
     };

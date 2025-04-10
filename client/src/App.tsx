@@ -15,6 +15,7 @@ import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Services from './pages/Services/Services';
 import ContactUs from './pages/ContactUs/ContactUs';
+
 const router = createBrowserRouter([
     {
         path: '/',

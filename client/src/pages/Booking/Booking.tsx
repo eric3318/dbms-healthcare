@@ -1,56 +1,57 @@
-import { Button, Group, Card, Title, Stack, Text } from '@mantine/core';
-import { format } from 'date-fns';
 import { createAppointment } from '../../utils/data';
 import { useState, useEffect } from 'react';
 import { Slot } from '../../lib/types';
 import { useNavigate } from 'react-router';
 import { fetchSlots } from '../../utils/data';
+import SlotPicker from '../../components/SlotPicker/SlotPicker';
+import styles from './booking.module.css';
+import { Button, Text, Stack } from '@mantine/core';
 
 export default function Booking() {
     const navigate = useNavigate();
 
     const [slots, setSlots] = useState<Slot[]>([]);
+    const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
-    const handleNewAppointment = async (slotId: string) => {
+    const handleSubmit = async () => {
+        if (!selectedSlot) {
+            return;
+        }
+
         const createdAppointment = await createAppointment({
-            slotId,
-            patientId: '1',
+            slotId: selectedSlot,
         });
 
         if (createdAppointment) {
-            navigate('/profile');
+            console.log(createdAppointment);
         }
+    };
+
+    const handleSlotSelect = (slotId: string) => {
+        setSelectedSlot(slotId);
     };
 
     useEffect(() => {
         async function getData() {
             const slots = await fetchSlots();
-            if (slots) {
-                setSlots(slots);
-            }
+            setSlots(slots);
         }
         getData();
     }, []);
 
     return (
-        <div>
-            <Title order={3}>Available Slots</Title>
-            <Stack>
-                {slots.map((slot) => (
-                    <Card shadow="sm" p="xl" key={slot.id}>
-                        <Group justify="space-between">
-                            <Text>Start Time</Text>
-                            <Text>{slot.startTime ? format(new Date(slot.startTime), 'yyyy-MM-dd HH:mm') : 'N/A'}</Text>
-                        </Group>
+        <div className={styles.container}>
+            <Text fw={500} size="xl">
+                Dr. John Doe
+            </Text>
 
-                        <Group justify="space-between">
-                            <Text>End Time</Text>
-                            <Text>{slot.endTime ? format(new Date(slot.endTime), 'yyyy-MM-dd HH:mm') : 'N/A'}</Text>
-                        </Group>
-                        <Button onClick={() => slot.id && handleNewAppointment(slot.id)}>Reserve</Button>
-                    </Card>
-                ))}
-            </Stack>
+            <SlotPicker items={slots} onSlotSelect={handleSlotSelect} />
+
+            <div>
+                <Button onClick={handleSubmit} size="lg" radius="md">
+                    Confirm
+                </Button>
+            </div>
         </div>
     );
 }

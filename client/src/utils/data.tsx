@@ -8,6 +8,8 @@ import {
     LoginParams,
     RegisterParams,
     User,
+    UpdateAppointmentParams,
+    AppointmentFilter,
 } from '../lib/types';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -36,7 +38,29 @@ export async function createAppointment(params: CreateAppointmentParams): Promis
     }
 }
 
-export async function fetchAppointments(params?: SlotFilter): Promise<GetAppointmentsResponse | []> {
+export async function updateAppointment(id: string, params: UpdateAppointmentParams): Promise<boolean> {
+    try {
+        const res = await fetch(`${API_URL}/appointments/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to update appointment');
+        }
+
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
+export async function fetchAppointments(params?: AppointmentFilter): Promise<GetAppointmentsResponse | []> {
     try {
         const res = await fetch(`${API_URL}/appointments?${params ? new URLSearchParams(params) : ''}`, {
             credentials: 'include',
@@ -55,7 +79,7 @@ export async function fetchAppointments(params?: SlotFilter): Promise<GetAppoint
     }
 }
 
-export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse | null> {
+export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse> {
     try {
         const res = await fetch(`${API_URL}/slots?${params ? new URLSearchParams(params) : ''}`, {
             credentials: 'include',
@@ -70,7 +94,7 @@ export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse 
         return data;
     } catch (err) {
         console.error(err);
-        return null;
+        return [];
     }
 }
 

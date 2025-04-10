@@ -13,12 +13,7 @@ export default function Home() {
                     </Text>
 
                     <div>
-                        <Button
-                            component={Link}
-                            to="/appointment"
-                            size="xl"
-                            styles={{ root: { backgroundColor: 'red' } }}
-                        >
+                        <Button component={Link} to="/booking" size="xl" styles={{ root: { backgroundColor: 'red' } }}>
                             Book an appointment
                         </Button>
                     </div>

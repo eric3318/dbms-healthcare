@@ -2,9 +2,12 @@ import { components } from './api';
 
 export type Slot = components['schemas']['Slot'];
 export type SlotFilter = components['schemas']['SlotFilter'];
+export type Appointment = components['schemas']['Appointment'];
+export type AppointmentFilter = components['schemas']['AppointmentFilter'];
 export type CreateAppointmentParams = components['schemas']['AppointmentCreateDto'];
-export type CreateAppointmentResponse = components['schemas']['Slot'];
-export type GetAppointmentsResponse = components['schemas']['Slot'][];
+export type CreateAppointmentResponse = components['schemas']['Appointment'];
+export type UpdateAppointmentParams = components['schemas']['AppointmentUpdateDto'];
+export type GetAppointmentsResponse = components['schemas']['Appointment'][];
 export type GetSlotsResponse = components['schemas']['Slot'][];
 export type AuthResponse = components['schemas']['User'];
 export type LoginParams = components['schemas']['UserLoginDto'];
@@ -20,7 +23,6 @@ export type RequisitionCreateDto = components['schemas']['RequisitionCreateDto']
 export type RequisitionUpdateDto = components['schemas']['RequisitionUpdateDto'];
 export type RequisitionResult = components['schemas']['RequisitionResult'];
 export type AppointmentUpdateDto = components['schemas']['AppointmentUpdateDto'];
-
 
 // Doctor related types
 export type Doctor = components['schemas']['Doctor'];

@@ -48,7 +48,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (userRoles) {
             // setSelectedRole(userRoles[0].toLowerCase());
-            setSelectedRole('doctor');
+            setSelectedRole('patient');
             setActiveOption(options[userRoles[0].toLowerCase()][0].value);
         }
     }, [userRoles]);
