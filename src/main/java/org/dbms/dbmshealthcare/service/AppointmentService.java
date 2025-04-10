@@ -111,6 +111,11 @@ public class AppointmentService {
     return slotRepository.update(slotId, criteria, updates);
   }
 
+  public List<Slot> findSlots(SlotFilter filter) {
+    Query query = buildQuery(filter);
+    return slotRepository.findAll(query);
+}
+
   private Query buildQuery(SlotFilter filter) {
     Query query = new Query();
 
