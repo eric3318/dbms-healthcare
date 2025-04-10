@@ -49,6 +49,14 @@ public class AppointmentController {
         ResponseEntity.notFound().build();
   }
 
+  @GetMapping("/doctor/{userId}")
+public ResponseEntity<List<Slot>> getSlotsByDoctorUserId(@PathVariable String userId) {
+    SlotFilter filter = new SlotFilter();
+    filter.setDoctorId(userId);  // This is already the doctor's user_id
+    
+    List<Slot> slots = appointmentService.findSlots(filter);
+    return ResponseEntity.ok(slots);
+}
 
   @Operation(summary = "Create a new slot", description = "Creates a new available time slot based on the provided data")
   @PostMapping("/slots")

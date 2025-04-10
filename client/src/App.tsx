@@ -15,7 +15,7 @@ import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Services from './pages/Services/Services';
 import ContactUs from './pages/ContactUs/ContactUs';
-
+import DoctorBooking from './pages/Doctors/DoctorBooking';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -42,7 +42,11 @@ const router = createBrowserRouter([
                 Component: Dashboard,
             },
             {
-                path: '/booking',
+                path: '/doctor-booking',
+                Component: DoctorBooking,
+            },
+            {
+                path: '/booking/doctor/:doctorId',
                 Component: Booking,
             },
             {
