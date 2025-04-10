@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 public record MedicalRecordUpdateDto(
     String doctorNotes,
     String finalDiagnosis,
-    String requisitions,
-    Prescription prescriptions,
+    // String requisitions,
+    // Prescription prescriptions,
     BigDecimal billingAmount,
 ) 
