@@ -70,9 +70,6 @@ public class AuthController {
     String identity = node.get("identity").asText();
     String id = node.get("id").asText();
 
-    System.out.println("identity: " + identity);
-    System.out.println("id: " + id);
-
     User user = authService.register(identity, id, userCreateDto);
     return ResponseEntity.ok(user);
   }
@@ -146,7 +143,7 @@ public class AuthController {
   private ResponseCookie buildCookie(String name, String value, int maxAge) {
     ResponseCookie cookie = ResponseCookie.from(name, value)
         .httpOnly(true)
-        .secure(true)
+        .secure(false)
         .sameSite("None")
         .path("/")
         .maxAge(maxAge).build();
