@@ -18,19 +18,20 @@ public class PatientService {
   
   // CREATE operation
   public Patient createPatient(PatientCreateDto patientCreateDto) {
-    // Check if PHN already exists
-    Patient existingPatient = patientRepository.findByPersonalHealthNumber(patientCreateDto.personalHealthNumber());
-    if (existingPatient != null) {
-      return null; // PHN already exists
-    }
+//    // Check if PHN already exists
+//    Patient existingPatient = patientRepository.findByPersonalHealthNumber(patientCreateDto.personalHealthNumber());
+//    if (existingPatient != null) {
+//      return null; // PHN already exists
+//    }
+//
+//    Patient patient = new Patient();
+//    patient.setPersonalHealthNumber(patientCreateDto.personalHealthNumber());
+//    patient.setAddress(patientCreateDto.address());
+//    patient.setUserId(patientCreateDto.userId());
+//    patient.setDoctorId(patientCreateDto.doctorId());
     
-    Patient patient = new Patient();
-    patient.setPersonalHealthNumber(patientCreateDto.personalHealthNumber());
-    patient.setAddress(patientCreateDto.address());
-    patient.setUserId(patientCreateDto.userId());
-    patient.setDoctorId(patientCreateDto.doctorId());
-    
-    return patientRepository.save(patient);
+//    return patientRepository.save(patient);
+    return null;
   }
   
   // READ operations

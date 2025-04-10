@@ -22,9 +22,10 @@ export default function People() {
     const [isCreate, setIsCreate] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        email: '',
-        phoneNumber: '',
-        specialization: ''
+        // email: '',
+        // phoneNumber: '',
+        licenseNumber: '',
+        specialization: '',
     });
 
     useEffect(() => {
@@ -46,9 +47,10 @@ export default function People() {
         setIsCreate(true);
         setFormData({
             name: '',
-            email: '',
-            phoneNumber: '',
-            specialization: ''
+            // email: '',
+            // phoneNumber: '',
+            licenseNumber: '',
+            specialization: '',
         });
         setModalOpen(true);
     };
@@ -58,9 +60,10 @@ export default function People() {
         setSelectedDoctor(doctor);
         setFormData({
             name: doctor.name || '',
-            email: doctor.email || '',
-            phoneNumber: doctor.phoneNumber || '',
-            specialization: doctor.specialization || ''
+            // email: doctor.email || '',
+            // phoneNumber: doctor.phoneNumber || '',
+            licenseNumber: doctor.licenseNumber || '',
+            specialization: doctor.specialization || '',
         });
         setModalOpen(true);
     };
@@ -100,16 +103,12 @@ export default function People() {
             <Table.Td>{doctor.specialization}</Table.Td>
             <Table.Td>
                 <Group>
-                    <Button 
-                        variant="subtle" 
-                        leftSection={<IconEdit size={14} />}
-                        onClick={() => handleEdit(doctor)}
-                    >
+                    <Button variant="subtle" leftSection={<IconEdit size={14} />} onClick={() => handleEdit(doctor)}>
                         Edit
                     </Button>
-                    <Button 
-                        variant="subtle" 
-                        color="red" 
+                    <Button
+                        variant="subtle"
+                        color="red"
                         leftSection={<IconTrash size={14} />}
                         onClick={() => handleDelete(doctor.id)}
                     >
@@ -132,14 +131,10 @@ export default function People() {
                 </Tabs.List>
 
                 <Tabs.Panel value={tabs[0].value}>
-                    <Button 
-                        leftSection={<IconPlus size={14} />}
-                        onClick={handleCreate}
-                        mb="md"
-                    >
+                    <Button leftSection={<IconPlus size={14} />} onClick={handleCreate} mb="md">
                         Create Doctor
                     </Button>
-                    
+
                     <Table>
                         <Table.Thead>
                             <Table.Tr>
@@ -151,9 +146,7 @@ export default function People() {
                                 <Table.Th>Actions</Table.Th>
                             </Table.Tr>
                         </Table.Thead>
-                        <Table.Tbody>
-                            {rows}
-                        </Table.Tbody>
+                        <Table.Tbody>{rows}</Table.Tbody>
                     </Table>
                 </Tabs.Panel>
 
@@ -162,42 +155,40 @@ export default function People() {
                 </Tabs.Panel>
             </Tabs>
 
-            <Modal 
-                opened={modalOpen} 
+            <Modal
+                opened={modalOpen}
                 onClose={() => setModalOpen(false)}
-                title={isCreate ? "Create Doctor" : "Edit Doctor"}
+                title={isCreate ? 'Create Doctor' : 'Edit Doctor'}
             >
                 <TextInput
                     label="Name"
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     mb="md"
                 />
                 <TextInput
-                    label="Email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    label="License Number"
+                    value={formData.licenseNumber}
+                    onChange={(e) => setFormData({ ...formData, licenseNumber: e.target.value })}
                     mb="md"
                 />
-                <TextInput
+                {/* <TextInput
                     label="Phone Number"
                     value={formData.phoneNumber}
                     onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
                     mb="md"
-                />
+                /> */}
                 <TextInput
                     label="Specialization"
                     value={formData.specialization}
-                    onChange={(e) => setFormData({...formData, specialization: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
                     mb="md"
                 />
                 <Group justify="flex-end" mt="md">
                     <Button variant="default" onClick={() => setModalOpen(false)}>
                         Cancel
                     </Button>
-                    <Button onClick={handleSubmit}>
-                        {isCreate ? "Create" : "Save"}
-                    </Button>
+                    <Button onClick={handleSubmit}>{isCreate ? 'Create' : 'Save'}</Button>
                 </Group>
             </Modal>
         </>

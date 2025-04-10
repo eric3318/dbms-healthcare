@@ -15,6 +15,7 @@ import org.dbms.dbmshealthcare.dto.SlotFilter;
 import org.dbms.dbmshealthcare.model.Appointment;
 import org.dbms.dbmshealthcare.model.Slot;
 import org.dbms.dbmshealthcare.repository.AppointmentRepository;
+import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.SlotRepository;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -92,12 +93,11 @@ public class AppointmentService {
     }
   }
 
-  public Appointment createAppointment(AppointmentCreateDto appointmentCreateDto)
-      throws ParseException {
+  public Appointment createAppointment(AppointmentCreateDto appointmentCreateDto) {
     Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     Map<String, Object> profile = jwt.getClaimAsMap("profile");
 
-    String patientId = (String) profile.get("id");
+    String patientId = (String) profile.get("role_id");
 
     String slotId = appointmentCreateDto.slotId();
     String visitReason = appointmentCreateDto.visitReason();
@@ -109,7 +109,7 @@ public class AppointmentService {
   public List<Slot> findSlots(SlotFilter filter) {
     Query query = buildQuery(filter);
     return slotRepository.findAll(query);
-}
+  }
 
   private Query buildQuery(SlotFilter filter) {
     Query query = new Query();

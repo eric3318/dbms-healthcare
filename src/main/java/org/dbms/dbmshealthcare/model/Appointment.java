@@ -2,7 +2,6 @@ package org.dbms.dbmshealthcare.model;
 
 import java.time.Instant;
 import lombok.Data;
-import lombok.NonNull;
 import org.dbms.dbmshealthcare.constants.AppointmentStatus;
 import org.dbms.dbmshealthcare.model.pojo.SlotDetails;
 import org.springframework.data.annotation.CreatedDate;

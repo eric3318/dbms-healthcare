@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,17 +16,19 @@ public class Doctor {
   @Id
   private String id;
 
-  @NotBlank
-  private String name;
+  private final String name;
 
-  @NotBlank
-  private String specialization;
+  @Field(name = "license_number")
+  @Indexed(unique = true)
+  private final String licenseNumber;
 
-  @NotBlank
-  private String email;
+  private final String specialization;
 
-  @NotBlank
-  private String phoneNumber;
+//  @NotBlank
+//  private String email;
+//
+//  @NotBlank
+//  private String phoneNumber;
 
   @Field(name = "user_id")
   private String userId;

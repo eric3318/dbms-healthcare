@@ -4,7 +4,7 @@ import useAuth from '../../../../../hooks/useAuth/useAuth';
 import { Table, Button, Stack } from '@mantine/core';
 import styles from './appointments.module.css';
 import { format } from 'date-fns';
-import { Slot } from '../../../../../lib/types';
+import { Appointment, Slot } from '../../../../../lib/types';
 
 const tableHeads = [
     {
@@ -43,7 +43,7 @@ const tableHeads = [
 
 export default function Appointments() {
     const { user } = useAuth();
-    const [appointments, setAppointments] = useState<Slot[]>([]);
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
 
     useEffect(() => {
         getAppointments();
@@ -88,32 +88,38 @@ export default function Appointments() {
                     <Table.Tbody>
                         {appointments.map((appointment) => (
                             <Table.Tr key={appointment.id}>
-                                <Table.Td>{format(new Date(appointment.startTime), 'MMM dd, yyyy')}</Table.Td>
+                                <Table.Td>
+                                    {format(new Date(appointment.slot?.startTime as string), 'MMM dd, yyyy')}
+                                </Table.Td>
                                 <Table.Td>{appointment.patient?.name}</Table.Td>
-                                <Table.Td>{format(new Date(appointment.startTime), 'HH:mm')}</Table.Td>
-                                <Table.Td>{format(new Date(appointment.endTime), 'HH:mm')}</Table.Td>
+                                <Table.Td>{format(new Date(appointment.slot?.startTime as string), 'HH:mm')}</Table.Td>
+                                <Table.Td>{format(new Date(appointment.slot?.endTime as string), 'HH:mm')}</Table.Td>
                                 <Table.Td>{appointment.status}</Table.Td>
-                                <Table.Td>{format(new Date(appointment.createdAt), 'yyyy-MM-dd HH:mm')}</Table.Td>
-                                <Table.Td>{format(new Date(appointment.updatedAt), 'yyyy-MM-dd HH:mm')}</Table.Td>
+                                <Table.Td>
+                                    {format(new Date(appointment.createdAt as string), 'yyyy-MM-dd HH:mm')}
+                                </Table.Td>
+                                <Table.Td>
+                                    {format(new Date(appointment.updatedAt as string), 'yyyy-MM-dd HH:mm')}
+                                </Table.Td>
 
                                 {appointment.status === 'PENDING_APPROVAL' && (
                                     <>
                                         <Table.Td>
-                                            <Stack>
-                                                <Button
-                                                    onClick={() => handleEditAppointment(appointment.id, 'APPROVED')}
-                                                    size="xs"
-                                                >
-                                                    Approve
-                                                </Button>
+                                            <Button
+                                                onClick={() => handleEditAppointment(appointment.id, 'APPROVED')}
+                                                size="xs"
+                                            >
+                                                Approve
+                                            </Button>
+                                        </Table.Td>
 
-                                                <Button
-                                                    onClick={() => handleEditAppointment(appointment.id, 'REJECTED')}
-                                                    size="xs"
-                                                >
-                                                    Reject
-                                                </Button>
-                                            </Stack>
+                                        <Table.Td>
+                                            <Button
+                                                onClick={() => handleEditAppointment(appointment.id, 'REJECTED')}
+                                                size="xs"
+                                            >
+                                                Reject
+                                            </Button>
                                         </Table.Td>
                                     </>
                                 )}

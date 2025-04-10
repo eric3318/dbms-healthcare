@@ -18,26 +18,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Document(collection = "users")
 @Data
-@RequiredArgsConstructor
 public class User implements UserDetails {
 
   @Id
   private String id;
 
-  private String name;
+  @Field(name = "role_id")
+  private final String roleId;
+
+  private final String name;
 
   @Indexed(unique = true)
-  private String email;
+  private final String email;
 
-  private String password;
+  private final String password;
 
   @Field(name = "date_of_birth")
-  private LocalDate dateOfBirth;
+  private final LocalDate dateOfBirth;
 
   @Field(name = "phone_number")
-  private String phoneNumber;
+  private final String phoneNumber;
 
-  private List<Role> roles;
+  private final List<Role> roles;
 
   @Field(name = "jwt_id")
   private String jwtId;

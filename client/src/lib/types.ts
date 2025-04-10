@@ -14,6 +14,8 @@ export type LoginParams = components['schemas']['UserLoginDto'];
 export type User = AuthResponse;
 export type RegisterParams = components['schemas']['UserCreateDto'];
 
+export type VerifyIdentityParams = components['schemas']['IdentityCheckDto'];
+
 export type Patient = components['schemas']['Patient'];
 export type Requisition = components['schemas']['Requisition'];
 
