@@ -17,7 +17,6 @@ const options: Record<string, Option[]> = {
         { label: 'Users', value: 'userManagement' },
         { label: 'Analytics', value: 'analytics' },
         { label: 'People', value: 'people' },
-        // { label: 'Role Management', value: 'roleManagement' },
     ],
     patient: [
         { label: 'Appointments', value: 'appointments' },

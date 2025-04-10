@@ -1,14 +1,15 @@
 import { createAppointment } from '../../utils/data';
 import { useState, useEffect } from 'react';
 import { Slot } from '../../lib/types';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { fetchSlots } from '../../utils/data';
 import SlotPicker from '../../components/SlotPicker/SlotPicker';
 import styles from './booking.module.css';
 import { Button, Text, Stack } from '@mantine/core';
 
 export default function Booking() {
-    const navigate = useNavigate();
+    const { state } = useLocation();
+    const { doctorId } = state;
 
     const [slots, setSlots] = useState<Slot[]>([]);
     const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
@@ -33,7 +34,7 @@ export default function Booking() {
 
     useEffect(() => {
         async function getData() {
-            const slots = await fetchSlots();
+            const slots = await fetchSlots({ doctorId });
             setSlots(slots);
         }
         getData();
