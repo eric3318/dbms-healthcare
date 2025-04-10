@@ -21,6 +21,12 @@ public class Doctor {
   @NotBlank
   private String specialization;
 
+  @NotBlank
+  private String email;
+
+  @NotBlank
+  private String phoneNumber;
+
   @Field(name = "user_id")
   private String userId;
 
