@@ -1,0 +1,26 @@
+.container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    background-color: var(--mantine-color-white);
+}
+
+.link {
+    color: black;
+    padding: 0 0;
+}
+
+.activeLink {
+    color: var(--mantine-color-red-9);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+}
+
+.link:hover {
+    color: var(--mantine-color-red-9);
+}

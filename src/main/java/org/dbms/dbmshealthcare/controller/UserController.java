@@ -1,5 +1,6 @@
 package org.dbms.dbmshealthcare.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.service.UserService;
@@ -26,5 +27,11 @@ public class UserController {
   public ResponseEntity<User> getUser(@PathVariable String id) {
     User user = userService.getUserById(id);
     return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+  }
+
+  @GetMapping
+  public ResponseEntity<List<User>> getUsers(){
+    List<User> users = userService.getUsers();
+    return ResponseEntity.ok(users);
   }
 }

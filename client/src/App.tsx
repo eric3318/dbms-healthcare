@@ -1,21 +1,69 @@
-import { createBrowserRouter, RouterProvider } from 'react-router';
-import { MantineProvider } from '@mantine/core';
-import Profile from './pages/Profile/Profile';
-import Home from './pages/Home/Home';
-import { Doctors } from './pages/Doctors';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import { MantineProvider } from '@mantine/core';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import Profile from './pages/Profile/Profile';
+import Home from './pages/Home/Home';
 import './App.css';
+import Root from './pages/Root/Root';
 import Auth from './pages/Auth/Auth';
-
+import OurTeam from './pages/OurTeam/OurTeam';
+import AuthProvider from './hooks/useAuth/AuthProvider';
+import Booking from './pages/Booking/Booking';
+import Information from './pages/Profile/Information/Information';
+import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Services from './pages/Services/Services';
+import ContactUs from './pages/ContactUs/ContactUs';
+import DoctorBooking from './pages/Doctors/DoctorBooking';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home />,
-    },
-    {
-        path: '/profile',
-        element: <Profile />,
+        Component: Root,
+        children: [
+            {
+                index: true,
+                Component: Home,
+            },
+            {
+                path: '/our-team',
+                Component: OurTeam,
+            },
+            {
+                path: '/services',
+                Component: Services,
+            },
+            {
+                path: '/contact-us',
+                Component: ContactUs,
+            },
+            {
+                path: '/dashboard',
+                Component: Dashboard,
+            },
+            {
+                path: '/doctor-booking',
+                Component: DoctorBooking,
+            },
+            {
+                path: '/booking/doctor/:doctorId',
+                Component: Booking,
+            },
+            {
+                path: '/profile',
+                Component: Profile,
+                children: [
+                    {
+                        path: 'personal-information',
+                        Component: Information,
+                    },
+                    {
+                        path: 'medical-history',
+                        Component: MedicalHistory,
+                    },
+                ],
+            },
+        ],
     },
     {
         path: '/signin',
@@ -25,16 +73,14 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Auth isSignIn={false} />,
     },
-    {
-        path: '/doctors',
-        element: <Doctors />,
-    },
 ]);
 
 function App() {
     return (
         <MantineProvider>
-            <RouterProvider router={router} />
+            <AuthProvider>
+                <RouterProvider router={router} />
+            </AuthProvider>
         </MantineProvider>
     );
 }

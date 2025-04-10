@@ -6,12 +6,18 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
 import org.dbms.dbmshealthcare.constants.Role;
+import org.dbms.dbmshealthcare.dto.IdentityCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
+import org.dbms.dbmshealthcare.model.Doctor;
+import org.dbms.dbmshealthcare.model.Patient;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
+import org.dbms.dbmshealthcare.repository.DoctorsRepository;
+import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.UserRepository;
 import org.dbms.dbmshealthcare.utils.JwtUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,47 +29,64 @@ public class AuthService {
 
   private final UserService userService;
   private final UserRepository userRepository;
+  private final PatientRepository patientRepository;
+  private final DoctorsRepository doctorsRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtUtils jwtUtils;
 
-  public User register(UserCreateDto userCreateDto) {
-    // todo: add check if user is doctor or patient from database
-    User user = new User();
-    user.setName(userCreateDto.name());
-    user.setEmail(userCreateDto.email());
-    user.setPassword(passwordEncoder.encode(userCreateDto.password()));
-    user.setDateOfBirth(userCreateDto.dateOfBirth());
-    user.setPhoneNumber(userCreateDto.phoneNumber());
-    user.setRoles(List.of(Role.PATIENT));
-    return userRepository.save(user);
+  public User register(String identity, String roleId, UserCreateDto userCreateDto) {
+    return userRepository.createUser(identity, roleId, userCreateDto);
+  }
+
+
+  public String verifyIdentity(IdentityCheckDto identityCheckDto) {
+    String licenseNumber = identityCheckDto.licenseNumber();
+    String personalHealthNumber = identityCheckDto.personalHealthNumber();
+    String name = identityCheckDto.name();
+
+    if (licenseNumber != null) {
+      Doctor doctor = doctorsRepository.findByLicenseNumber(licenseNumber);
+      if (doctor != null && name.equals(doctor.getName())) {
+        return doctor.getId();
+      }
+    } else if (personalHealthNumber != null) {
+      Patient patient = patientRepository.findByPersonalHealthNumber(personalHealthNumber);
+      if (patient != null && name.equals(patient.getName())) {
+        return patient.getId();
+      }
+    }
+
+    return null;
   }
 
   public TokenPair login(String email, String password, boolean rememberMe) throws Exception {
-    User user = userService.getUserByEmail(email);
+    User user = userService.loadUserByUsername(email);
     String hashedPassword = user.getPassword();
 
     if (!passwordEncoder.matches(password, hashedPassword)) {
       throw new RuntimeException("Invalid credentials");
     }
 
-    List<Role> roles = user.getRoles();
-
     Map<String, Object> claims = Map.of(
-        "roles", roles,
+        "roles", user.getRoles(),
         "profile", Map.of(
             "id", user.getId(),
+            "role_id", user.getRoleId(),
             "name", user.getName(),
-            "date_of_birth", user.getDateOfBirth().toString(),
-            "phone_number", user.getPhoneNumber()
+            "date_of_birth", user.getDateOfBirth().toString()
         )
     );
 
     TokenPair tokens = jwtUtils.generateToken(email, claims, rememberMe);
 
+    String jti = tokens.jti();
+
+    userService.updateUser(user.getId(), jti);
+
     return tokens;
   }
 
-  public String refreshToken(String refreshToken) {
+  public JWT refreshToken(String refreshToken) {
     try {
       JWT jwt = jwtUtils.decodeToken(refreshToken);
       JWTClaimsSet claimsSet = jwt.getJWTClaimsSet();
@@ -78,7 +101,7 @@ public class AuthService {
           "roles", claimsSet.getListClaim("roles"),
           "profile", claimsSet.getJSONObjectClaim("profile"));
 
-      String accessToken = jwtUtils.generateToken(email, claims,
+      JWT accessToken = jwtUtils.generateToken(email, claims,
           Date.from(Instant.now().plusSeconds(5 * 60)), JwtType.ACCESS);
 
       return accessToken;
@@ -88,7 +111,7 @@ public class AuthService {
   }
 
   private void verifyJwtId(String jwtId, String email) {
-    User user = userService.getUserByEmail(email);
+    User user = userService.loadUserByUsername(email);
 
     String jti = user.getJwtId();
 

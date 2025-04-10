@@ -1,0 +1,8 @@
+.container {
+    display: flex;
+    column-gap: var(--mantine-spacing-md);
+}
+
+.contentContainer {
+    overflow-x: scroll;
+}

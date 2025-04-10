@@ -21,9 +21,6 @@ public class Slot {
   @Field(name = "doctor_id")
   private String doctorId;
 
-  @Field(name = "patient_id")
-  private String patientId;
-
   @NotBlank
   @Field(name = "start_time")
   private LocalDateTime startTime;
@@ -33,9 +30,6 @@ public class Slot {
   private LocalDateTime endTime;
 
   private SlotStatus status = SlotStatus.AVAILABLE;
-
-  @Field(name = "is_reserved")
-  private boolean isReserved = false;
 
   @Field(name = "created_at")
   @CreatedDate

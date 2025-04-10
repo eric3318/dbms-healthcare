@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -16,18 +17,16 @@ public class Patient {
   @Id
   private String id;
 
-  @NotBlank
-  @Size(min=10, max=10, message = "Personal Health Number must be 10 digits long")
-  private String personalHealthNumber;
+  private final String name;
 
-  @NotBlank
-  private String address;
+  @Field(name = "personal_health_number")
+  @Indexed(unique = true)
+  private final String personalHealthNumber;
+
+  private final String address;
 
   @Field(name = "user_id")
   private String userId;
-
-  @Field(name = "doctor_id")
-  private String doctorId;
 
   @Field(name = "created_at")
   @CreatedDate
