@@ -1,35 +1,33 @@
 package org.dbms.dbmshealthcare.model;
 
-import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import lombok.Data;
-import org.dbms.dbmshealthcare.constants.SlotStatus;
+import lombok.NonNull;
+import org.dbms.dbmshealthcare.constants.AppointmentStatus;
+import org.dbms.dbmshealthcare.model.pojo.SlotDetails;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "slots")
+@Document(collection = "appointments")
 @Data
-public class Slot {
+public class Appointment {
   @Id
   private String id;
 
-  @NotBlank
+  @Field(name = "patient_id")
+  private final String patientId;
+
   @Field(name = "doctor_id")
-  private String doctorId;
+  private final String doctorId;
 
-  @NotBlank
-  @Field(name = "start_time")
-  private LocalDateTime startTime;
+  private final SlotDetails slot;
 
-  @NotBlank
-  @Field(name = "end_time")
-  private LocalDateTime endTime;
+  private final String visitReason;
 
-  private SlotStatus status = SlotStatus.AVAILABLE;
+  private AppointmentStatus status = AppointmentStatus.PENDING_APPROVAL;
 
   @Field(name = "created_at")
   @CreatedDate
@@ -38,4 +36,5 @@ public class Slot {
   @Field(name = "updated_at")
   @LastModifiedDate
   private Instant updatedAt;
+
 }

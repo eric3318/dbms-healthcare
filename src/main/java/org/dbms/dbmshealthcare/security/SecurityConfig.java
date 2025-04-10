@@ -43,7 +43,7 @@ public class SecurityConfig {
       throws Exception {
     http
         .securityMatcher(new OrRequestMatcher(
-//            new AntPathRequestMatcher("/api/appointments/**"),
+            new AntPathRequestMatcher("/api/appointments/**"),
 //            new AntPathRequestMatcher("/api/users/**"),
             new AntPathRequestMatcher("/auth/me")
         ))
