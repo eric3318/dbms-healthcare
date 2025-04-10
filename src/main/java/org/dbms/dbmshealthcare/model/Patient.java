@@ -17,23 +17,16 @@ public class Patient {
   @Id
   private String id;
 
-  @NotBlank
   private final String name;
 
-  @NotBlank
-  @Size(min=10, max=10, message = "Personal Health Number must be 10 digits long")
   @Field(name = "personal_health_number")
   @Indexed(unique = true)
-  private String personalHealthNumber;
+  private final String personalHealthNumber;
 
-  @NotBlank
-  private String address;
+  private final String address;
 
   @Field(name = "user_id")
   private String userId;
-
-  @Field(name = "doctor_id")
-  private String doctorId;
 
   @Field(name = "created_at")
   @CreatedDate
