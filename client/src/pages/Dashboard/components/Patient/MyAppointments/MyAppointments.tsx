@@ -20,7 +20,7 @@ export default function MyAppointments() {
 
     const getAppointments = async () => {
         const appointments = await fetchAppointments({
-            patientId: user?.profile?.id,
+            patientId: user?.profile?.role_id,
         });
         setAppointments(appointments);
     };

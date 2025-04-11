@@ -16,8 +16,6 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Services from './pages/Services/Services';
 import ContactUs from './pages/ContactUs/ContactUs';
 import DoctorBooking from './pages/Doctors/DoctorBooking';
-import MedicalRecordPage from './pages/MedicalRecord/MedicalRecordPage';
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -48,12 +46,8 @@ const router = createBrowserRouter([
                 Component: DoctorBooking,
             },
             {
-                path: '/booking/doctor/:doctorId',
+                path: '/booking',
                 Component: Booking,
-            },
-            {
-                path: '/medical-record/:id',
-                Component: MedicalRecordPage,
             },
             {
                 path: '/profile',

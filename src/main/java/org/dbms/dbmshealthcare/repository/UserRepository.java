@@ -2,6 +2,7 @@ package org.dbms.dbmshealthcare.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.Role;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
 import org.dbms.dbmshealthcare.model.Doctor;
@@ -11,6 +12,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +21,14 @@ public class UserRepository extends BaseMongoRepository<User> {
 
   private final PatientRepository patientRepository;
   private final DoctorsRepository doctorRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public UserRepository(MongoTemplate template, PatientRepository patientRepository,
-      DoctorsRepository doctorsRepository) {
+      DoctorsRepository doctorsRepository, PasswordEncoder passwordEncoder) {
     super(template, User.class);
     this.doctorRepository = doctorsRepository;
     this.patientRepository = patientRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public User findByEmail(String email) {
@@ -57,7 +61,7 @@ public class UserRepository extends BaseMongoRepository<User> {
         roleId,
         name,
         userCreateDto.email(),
-        userCreateDto.password(),
+        passwordEncoder.encode(userCreateDto.password()),
         userCreateDto.dateOfBirth(),
         userCreateDto.phoneNumber(),
         roles
