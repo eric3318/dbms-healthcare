@@ -18,17 +18,17 @@ export default function RequisitionResults() {
     const fetchRequisitions = async () => {
         try {
             setLoading(true);
-            // 在实际应用中，这里应该根据医生ID获取相关的病例记录，然后获取相关的检验申请
-            // 目前我们使用模拟数据
+            // In a real application, fetch medical records based on doctor ID, then get related requisitions
+            // Currently using mock data
             
-            // 模拟API调用延迟
+            // Simulate API call delay
             await new Promise(resolve => setTimeout(resolve, 500));
             
-            // 这里应该是实际API调用
+            // This should be the actual API call
             // const response = await fetch(`${API_URL}/requisitions?status=Completed`);
             // const data = await response.json();
             
-            // 模拟数据
+            // Mock data
             const mockData: Requisition[] = [
                 {
                     id: 'req-1',
