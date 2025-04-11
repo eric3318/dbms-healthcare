@@ -8,52 +8,19 @@ const API_URL = import.meta.env.VITE_API_URL;
 // Doctor Availability Analysis - Based on Slots
 const doctorAvailabilityAggregation = `[
   {
-    "$group": {
-      "_id": "$doctorId",
-      "slotCount": { "$sum": 1 },
-      "slots": {
-        "$push": {
-          "startTime": "$startTime",
-          "endTime": "$endTime"
-        }
-      }
-    }
-  },
-  {
-    "$addFields": {
-      "totalMinutes": {
-        "$sum": {
-          "$map": {
-            "input": "$slots",
-            "as": "slot",
-            "in": {
-              "$divide": [
-                {
-                  "$subtract": [
-                    { "$dateFromString": { "dateString": "$$slot.endTime" } },
-                    { "$dateFromString": { "dateString": "$$slot.startTime" } }
-                  ]
-                },
-                60000
-              ]
-            }
-          }
-        }
-      }
+    "$match": {
+      "status": "AVAILABLE"
     }
   },
   {
     "$lookup": {
       "from": "doctors",
-      "let": { "docId": { "$substr": ["$_id", 4, -1] } },
+      "let": { "doctorId": "$doctor_id" },
       "pipeline": [
         {
           "$match": {
             "$expr": { 
-              "$eq": [
-                { "$toString": { "$indexOfArray": [["1", "2", "3", "4", "5"], "$$docId"] } },
-                { "$toString": { "$subtract": [{ "$indexOfArray": [["1", "2", "3", "4", "5"], "$$docId"] }, 0] } }
-              ]
+              "$eq": ["$_id", { "$toObjectId": "$$doctorId" }]
             }
           }
         }
@@ -62,14 +29,51 @@ const doctorAvailabilityAggregation = `[
     }
   },
   {
+    "$group": {
+      "_id": "$doctor_id",
+      "doctorInfo": { "$first": "$doctorInfo" },
+      "slotCount": { "$sum": 1 },
+      "totalMinutes": {
+        "$sum": {
+          "$divide": [
+            {
+              "$subtract": [
+                "$end_time",
+                "$start_time"
+              ]
+            },
+            60000
+          ]
+        }
+      }
+    }
+  },
+  {
     "$project": {
       "_id": 0,
       "doctorId": "$_id",
-      "doctorName": { "$ifNull": [{ "$arrayElemAt": ["$doctorInfo.name", 0] }, "Unknown Doctor"] },
-      "specialization": { "$ifNull": [{ "$arrayElemAt": ["$doctorInfo.specialization", 0] }, "Unknown Specialization"] },
+      "doctorName": {
+        "$cond": {
+          "if": { "$gt": [{ "$size": "$doctorInfo" }, 0] },
+          "then": { "$arrayElemAt": ["$doctorInfo.name", 0] },
+          "else": "Unknown Doctor"
+        }
+      },
+      "specialization": {
+        "$cond": {
+          "if": { "$gt": [{ "$size": "$doctorInfo" }, 0] },
+          "then": { "$arrayElemAt": ["$doctorInfo.specialization", 0] },
+          "else": "Unknown Specialization"
+        }
+      },
       "slotCount": 1,
       "totalFreeMinutes": { "$round": ["$totalMinutes", 0] },
-      "totalFreeHours": { "$round": [{ "$divide": ["$totalMinutes", 60] }, 1] }
+      "totalFreeHours": { 
+        "$round": [
+          { "$divide": ["$totalMinutes", 60] },
+          1
+        ]
+      }
     }
   },
   {
@@ -81,15 +85,17 @@ const doctorAvailabilityAggregation = `[
 const criticalIndexesScript = `{
   "slots_compound": {
     "collection": "slots",
+    "operation": "createIndex",
     "keys": { 
-      "doctorId": 1,
-      "startTime": 1,
-      "endTime": 1
+      "doctor_id": 1,
+      "start_time": 1,
+      "end_time": 1,
+      "status": 1
     },
     "options": { 
-      "name": "doctor_availability_index",
+      "name": "doctor_availability_index_v2",
       "background": true,
-      "description": "Optimizes doctor availability queries by indexing doctorId and time slots"
+      "description": "Optimizes doctor availability queries by indexing doctor_id, time slots and status"
     }
   }
 }`;
@@ -284,7 +290,7 @@ export default function Analytics() {
                             <Text size="sm">
                                 This optimization provides:
                                 <ul>
-                                    <li>Faster doctor availability lookups by creating a compound index on doctorId and time slots</li>
+                                    <li>Faster doctor availability lookups by creating a compound index on doctor_id and time slots</li>
                                     <li>Efficient time range queries for slot availability</li>
                                     <li>Optimized aggregation pipeline performance</li>
                                     <li>Reduced database load during peak hours</li>
@@ -338,7 +344,7 @@ export default function Analytics() {
                                     <Alert title="Optimization Details" color="blue" mb="md">
                                         The compound index on slots collection optimizes doctor availability queries by:
                                         <ul>
-                                            <li>Efficiently filtering slots by doctorId</li>
+                                            <li>Efficiently filtering slots by doctor_id</li>
                                             <li>Quick access to time-based slot data</li>
                                             <li>Supporting the aggregation pipeline used in availability analysis</li>
                                         </ul>
