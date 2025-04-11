@@ -96,7 +96,7 @@
 
 7. Configure the connection uri in `application.yaml` to use your own Mongo credentials
 8. Switch off security temporarily
-   `In backend code /src/main/java/org/dbms/dbmshealthcare/service/SecurityConfig.java`
+   `In backend code /src/main/java/org/dbms/dbmshealthcare/security/SecurityConfig.java`
    `and /src/main/java/org/dbms/dbmshealthcare/controller/AuthController.java`
    `comment out code as instructed`
 9. Run the backend:  
