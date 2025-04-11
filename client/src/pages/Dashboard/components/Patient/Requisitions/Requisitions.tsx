@@ -19,17 +19,17 @@ export default function Requisitions() {
     const fetchRequisitions = async () => {
         try {
             setLoading(true);
-            // 在实际应用中，这里应该根据患者ID获取相关的检验申请
-            // 目前我们使用模拟数据
+            // In a real application, fetch requisitions based on patient ID
+            // Currently using mock data
             
-            // 模拟API调用延迟
+            // Simulate API call delay
             await new Promise(resolve => setTimeout(resolve, 500));
             
-            // 这里应该是实际API调用
+            // This should be the actual API call
             // const response = await fetch(`${API_URL}/requisitions?patientId=${user.id}`);
             // const data = await response.json();
             
-            // 模拟数据
+            // Mock data
             const mockData: Requisition[] = [
                 {
                     id: 'req-1',
@@ -116,9 +116,9 @@ export default function Requisitions() {
         return <Text>Loading your lab tests...</Text>;
     }
 
-    // 按状态和日期排序
+    // Sort by status and date
     const sortedRequisitions = [...requisitions].sort((a, b) => {
-        // 首先按状态排序：Pending, Pending_result, Completed
+        // First sort by status: Pending, Pending_result, Completed
         const statusOrder: Record<string, number> = {
             'Pending': 0,
             'Pending_result': 1,
@@ -132,7 +132,7 @@ export default function Requisitions() {
             return statusOrder[statusA] - statusOrder[statusB];
         }
         
-        // 然后按请求日期排序（最新的在前面）
+        // Then sort by request date (newest first)
         const dateA = new Date(a.requestedAt || '');
         const dateB = new Date(b.requestedAt || '');
         return dateB.getTime() - dateA.getTime();
