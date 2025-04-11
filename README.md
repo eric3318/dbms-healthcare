@@ -27,7 +27,10 @@
   --replSet rs0 
   --auth 
   --keyFile /etc/mongo-keyfile`
-4. `docker exec -it mongodb mongosh -u user -p pass --authenticationDatabase admin`
+4. Connect to the mongodb container, initiate replica set and switch to healthcare db  
+`docker exec -it mongodb mongosh -u user -p pass --authenticationDatabase admin`
+`rs.initiate()`
+`use healthcare`
 5. Create the roles
    ```javascript
    db.createRole({
