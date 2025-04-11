@@ -763,6 +763,7 @@
         "updatedAt": "2025-04-03T13:45:00Z"
       }
     ]
+<<<<<<< HEAD
   },
   "medical_records": {
     "apiResource": true,
@@ -1008,5 +1009,7 @@
         "updatedAt": "2025-04-01T28:30:00Z"
       }  
     ]
+=======
+>>>>>>> temp-main
   }
 }

@@ -174,8 +174,14 @@ export default function People() {
         <Table.Tr key={doctor.id}>
             {/* <Table.Td>{doctor.userId}</Table.Td> */}
             <Table.Td>{doctor.name}</Table.Td>
+<<<<<<< HEAD
             <Table.Td>{doctor.email}</Table.Td>
             <Table.Td>{doctor.phoneNumber}</Table.Td>
+=======
+            <Table.Td>{doctor.licenseNumber}</Table.Td>
+            {/* <Table.Td>{doctor.email}</Table.Td>
+            <Table.Td>{doctor.phoneNumber}</Table.Td> */}
+>>>>>>> temp-main
             <Table.Td>{doctor.specialization}</Table.Td>
             <Table.Td>
                 <Group>
@@ -244,8 +250,14 @@ export default function People() {
                             <Table.Tr>
                                 {/* <Table.Th>User ID</Table.Th> */}
                                 <Table.Th>Name</Table.Th>
+<<<<<<< HEAD
                                 <Table.Th>Email</Table.Th>
                                 <Table.Th>Phone</Table.Th>
+=======
+                                {/* <Table.Th>Email</Table.Th>
+                                <Table.Th>Phone</Table.Th> */}
+                                <Table.Th>License Number</Table.Th>
+>>>>>>> temp-main
                                 <Table.Th>Specialization</Table.Th>
                                 <Table.Th>Actions</Table.Th>
                             </Table.Tr>
@@ -344,4 +356,8 @@ export default function People() {
             </Modal>
         </>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> temp-main

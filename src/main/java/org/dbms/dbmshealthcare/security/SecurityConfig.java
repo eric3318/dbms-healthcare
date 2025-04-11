@@ -43,8 +43,7 @@ public class SecurityConfig {
       throws Exception {
     http
         .securityMatcher(new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/appointments/**"),
-//            new AntPathRequestMatcher("/api/users/**"),
+            new AntPathRequestMatcher("/api/**"),
             new AntPathRequestMatcher("/auth/me")
         ))
         .csrf(AbstractHttpConfigurer::disable)

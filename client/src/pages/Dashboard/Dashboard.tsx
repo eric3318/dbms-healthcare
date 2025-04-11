@@ -46,8 +46,12 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (userRoles) {
+<<<<<<< HEAD
             // setSelectedRole(userRoles[0].toLowerCase());
             setSelectedRole('admin');
+=======
+            setSelectedRole(userRoles[0].toLowerCase());
+>>>>>>> temp-main
             setActiveOption(options[userRoles[0].toLowerCase()][0].value);
         }
     }, [userRoles]);
@@ -72,4 +76,8 @@ export default function Dashboard() {
             </div>
         </div>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> temp-main

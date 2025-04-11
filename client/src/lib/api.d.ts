@@ -386,7 +386,10 @@ export interface components {
     schemas: {
         PatientUpdateDto: {
             address?: string;
+<<<<<<< HEAD
             doctorId?: string;
+=======
+>>>>>>> temp-main
         };
         Patient: {
             id?: string;
@@ -394,7 +397,10 @@ export interface components {
             personalHealthNumber?: string;
             address?: string;
             userId?: string;
+<<<<<<< HEAD
             doctorId?: string;
+=======
+>>>>>>> temp-main
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -450,9 +456,15 @@ export interface components {
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             enabled?: boolean;
+<<<<<<< HEAD
             credentialsNonExpired?: boolean;
             accountNonLocked?: boolean;
             accountNonExpired?: boolean;
+=======
+            accountNonExpired?: boolean;
+            accountNonLocked?: boolean;
+            credentialsNonExpired?: boolean;
+>>>>>>> temp-main
         };
         UserLoginDto: {
             email?: string;
@@ -501,10 +513,16 @@ export interface components {
             reportedAt?: string;
         };
         PatientCreateDto: {
+<<<<<<< HEAD
             personalHealthNumber?: string;
             address?: string;
             userId?: string;
             doctorId?: string;
+=======
+            name?: string;
+            personalHealthNumber?: string;
+            address?: string;
+>>>>>>> temp-main
         };
         DoctorCreateDto: {
             name?: string;

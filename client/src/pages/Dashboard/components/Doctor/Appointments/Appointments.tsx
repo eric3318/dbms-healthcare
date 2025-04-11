@@ -142,4 +142,8 @@ export default function Appointments() {
             </div>
         </>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> temp-main
