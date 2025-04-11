@@ -27,7 +27,12 @@ export default function VerificationForm({ onVerificationSuccess }: Verification
     });
 
     const handleSubmit = async (values: FormValues) => {
-        const success = await verifyIdentity(values);
+        const payload = {
+            name: values.name,
+            ...(identityType === 'patient' && { personalHealthNumber: values.personalHealthNumber }),
+            ...(identityType === 'practitioner' && { licenseNumber: values.licenseNumber }),
+        };
+        const success = await verifyIdentity(payload);
         if (success) {
             onVerificationSuccess();
         }
@@ -75,14 +80,6 @@ export default function VerificationForm({ onVerificationSuccess }: Verification
                     {...form.getInputProps('licenseNumber')}
                 />
             )}
-
-            {/* <DateInput
-                label="Date of birth"
-                placeholder="Date of birth"
-                withAsterisk
-                key={form.key('dateOfBirth')}
-                {...form.getInputProps('dateOfBirth')}
-            /> */}
 
             <Button type="submit">Submit</Button>
         </form>
