@@ -42,7 +42,7 @@ const DoctorBooking = () => {
   const handleBookAppointment = (doctor: Doctor) => {
     // Navigate to slot selection page with the doctor's userId instead of id
     if (doctor.userId) {
-      navigate(`/booking/doctor/${doctor.userId}`);
+      navigate(`/booking/doctor/${doctor.id}`);
     } else {
       console.error("Doctor has no userId", doctor);
       setError("Cannot book appointment - doctor data is incomplete");
