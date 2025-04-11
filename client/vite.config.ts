@@ -9,4 +9,7 @@ export default defineConfig({
             '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
         },
     },
+    optimizeDeps: {
+        exclude: ['@mantine/core', '@mantine/hooks']
+    }
 });
