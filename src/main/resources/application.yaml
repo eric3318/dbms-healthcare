@@ -3,10 +3,6 @@ spring:
     name: "dbms-healthcare"
   data:
     mongodb:
-<<<<<<< HEAD
-      uri: mongodb://localhost:27017/healthcare
-      auto-index-creation: true
-=======
       uri: mongodb://user:pass@localhost:27017/healthcare?authSource=admin
       auto-index-creation: true
       admin:
@@ -15,7 +11,6 @@ spring:
         uri: mongodb://doctor_user:doctor_pass@localhost:27017/healthcare?authSource=healthcare
       patient:
         uri: mongodb://patient_user:patient_pass@localhost:27017/healthcare?authSource=healthcare
->>>>>>> temp-main
 
 server:
   max-http-request-header-size: 65536

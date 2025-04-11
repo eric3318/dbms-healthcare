@@ -85,11 +85,7 @@ const DoctorBooking = () => {
                                 <p>
                                     <strong>Specialty:</strong> {doctor.specialization}
                                 </p>
-<<<<<<< HEAD
-                                {doctor.email && (
-=======
                                 {/* {doctor.email && (
->>>>>>> temp-main
                                     <p>
                                         <strong>Email:</strong> {doctor.email}
                                     </p>
@@ -98,11 +94,7 @@ const DoctorBooking = () => {
                                     <p>
                                         <strong>Phone:</strong> {doctor.phoneNumber}
                                     </p>
-<<<<<<< HEAD
-                                )}
-=======
                                 )} */}
->>>>>>> temp-main
                                 <p className="debug-info">
                                     <small>User ID: {doctor.userId || 'N/A'}</small>
                                 </p>
@@ -128,8 +120,4 @@ const DoctorBooking = () => {
     );
 };
 
-<<<<<<< HEAD
 export default DoctorBooking;
-=======
-export default DoctorBooking;
->>>>>>> temp-main
