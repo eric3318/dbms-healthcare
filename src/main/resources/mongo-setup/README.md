@@ -58,7 +58,7 @@ db.createRole({
     { resource: { db: "healthcare", collection: "patients" }, actions: ["find", "update"] },
     { resource: { db: "healthcare", collection: "doctors" }, actions: ["find"] },
     { resource: { db: "healthcare", collection: "appointments" }, actions: ["find", "insert", "update"] },
-    { resource: { db: "healthcare", collection: "slots" }, actions: ["find"] },
+    { resource: { db: "healthcare", collection: "slots" }, actions: ["find", "update"] },
     { resource: { db: "healthcare", collection: "requisitions" }, actions: ["find"] }
   ],
   roles: []

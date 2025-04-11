@@ -62,6 +62,71 @@ async function createUser(entry) {
   }
 }
 
+async function getAllDoctors() {
+  try {
+    const res = await client.get(`${API_URL}/doctors`, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (res.status !== 200) {
+      throw new Error(`Failed to get doctors: ${res.status}`);
+    }
+
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch doctors:', err.message);
+    return [];
+  }
+}
+
+async function generateSlotsForDoctor(doctor, slotTemplates) {
+  // We'll use the example data as a pattern for time slots
+  const createdSlots = [];
+  const slotsPerDoctor = 20;
+  
+  // Create slotsPerDoctor slots for each doctor
+  for (let i = 0; i < slotsPerDoctor; i++) {
+    // Use the slot templates as patterns, cycling through them if needed
+    const templateIndex = i % slotTemplates.length;
+    const slotTemplate = slotTemplates[templateIndex];
+    
+    // Generate a new date for this slot, offset by the slot index
+    // This ensures each slot has a unique date even when using the same template
+    const baseDate = new Date(slotTemplate.startTime);
+    const newStartDate = new Date(baseDate);
+    // Add i days to the base date to create different dates
+    newStartDate.setDate(baseDate.getDate() + i);
+    
+    const startTime = newStartDate.toISOString();
+    
+    // Calculate end time (30 minutes later)
+    const newEndDate = new Date(newStartDate);
+    newEndDate.setMinutes(newEndDate.getMinutes() + 30);
+    const endTime = newEndDate.toISOString();
+    
+    const slot = {
+      doctorId: doctor.id,
+      startTime: startTime,
+      endTime: endTime
+    };
+    
+    try {
+      const res = await client.post(`${API_URL}/slots`, slot, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (res.status === 200 || res.status === 201) {
+        createdSlots.push(slot);
+        console.log(`Created slot ${i+1}/20 for doctor ${doctor.name} (ID: ${doctor.id}) at ${startTime}`);
+      }
+    } catch (err) {
+      console.error(`Failed to create slot ${i+1}/20 for doctor ${doctor.name} (ID: ${doctor.id}):`, err.message);
+    }
+  }
+  
+  return createdSlots;
+}
+
 (async () => {
   await insertResource('patients', data.patients);
   await insertResource('doctors', data.doctors);
@@ -84,4 +149,24 @@ async function createUser(entry) {
     userIdx++;
   }
 
+  // Query all doctors and create slots using templates from example data
+  console.log('Querying all doctors...');
+  const doctors = await getAllDoctors();
+  console.log(`Found ${doctors.length} doctors`);
+  
+  if (doctors.length > 0 && data.slots && data.slots.entries) {
+    console.log('Creating 20 slots for each doctor...');
+    const slotTemplates = data.slots.entries;
+    
+    let totalCreatedSlots = 0;
+    for (const doctor of doctors) {
+      console.log(`Creating slots for doctor: ${doctor.name} (ID: ${doctor.id})`);
+      const doctorSlots = await generateSlotsForDoctor(doctor, slotTemplates);
+      totalCreatedSlots += doctorSlots.length;
+    }
+    
+    console.log(`Created a total of ${totalCreatedSlots} slots for ${doctors.length} doctors`);
+  } else {
+    console.log('No doctors found or no slot templates available');
+  }
 })();
