@@ -1,7 +1,9 @@
 package org.dbms.dbmshealthcare.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record PatientUpdateDto(
-    String address,
-    String doctorId
+    @NotBlank
+    String address
 ) {
 } 

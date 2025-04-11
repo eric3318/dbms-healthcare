@@ -5,15 +5,13 @@ import jakarta.validation.constraints.Size;
 
 public record PatientCreateDto(
     @NotBlank
+    String name,
+
+    @NotBlank
     @Size(min=10, max=10, message = "Personal Health Number must be 10 digits long")
     String personalHealthNumber,
     
     @NotBlank
-    String address,
-    
-    @NotBlank
-    String userId,
-    
-    String doctorId
-) {
+    String address
+    ) {
 } 

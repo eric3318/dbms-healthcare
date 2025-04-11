@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth/useAuth';
 
 type FormValues = {
-    name?: string;
     email: string;
     password: string;
     confirmPassword?: string;
@@ -27,7 +26,7 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
         initialValues: {
             email: '',
             password: '',
-            ...(!isSignIn && { name: '', confirmPassword: '', dateOfBirth: '', phoneNumber: '' }),
+            ...(!isSignIn && { confirmPassword: '', dateOfBirth: '', phoneNumber: '' }),
         },
         validate: {
             confirmPassword: (value, values) =>
@@ -47,7 +46,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
             }
         } else {
             const registerSuccess = await register({
-                name: values.name,
                 email: values.email,
                 password: values.password,
                 dateOfBirth: values.dateOfBirth,
@@ -70,34 +68,6 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                 {...form.getInputProps('email')}
             />
 
-            {!isSignIn && (
-                <>
-                    <TextInput
-                        withAsterisk
-                        label="Name"
-                        placeholder="Enter your name"
-                        key={form.key('name')}
-                        {...form.getInputProps('name')}
-                    />
-
-                    <DateInput
-                        label="Date of birth"
-                        placeholder="Date of birth"
-                        withAsterisk
-                        key={form.key('dateOfBirth')}
-                        {...form.getInputProps('dateOfBirth')}
-                    />
-
-                    <TextInput
-                        withAsterisk
-                        label="Phone number"
-                        placeholder="Enter your phone number"
-                        key={form.key('phoneNumber')}
-                        {...form.getInputProps('phoneNumber')}
-                    />
-                </>
-            )}
-
             <PasswordInput
                 withAsterisk
                 label="Password"
@@ -108,22 +78,38 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
             />
 
             {!isSignIn && (
-                <PasswordInput
-                    withAsterisk
-                    label="Confirm Password"
-                    placeholder="Confirm your password"
-                    type="password"
-                    key={form.key('confirmPassword')}
-                    {...form.getInputProps('confirmPassword')}
-                    styles={(theme) => ({
-                        input: {
-                            '&:focus': {
-                                color: theme.colors.red[6],
-                                borderColor: theme.colors.red[6],
+                <>
+                    <PasswordInput
+                        withAsterisk
+                        label="Confirm Password"
+                        placeholder="Confirm your password"
+                        type="password"
+                        key={form.key('confirmPassword')}
+                        {...form.getInputProps('confirmPassword')}
+                        styles={(theme) => ({
+                            input: {
+                                '&:focus': {
+                                    color: theme.colors.red[6],
+                                    borderColor: theme.colors.red[6],
+                                },
                             },
-                        },
-                    })}
-                />
+                        })}
+                    />{' '}
+                    <DateInput
+                        label="Date of birth"
+                        placeholder="Date of birth"
+                        withAsterisk
+                        key={form.key('dateOfBirth')}
+                        {...form.getInputProps('dateOfBirth')}
+                    />
+                    <TextInput
+                        withAsterisk
+                        label="Phone number"
+                        placeholder="Enter your phone number"
+                        key={form.key('phoneNumber')}
+                        {...form.getInputProps('phoneNumber')}
+                    />
+                </>
             )}
 
             <Button type="submit" radius={'md'}>

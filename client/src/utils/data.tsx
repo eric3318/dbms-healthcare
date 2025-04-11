@@ -8,6 +8,9 @@ import {
     LoginParams,
     RegisterParams,
     User,
+    UpdateAppointmentParams,
+    AppointmentFilter,
+    VerifyIdentityParams,
 } from '../lib/types';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -36,7 +39,29 @@ export async function createAppointment(params: CreateAppointmentParams): Promis
     }
 }
 
-export async function fetchAppointments(params?: SlotFilter): Promise<GetAppointmentsResponse | []> {
+export async function updateAppointment(id: string, params: UpdateAppointmentParams): Promise<boolean> {
+    try {
+        const res = await fetch(`${API_URL}/appointments/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to update appointment');
+        }
+
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+}
+
+export async function fetchAppointments(params?: AppointmentFilter): Promise<GetAppointmentsResponse | []> {
     try {
         const res = await fetch(`${API_URL}/appointments?${params ? new URLSearchParams(params) : ''}`, {
             credentials: 'include',
@@ -55,7 +80,7 @@ export async function fetchAppointments(params?: SlotFilter): Promise<GetAppoint
     }
 }
 
-export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse | null> {
+export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse> {
     try {
         const res = await fetch(`${API_URL}/slots?${params ? new URLSearchParams(params) : ''}`, {
             credentials: 'include',
@@ -70,26 +95,8 @@ export async function fetchSlots(params?: SlotFilter): Promise<GetSlotsResponse 
         return data;
     } catch (err) {
         console.error(err);
-        return null;
+        return [];
     }
-}
-
-export async function fetchSlotsByDoctorUserId(userId: string): Promise<GetSlotsResponse | null> {
-  try {
-      const res = await fetch(`${API_URL}/doctor/${userId}`, {
-          credentials: 'include',
-      });
-
-      if (!res.ok) {
-          throw new Error(`Failed to fetch slots for doctor: ${res.status}`);
-      }
-
-      const data: GetSlotsResponse = await res.json();
-      return data;
-  } catch (err) {
-      console.error('Error fetching slots by doctor ID:', err);
-      return null;
-  }
 }
 
 export async function checkAuth(): Promise<AuthResponse | null> {
@@ -118,6 +125,27 @@ export async function checkAuth(): Promise<AuthResponse | null> {
     }
 }
 
+export async function verifyIdentity(params: VerifyIdentityParams): Promise<boolean> {
+    try {
+        const res = await fetch(`${AUTH_URL}/identity`, {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to verify identity');
+        }
+
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+}
 type AuthErrorResponse = {
     status: 'unauthorized';
     code: 0 | 1;
@@ -225,6 +253,7 @@ export async function register(params: RegisterParams): Promise<boolean> {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
         });
 
         if (!res.ok) {

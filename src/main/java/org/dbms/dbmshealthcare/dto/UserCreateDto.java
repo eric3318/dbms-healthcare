@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public record UserCreateDto(
-    @NotBlank String name,
     @NotBlank @Email String email,
     @Size(min = 8) @NotBlank String password,
     @Size(min = 10, max = 12) @NotBlank String phoneNumber,

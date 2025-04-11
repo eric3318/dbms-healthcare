@@ -3,14 +3,14 @@ import { format } from 'date-fns';
 import { fetchAppointments } from '../../../../../utils/data';
 import { useEffect, useState } from 'react';
 import { cancelAppointment } from '../../../../../utils/data';
-import { Slot } from '../../../../../lib/types';
+import { Appointment } from '../../../../../lib/types';
 import { Badge } from '@mantine/core';
 import { Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import useAuth from '../../../../../hooks/useAuth/useAuth';
 
 export default function MyAppointments() {
-    const [appointments, setAppointments] = useState<Slot[]>([]);
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [opened, { open, close }] = useDisclosure(false);
     const { user } = useAuth();
 
@@ -20,7 +20,7 @@ export default function MyAppointments() {
 
     const getAppointments = async () => {
         const appointments = await fetchAppointments({
-            patientId: user?.profile?.id,
+            patientId: user?.profile?.role_id,
         });
         setAppointments(appointments);
     };
@@ -44,17 +44,17 @@ export default function MyAppointments() {
                     <Stack gap="md">
                         <Group justify="space-between">
                             <Text>Date</Text>
-                            <Text>{format(new Date(appointment.startTime), 'MMM dd, yyyy')}</Text>
+                            <Text>{format(new Date(appointment.slot?.startTime as string), 'MMM dd, yyyy')}</Text>
                         </Group>
 
                         <Group justify="space-between">
                             <Text>Start Time</Text>
-                            <Text>{format(new Date(appointment.startTime), 'HH:mm')}</Text>
+                            <Text>{format(new Date(appointment.slot?.startTime as string), 'HH:mm')}</Text>
                         </Group>
 
                         <Group justify="space-between">
                             <Text>End Time</Text>
-                            <Text>{format(new Date(appointment.endTime), 'HH:mm')}</Text>
+                            <Text>{format(new Date(appointment.slot?.endTime as string), 'HH:mm')}</Text>
                         </Group>
 
                         <Group justify="space-between">
@@ -86,7 +86,7 @@ export default function MyAppointments() {
                             variant="light"
                             color="red"
                             disabled={appointment.status === 'CANCELLED'}
-                            onClick={() => handleCancelAppointment(appointment.id)}
+                            onClick={() => handleCancelAppointment(appointment.id as string)}
                         >
                             Cancel
                         </Button>

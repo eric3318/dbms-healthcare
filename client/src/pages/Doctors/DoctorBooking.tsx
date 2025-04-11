@@ -1,116 +1,123 @@
 import { useEffect, useState } from 'react';
-import { 
-  Doctor, 
-  getAllDoctors
-} from '../../utils/doctors';
+import { Doctor, getAllDoctors } from '../../utils/doctors';
 import { useNavigate } from 'react-router-dom';
 import './DoctorBooking.css';
 
 const DoctorBooking = () => {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [specialtyFilter, setSpecialtyFilter] = useState<string>('');
-  const [specialties, setSpecialties] = useState<string[]>([]);
-  
-  const navigate = useNavigate();
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [specialtyFilter, setSpecialtyFilter] = useState<string>('');
+    const [specialties, setSpecialties] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchDoctors = async () => {
-      try {
-        setLoading(true);
-        const data = await getAllDoctors();
-        setDoctors(data || []);
-        
-        // Extract unique specialties for the filter
-        const uniqueSpecialties = Array.from(
-          new Set((data || []).map(doctor => doctor.specialization || '').filter(specialty => specialty))
-        );
-        setSpecialties(uniqueSpecialties);
-        
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load doctors. Please try again later.');
-        setLoading(false);
-        console.error('Error fetching doctors:', err);
-      }
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            try {
+                setLoading(true);
+                const data = await getAllDoctors();
+                setDoctors(data || []);
+
+                // Extract unique specialties for the filter
+                const uniqueSpecialties = Array.from(
+                    new Set((data || []).map((doctor) => doctor.specialization || '').filter((specialty) => specialty)),
+                );
+                setSpecialties(uniqueSpecialties);
+
+                setLoading(false);
+            } catch (err) {
+                setError('Failed to load doctors. Please try again later.');
+                setLoading(false);
+                console.error('Error fetching doctors:', err);
+            }
+        };
+
+        fetchDoctors();
+    }, []);
+
+    const handleBookAppointment = (doctor: Doctor) => {
+        navigate('/booking', {
+            state: {
+                doctorId: doctor.id,
+            },
+        });
     };
 
-    fetchDoctors();
-  }, []);
+    const filteredDoctors = specialtyFilter
+        ? doctors.filter((doctor) => doctor.specialization === specialtyFilter)
+        : doctors;
 
-  const handleBookAppointment = (doctor: Doctor) => {
-    // Navigate to slot selection page with the doctor's userId instead of id
-    if (doctor.userId) {
-      navigate(`/booking/doctor/${doctor.id}`);
-    } else {
-      console.error("Doctor has no userId", doctor);
-      setError("Cannot book appointment - doctor data is incomplete");
+    if (loading) {
+        return <div className="loading">Loading doctors...</div>;
     }
-  };
 
-  const filteredDoctors = specialtyFilter 
-    ? doctors.filter(doctor => doctor.specialization === specialtyFilter)
-    : doctors;
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
 
-  if (loading) {
-    return <div className="loading">Loading doctors...</div>;
-  }
+    return (
+        <div className="doctor-booking-container">
+            <h2>Book an Appointment</h2>
 
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
-
-  return (
-    <div className="doctor-booking-container">
-      <h2>Book an Appointment</h2>
-      
-      <div className="filter-section">
-        <label htmlFor="specialty-filter">Filter by Specialty:</label>
-        <select 
-          id="specialty-filter"
-          value={specialtyFilter}
-          onChange={(e) => setSpecialtyFilter(e.target.value)}
-        >
-          <option value="">All Specialties</option>
-          {specialties.map(specialty => (
-            <option key={specialty} value={specialty}>
-              {specialty}
-            </option>
-          ))}
-        </select>
-      </div>
-      
-      <div className="doctors-grid">
-        {filteredDoctors.length > 0 ? (
-          filteredDoctors.map(doctor => (
-            <div key={doctor.id} className="doctor-card">
-              <h3>{doctor.name}</h3>
-              <div className="doctor-info">
-                <p><strong>Specialty:</strong> {doctor.specialization}</p>
-                {doctor.email && <p><strong>Email:</strong> {doctor.email}</p>}
-                {doctor.phoneNumber && <p><strong>Phone:</strong> {doctor.phoneNumber}</p>}
-                <p className="debug-info"><small>User ID: {doctor.userId || 'N/A'}</small></p>
-              </div>
-              <button 
-                className="book-button"
-                onClick={() => handleBookAppointment(doctor)}
-                disabled={!doctor.userId}
-              >
-                Book Appointment
-              </button>
+            <div className="filter-section">
+                <label htmlFor="specialty-filter">Filter by Specialty:</label>
+                <select
+                    id="specialty-filter"
+                    value={specialtyFilter}
+                    onChange={(e) => setSpecialtyFilter(e.target.value)}
+                >
+                    <option value="">All Specialties</option>
+                    {specialties.map((specialty) => (
+                        <option key={specialty} value={specialty}>
+                            {specialty}
+                        </option>
+                    ))}
+                </select>
             </div>
-          ))
-        ) : (
-          <p className="no-doctors">
-            {specialtyFilter 
-              ? `No doctors found with specialty: ${specialtyFilter}` 
-              : 'No doctors available at the moment.'}
-          </p>
-        )}
-      </div>
-    </div>
-  );
+
+            <div className="doctors-grid">
+                {filteredDoctors.length > 0 ? (
+                    filteredDoctors.map((doctor) => (
+                        <div key={doctor.id} className="doctor-card">
+                            <h3>{doctor.name}</h3>
+                            <div className="doctor-info">
+                                <p>
+                                    <strong>Specialty:</strong> {doctor.specialization}
+                                </p>
+                                {doctor.email && (
+                                    <p>
+                                        <strong>Email:</strong> {doctor.email}
+                                    </p>
+                                )}
+                                {doctor.phoneNumber && (
+                                    <p>
+                                        <strong>Phone:</strong> {doctor.phoneNumber}
+                                    </p>
+                                )}
+                                <p className="debug-info">
+                                    <small>User ID: {doctor.userId || 'N/A'}</small>
+                                </p>
+                            </div>
+                            <button
+                                className="book-button"
+                                onClick={() => handleBookAppointment(doctor)}
+                                // disabled={!doctor.userId}
+                            >
+                                Book Appointment
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-doctors">
+                        {specialtyFilter
+                            ? `No doctors found with specialty: ${specialtyFilter}`
+                            : 'No doctors available at the moment.'}
+                    </p>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default DoctorBooking;

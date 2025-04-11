@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class DoctorsService {
-  
+
   private final DoctorsRepository doctorsRepository;
   private final MongoClient mongoClient;
   private final MongoTemplate mongoTemplate;
@@ -31,40 +31,35 @@ public class DoctorsService {
     this.mongoClient = mongoClient;
     this.mongoTemplate = mongoTemplate;
   }
-  
+
   // CREATE operation
   public Doctor createDoctor(DoctorCreateDto doctorCreateDto) {
-    Doctor doctor = new Doctor();
-    doctor.setUserId(doctorCreateDto.userId());
-    doctor.setName(doctorCreateDto.name());
-    doctor.setSpecialization(doctorCreateDto.specialization());
-    doctor.setEmail(doctorCreateDto.email());
-    doctor.setPhoneNumber(doctorCreateDto.phoneNumber());
-    
+    Doctor doctor = new Doctor(doctorCreateDto.name(), doctorCreateDto.licenseNumber(),
+        doctorCreateDto.specialization());
     return doctorsRepository.save(doctor);
   }
-  
+
   // READ operations
   public List<Doctor> getAllDoctors() {
     return doctorsRepository.findAll();
   }
-  
+
   public Doctor getDoctorById(String id) {
     return doctorsRepository.findById(id);
   }
-  
+
   public Doctor getDoctorByUserId(String userId) {
     return doctorsRepository.findByUserId(userId);
   }
-  
+
   // UPDATE operation
   public Doctor updateDoctor(String id, DoctorUpdateDto doctorUpdateDto) {
     Update update = new Update();
-    
+
     if (doctorUpdateDto.name() != null) {
       update.set("name", doctorUpdateDto.name());
     }
-    
+
     if (doctorUpdateDto.specialization() != null) {
       update.set("specialization", doctorUpdateDto.specialization());
     }
@@ -76,7 +71,7 @@ public class DoctorsService {
     if (doctorUpdateDto.phoneNumber() != null) {
       update.set("phoneNumber", doctorUpdateDto.phoneNumber());
     }
-    
+
     return doctorsRepository.update(id, update);
   }
   

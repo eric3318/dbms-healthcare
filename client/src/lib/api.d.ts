@@ -108,22 +108,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/pre-check": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["verifyIdentity"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/auth/me": {
         parameters: {
             query?: never;
@@ -154,6 +138,22 @@ export interface paths {
          * @description Authenticates a user and returns access and refresh tokens as HTTP-only cookies.
          */
         post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/identity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["verifyIdentity"];
         delete?: never;
         options?: never;
         head?: never;
@@ -364,14 +364,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/doctor/{doctorId}": {
+    "/api/doctor/{userId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["getSlotsByDoctorId"];
+        get: operations["getSlotsByDoctorUserId"];
         put?: never;
         post?: never;
         delete?: never;
@@ -390,6 +390,7 @@ export interface components {
         };
         Patient: {
             id?: string;
+            name?: string;
             personalHealthNumber?: string;
             address?: string;
             userId?: string;
@@ -408,9 +409,8 @@ export interface components {
         Doctor: {
             id?: string;
             name?: string;
+            licenseNumber?: string;
             specialization?: string;
-            email?: string;
-            phoneNumber?: string;
             userId?: string;
             /** Format: date-time */
             createdAt?: string;
@@ -419,10 +419,10 @@ export interface components {
         };
         AppointmentUpdateDto: {
             /** @enum {string} */
-            status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            visitReason?: string;
         };
         UserCreateDto: {
-            name?: string;
             email?: string;
             password?: string;
             phoneNumber?: string;
@@ -434,6 +434,7 @@ export interface components {
         };
         User: {
             id?: string;
+            roleId?: string;
             name?: string;
             email?: string;
             password?: string;
@@ -448,37 +449,34 @@ export interface components {
             updatedAt?: string;
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
-            accountNonExpired?: boolean;
-            accountNonLocked?: boolean;
-            credentialsNonExpired?: boolean;
             enabled?: boolean;
-        };
-        UserCreateCheckDto: {
-            name?: string;
-            personalHealthNumber?: string;
-            /** Format: date */
-            dateOfBirth?: string;
+            credentialsNonExpired?: boolean;
+            accountNonLocked?: boolean;
+            accountNonExpired?: boolean;
         };
         UserLoginDto: {
             email?: string;
             password?: string;
             rememberMe?: boolean;
         };
+        IdentityCheckDto: {
+            name?: string;
+            personalHealthNumber?: string;
+            licenseNumber?: string;
+        };
         Slot: {
             id?: string;
             doctorId?: string;
-            patientId?: string;
             /** Format: date-time */
             startTime?: string;
             /** Format: date-time */
             endTime?: string;
             /** @enum {string} */
-            status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "AVAILABLE" | "BOOKED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
-            reserved?: boolean;
         };
         RequisitionCreateDto: {
             medicalRecordId?: string;
@@ -509,26 +507,51 @@ export interface components {
             doctorId?: string;
         };
         DoctorCreateDto: {
-            userId?: string;
             name?: string;
             specialization?: string;
-            email?: string;
-            phoneNumber?: string;
+            licenseNumber?: string;
         };
         AppointmentCreateDto: {
             slotId?: string;
+            visitReason?: string;
+        };
+        Appointment: {
+            id?: string;
             patientId?: string;
+            doctorId?: string;
+            slot?: components["schemas"]["SlotDetails"];
+            visitReason?: string;
+            /** @enum {string} */
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        SlotDetails: {
+            /** Format: date-time */
+            startTime?: string;
+            /** Format: date-time */
+            endTime?: string;
         };
         SlotFilter: {
             doctorId?: string;
-            patientId?: string;
             /** Format: date-time */
             from?: string;
             /** Format: date-time */
             to?: string;
-            isReserved?: boolean;
             /** @enum {string} */
-            status?: "AVAILABLE" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "AVAILABLE" | "BOOKED";
+        };
+        AppointmentFilter: {
+            patientId?: string;
+            doctorId?: string;
+            /** Format: date-time */
+            from?: string;
+            /** Format: date-time */
+            to?: string;
+            /** @enum {string} */
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
         };
     };
     responses: never;
@@ -692,7 +715,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Slot"];
+                    "*/*": components["schemas"]["Appointment"];
                 };
             };
         };
@@ -789,30 +812,6 @@ export interface operations {
             };
         };
     };
-    verifyIdentity: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserCreateCheckDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": Record<string, never>;
-                };
-            };
-        };
-    };
     me: {
         parameters: {
             query?: never;
@@ -853,6 +852,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": string;
+                };
+            };
+        };
+    };
+    verifyIdentity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityCheckDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
                 };
             };
         };
@@ -1041,7 +1064,7 @@ export interface operations {
     getAppointments: {
         parameters: {
             query: {
-                filter: components["schemas"]["SlotFilter"];
+                filter: components["schemas"]["AppointmentFilter"];
             };
             header?: never;
             path?: never;
@@ -1055,7 +1078,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Slot"][];
+                    "*/*": components["schemas"]["Appointment"][];
                 };
             };
         };
@@ -1079,7 +1102,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Slot"];
+                    "*/*": components["schemas"]["Appointment"];
                 };
             };
         };
@@ -1234,12 +1257,12 @@ export interface operations {
             };
         };
     };
-    getSlotsByDoctorId: {
+    getSlotsByDoctorUserId: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                doctorId: string;
+                userId: string;
             };
             cookie?: never;
         };

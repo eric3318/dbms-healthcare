@@ -2,9 +2,9 @@ package org.dbms.dbmshealthcare.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record DoctorCreateDto(
+
+public record IdentityCheckDto(
     @NotBlank String name,
-    @NotBlank String specialization,
-    @NotBlank String licenseNumber
-) {
-} 
+    String personalHealthNumber,
+    String licenseNumber) {
+}

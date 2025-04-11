@@ -105,502 +105,460 @@
       }
     ]
   },
-
   "users": {
     "apiResource": false,
     "endpoint": "register",
     "entries": [
       {
-        "name": "Alice Johnson",
         "email": "alice1@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0001",
         "dateOfBirth": "1990-01-01"
       },
       {
-        "name": "Bob Smith",
         "email": "bob2@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0002",
         "dateOfBirth": "1991-02-02"
       },
       {
-        "name": "Cathy Brown",
         "email": "cathy3@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0003",
         "dateOfBirth": "1992-03-03"
       },
       {
-        "name": "Dan White",
         "email": "dan4@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0004",
         "dateOfBirth": "1993-04-04"
       },
       {
-        "name": "Ella Black",
         "email": "ella5@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0005",
         "dateOfBirth": "1994-05-05"
       },
       {
-        "name": "Frank Green",
         "email": "frank6@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0006",
         "dateOfBirth": "1995-06-06"
       },
       {
-        "name": "Grace Lee",
         "email": "grace7@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0007",
         "dateOfBirth": "1996-07-07"
       },
       {
-        "name": "Henry King",
         "email": "henry8@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0008",
         "dateOfBirth": "1997-08-08"
       },
       {
-        "name": "Isla Reed",
         "email": "isla9@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0009",
         "dateOfBirth": "1998-09-09"
       },
       {
-        "name": "Jack Moss",
         "email": "jack10@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0010",
         "dateOfBirth": "1999-10-10"
       },
       {
-        "name": "Kara Dean",
         "email": "kara11@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0011",
         "dateOfBirth": "1980-11-11"
       },
       {
-        "name": "Leo Fox",
         "email": "leo12@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0012",
         "dateOfBirth": "1981-12-12"
       },
       {
-        "name": "Mia Nash",
         "email": "mia13@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0013",
         "dateOfBirth": "1982-01-13"
       },
       {
-        "name": "Noah Hart",
         "email": "noah14@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0014",
         "dateOfBirth": "1983-02-14"
       },
       {
-        "name": "Olivia Wood",
         "email": "olivia15@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0015",
         "dateOfBirth": "1984-03-15"
       },
       {
-        "name": "Paul Ray",
         "email": "paul16@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0016",
         "dateOfBirth": "1985-04-16"
       },
       {
-        "name": "Quinn Bell",
         "email": "quinn17@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0017",
         "dateOfBirth": "1986-05-17"
       },
       {
-        "name": "Ruby Stone",
         "email": "ruby18@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0018",
         "dateOfBirth": "1987-06-18"
       },
       {
-        "name": "Sam Young",
         "email": "sam19@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0019",
         "dateOfBirth": "1988-07-19"
       },
       {
-        "name": "Tina Vale",
         "email": "tina20@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0020",
         "dateOfBirth": "1989-08-20"
+      },
+      {
+        "email": "uma21@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0021",
+        "dateOfBirth": "1990-09-21"
+      },
+      {
+        "email": "victor22@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0022",
+        "dateOfBirth": "1991-10-22"
+      },
+      {
+        "email": "wendy23@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0023",
+        "dateOfBirth": "1992-11-23"
+      },
+      {
+        "email": "xavier24@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0024",
+        "dateOfBirth": "1993-12-24"
+      },
+      {
+        "email": "yara25@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0025",
+        "dateOfBirth": "1994-01-25"
+      },
+      {
+        "email": "zack26@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0026",
+        "dateOfBirth": "1995-02-26"
+      },
+      {
+        "email": "amy27@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0027",
+        "dateOfBirth": "1996-03-27"
+      },
+      {
+        "email": "ben28@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0028",
+        "dateOfBirth": "1997-04-28"
+      },
+      {
+        "email": "cara29@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0029",
+        "dateOfBirth": "1998-05-29"
+      },
+      {
+        "email": "dean30@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0030",
+        "dateOfBirth": "1999-06-30"
+      },
+      {
+        "email": "eva31@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0031",
+        "dateOfBirth": "1980-07-31"
+      },
+      {
+        "email": "finn32@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0032",
+        "dateOfBirth": "1981-08-01"
+      },
+      {
+        "email": "gina33@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0033",
+        "dateOfBirth": "1982-09-02"
+      },
+      {
+        "email": "hans34@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0034",
+        "dateOfBirth": "1983-10-03"
+      },
+      {
+        "email": "ida35@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0035",
+        "dateOfBirth": "1984-11-04"
+      },
+      {
+        "email": "jake36@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0036",
+        "dateOfBirth": "1985-12-05"
+      },
+      {
+        "email": "kate37@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0037",
+        "dateOfBirth": "1986-01-06"
+      },
+      {
+        "email": "luke38@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0038",
+        "dateOfBirth": "1987-02-07"
+      },
+      {
+        "email": "macy39@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0039",
+        "dateOfBirth": "1988-03-08"
+      },
+      {
+        "email": "nick40@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0040",
+        "dateOfBirth": "1989-04-09"
       }
     ]
   },
   "doctors": {
     "apiResource": true,
     "endpoint": "doctors",
-    "entries":
-      [
-        {
-          "name": "Dr. Smith",
-          "specialization": "Cardiology",
-          "userId": "doc-1",
-          "email": "smith@healthcare.com",
-          "phoneNumber": "555-123-4001",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Chen",
-          "specialization": "Dermatology",
-          "userId": "doc-2",
-          "email": "chen@healthcare.com",
-          "phoneNumber": "555-123-4002",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Patel",
-          "specialization": "Neurology",
-          "userId": "doc-3",
-          "email": "patel@healthcare.com",
-          "phoneNumber": "555-123-4003",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Lopez",
-          "specialization": "Pediatrics",
-          "userId": "doc-4",
-          "email": "lopez@healthcare.com",
-          "phoneNumber": "555-123-4004",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Taylor",
-          "specialization": "Oncology",
-          "userId": "doc-5",
-          "email": "taylor@healthcare.com",
-          "phoneNumber": "555-123-4005",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Ahmed",
-          "specialization": "Endocrinology",
-          "userId": "doc-6",
-          "email": "ahmed@healthcare.com",
-          "phoneNumber": "555-123-4006",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Nguyen",
-          "specialization": "Psychiatry",
-          "userId": "doc-7",
-          "email": "nguyen@healthcare.com",
-          "phoneNumber": "555-123-4007",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Kim",
-          "specialization": "Orthopedics",
-          "userId": "doc-8",
-          "email": "kim@healthcare.com",
-          "phoneNumber": "555-123-4008",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Martine",
-          "specialization": "Ophthalmology",
-          "userId": "doc-9",
-          "email": "martinez@healthcare.com",
-          "phoneNumber": "555-123-4009",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Brown",
-          "specialization": "ENT",
-          "userId": "doc-10",
-          "email": "brown@healthcare.com",
-          "phoneNumber": "555-123-4010",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Davis",
-          "specialization": "Nephrology",
-          "userId": "doc-11",
-          "email": "davis@healthcare.com",
-          "phoneNumber": "555-123-4011",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Singh",
-          "specialization": "Hematology",
-          "userId": "doc-12",
-          "email": "singh@healthcare.com",
-          "phoneNumber": "555-123-4012",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Wilson",
-          "specialization": "Pulmonology",
-          "userId": "doc-13",
-          "email": "wilson@healthcare.com",
-          "phoneNumber": "555-123-4013",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Lee 14",
-          "specialization": "Rheumatology",
-          "userId": "doc-14",
-          "email": "lee@healthcare.com",
-          "phoneNumber": "555-123-4014",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Garcia",
-          "specialization": "Gastroenterology",
-          "userId": "doc-15",
-          "email": "garcia@healthcare.com",
-          "phoneNumber": "555-123-4015",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Thomas",
-          "specialization": "Urology",
-          "userId": "doc-16",
-          "email": "thomas@healthcare.com",
-          "phoneNumber": "555-123-4016",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. White",
-          "specialization": "Infectious Disease",
-          "userId": "doc-17",
-          "email": "white@healthcare.com",
-          "phoneNumber": "555-123-4017",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Allen",
-          "specialization": "Allergy & Immunology",
-          "userId": "doc-18",
-          "email": "allen@healthcare.com",
-          "phoneNumber": "555-123-4018",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Clark",
-          "specialization": "General Medicine",
-          "userId": "doc-19",
-          "email": "clark@healthcare.com",
-          "phoneNumber": "555-123-4019",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        },
-        {
-          "name": "Dr. Evans",
-          "specialization": "Anesthesiology",
-          "userId": "doc-20",
-          "email": "evans@healthcare.com", 
-          "phoneNumber": "555-123-4020",
-          "createdAt": "2025-04-01T10:00:00Z",
-          "updatedAt": "2025-04-01T10:00:00Z"
-        }
+    "entries": [
+      {
+        "name": "Dr. Smith",
+        "specialization": "Cardiology",
+        "licenseNumber": "1234567890"
+      },
+      {
+        "name": "Dr. Chen",
+        "specialization": "Dermatology",
+        "licenseNumber": "1234567891"
+      },
+      {
+        "name": "Dr. Patel",
+        "specialization": "Neurology",
+        "licenseNumber": "1234567892"
+      },
+      {
+        "name": "Dr. Lopez",
+        "specialization": "Pediatrics",
+        "licenseNumber": "1234567893"
+      },
+      {
+        "name": "Dr. Taylor",
+        "specialization": "Oncology",
+        "licenseNumber": "1234567894"
+      },
+      {
+        "name": "Dr. Ahmed",
+        "specialization": "Endocrinology",
+        "licenseNumber": "1234567895"
+      },
+      {
+        "name": "Dr. Nguyen",
+        "specialization": "Psychiatry",
+        "licenseNumber": "1234567896"
+      },
+      {
+        "name": "Dr. Kim",
+        "specialization": "Orthopedics",
+        "licenseNumber": "1234567897"
+      },
+      {
+        "name": "Dr. Martine",
+        "specialization": "Ophthalmology",
+        "licenseNumber": "1234567898"
+      },
+      {
+        "name": "Dr. Brown",
+        "specialization": "ENT",
+        "licenseNumber": "1234567899"
+      },
+      {
+        "name": "Dr. Davis",
+        "specialization": "Nephrology",
+        "licenseNumber": "1234567900"
+      },
+      {
+        "name": "Dr. Singh",
+        "specialization": "Hematology",
+        "licenseNumber": "1234567901"
+      },
+      {
+        "name": "Dr. Wilson",
+        "specialization": "Pulmonology",
+        "licenseNumber": "1234567902"
+      },
+      {
+        "name": "Dr. Lee 14",
+        "specialization": "Rheumatology",
+        "licenseNumber": "1234567903"
+      },
+      {
+        "name": "Dr. Garcia",
+        "specialization": "Gastroenterology",
+        "licenseNumber": "1234567904"
+      },
+      {
+        "name": "Dr. Thomas",
+        "specialization": "Urology",
+        "licenseNumber": "1234567905"
+      },
+      {
+        "name": "Dr. White",
+        "specialization": "Infectious Disease",
+        "licenseNumber": "1234567906"
+      },
+      {
+        "name": "Dr. Allen",
+        "specialization": "Allergy & Immunology",
+        "licenseNumber": "1234567907"
+      },
+      {
+        "name": "Dr. Clark",
+        "specialization": "General Medicine",
+        "licenseNumber": "1234567908"
+      },
+      {
+        "name": "Dr. Evans",
+        "specialization": "Anesthesiology",
+        "licenseNumber": "1234567909"
+      }
     ]
   },
   "patients": {
     "apiResource": true,
     "entries": [
       {
+        "name": "Alice Johnson",
         "personalHealthNumber": "1234567890",
-        "address": "123 Main St, Seattle, WA 98101",
-        "userId": "user-1",
-        "doctorId": "doc-1",
-        "createdAt": "2025-03-15T09:30:00Z",
-        "updatedAt": "2025-03-15T09:30:00Z"
+        "address": "123 Main St, Seattle, WA 98101"
       },
       {
+        "name": "Bob Smith",
         "personalHealthNumber": "2345678901",
-        "address": "456 Oak Ave, Portland, OR 97201",
-        "userId": "user-2",
-        "doctorId": "doc-2",
-        "createdAt": "2025-03-16T10:15:00Z",
-        "updatedAt": "2025-03-16T10:15:00Z"
+        "address": "456 Oak Ave, Portland, OR 97201"
       },
       {
+        "name": "Cathy Davis",
         "personalHealthNumber": "3456789012",
-        "address": "789 Pine Rd, San Francisco, CA 94102",
-        "userId": "user-3",
-        "doctorId": "doc-3",
-        "createdAt": "2025-03-17T11:20:00Z",
-        "updatedAt": "2025-03-17T11:20:00Z"
+        "address": "789 Pine Rd, San Francisco, CA 94102"
       },
       {
+        "name": "Dan Wilson",
         "personalHealthNumber": "4567890123",
-        "address": "101 Maple Blvd, Los Angeles, CA 90001",
-        "userId": "user-4",
-        "doctorId": "doc-4",
-        "createdAt": "2025-03-18T09:45:00Z",
-        "updatedAt": "2025-03-18T09:45:00Z"
+        "address": "101 Maple Blvd, Los Angeles, CA 90001"
       },
       {
+        "name": "Emma Brown",
         "personalHealthNumber": "5678901234",
-        "address": "202 Cedar Ln, San Diego, CA 92101",
-        "userId": "user-5",
-        "doctorId": "doc-5",
-        "createdAt": "2025-03-19T14:30:00Z",
-        "updatedAt": "2025-03-19T14:30:00Z"
+        "address": "202 Cedar Ln, San Diego, CA 92101"
       },
       {
+        "name": "Frank Miller",
         "personalHealthNumber": "6789012345",
-        "address": "303 Birch St, Las Vegas, NV 89101",
-        "userId": "user-6",
-        "doctorId": "doc-1",
-        "createdAt": "2025-03-20T15:15:00Z",
-        "updatedAt": "2025-03-20T15:15:00Z"
+        "address": "303 Birch St, Las Vegas, NV 89101"
       },
       {
+        "name": "Grace Lee",
         "personalHealthNumber": "7890123456",
-        "address": "404 Redwood Dr, Phoenix, AZ 85001",
-        "userId": "user-7",
-        "doctorId": "doc-2",
-        "createdAt": "2025-03-21T13:10:00Z",
-        "updatedAt": "2025-03-21T13:10:00Z"
+        "address": "404 Redwood Dr, Phoenix, AZ 85001"
       },
       {
+        "name": "Henry Garcia",
         "personalHealthNumber": "8901234567",
-        "address": "505 Cherry Ave, Denver, CO 80201",
-        "userId": "user-8",
-        "doctorId": "doc-3",
-        "createdAt": "2025-03-22T10:45:00Z",
-        "updatedAt": "2025-03-22T10:45:00Z"
+        "address": "505 Cherry Ave, Denver, CO 80201"
       },
       {
+        "name": "Iris Chen",
         "personalHealthNumber": "9012345678",
-        "address": "606 Spruce Ct, Austin, TX 78701",
-        "userId": "user-9",
-        "doctorId": "doc-4",
-        "createdAt": "2025-03-23T16:20:00Z",
-        "updatedAt": "2025-03-23T16:20:00Z"
+        "address": "606 Spruce Ct, Austin, TX 78701"
       },
       {
+        "name": "Jack Taylor",
         "personalHealthNumber": "0123456789",
-        "address": "707 Willow Way, Dallas, TX 75201",
-        "userId": "user-10",
-        "doctorId": "doc-5",
-        "createdAt": "2025-03-24T11:30:00Z",
-        "updatedAt": "2025-03-24T11:30:00Z"
+        "address": "707 Willow Way, Dallas, TX 75201"
       },
       {
+        "name": "Karen White",
         "personalHealthNumber": "1122334455",
-        "address": "808 Elm St, Chicago, IL 60601",
-        "userId": "user-11",
-        "doctorId": "doc-1",
-        "createdAt": "2025-03-25T09:15:00Z",
-        "updatedAt": "2025-03-25T09:15:00Z"
+        "address": "808 Elm St, Chicago, IL 60601"
       },
       {
+        "name": "Leo Martinez",
         "personalHealthNumber": "2233445566",
-        "address": "909 Walnut Ave, New York, NY 10001",
-        "userId": "user-12",
-        "doctorId": "doc-2",
-        "createdAt": "2025-03-26T14:45:00Z",
-        "updatedAt": "2025-03-26T14:45:00Z"
+        "address": "909 Walnut Ave, New York, NY 10001"
       },
       {
+        "name": "Maria Rodriguez",
         "personalHealthNumber": "3344556677",
-        "address": "110 Peach Blvd, Miami, FL 33101",
-        "userId": "user-13",
-        "doctorId": "doc-3",
-        "createdAt": "2025-03-27T10:30:00Z",
-        "updatedAt": "2025-03-27T10:30:00Z"
+        "address": "110 Peach Blvd, Miami, FL 33101"
       },
       {
+        "name": "Nathan Kim",
         "personalHealthNumber": "4455667788",
-        "address": "211 Magnolia Ct, Atlanta, GA 30301",
-        "userId": "user-14",
-        "doctorId": "doc-4",
-        "createdAt": "2025-03-28T11:20:00Z",
-        "updatedAt": "2025-03-28T11:20:00Z"
+        "address": "211 Magnolia Ct, Atlanta, GA 30301"
       },
       {
+        "name": "Olivia Anderson",
         "personalHealthNumber": "5566778899",
-        "address": "312 Juniper Ln, Boston, MA 02101",
-        "userId": "user-15",
-        "doctorId": "doc-5",
-        "createdAt": "2025-03-29T13:40:00Z",
-        "updatedAt": "2025-03-29T13:40:00Z"
+        "address": "312 Juniper Ln, Boston, MA 02101"
       },
       {
+        "name": "Paul Thomas",
         "personalHealthNumber": "6677889900",
-        "address": "413 Cypress Dr, Detroit, MI 48201",
-        "userId": "user-16",
-        "doctorId": "doc-1",
-        "createdAt": "2025-03-30T09:50:00Z",
-        "updatedAt": "2025-03-30T09:50:00Z"
+        "address": "413 Cypress Dr, Detroit, MI 48201"
       },
       {
+        "name": "Quinn Lopez",
         "personalHealthNumber": "7788990011",
-        "address": "514 Poplar Ave, Nashville, TN 37201",
-        "userId": "user-17",
-        "doctorId": "doc-2",
-        "createdAt": "2025-03-31T15:25:00Z",
-        "updatedAt": "2025-03-31T15:25:00Z"
+        "address": "514 Poplar Ave, Nashville, TN 37201"
       },
       {
+        "name": "Rachel Clark",
         "personalHealthNumber": "8899001122",
-        "address": "615 Sycamore Way, Philadelphia, PA 19101",
-        "userId": "user-18",
-        "doctorId": "doc-3",
-        "createdAt": "2025-04-01T10:10:00Z",
-        "updatedAt": "2025-04-01T10:10:00Z"
+        "address": "615 Sycamore Way, Philadelphia, PA 19101"
       },
       {
+        "name": "Steve Johnson",
         "personalHealthNumber": "9900112233",
-        "address": "716 Aspen St, Minneapolis, MN 55401",
-        "userId": "user-19",
-        "doctorId": "doc-4",
-        "createdAt": "2025-04-02T16:35:00Z",
-        "updatedAt": "2025-04-02T16:35:00Z"
+        "address": "716 Aspen St, Minneapolis, MN 55401"
       },
       {
+        "name": "Tina Patel",
         "personalHealthNumber": "0011223344",
-        "address": "817 Beech Rd, Salt Lake City, UT 84101",
-        "userId": "user-20",
-        "doctorId": "doc-5",
-        "createdAt": "2025-04-03T11:05:00Z",
-        "updatedAt": "2025-04-03T11:05:00Z"
+        "address": "817 Beech Rd, Salt Lake City, UT 84101"
       }
     ]
   },
