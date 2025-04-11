@@ -364,32 +364,12 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/doctor/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getSlotsByDoctorUserId"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         PatientUpdateDto: {
             address?: string;
-<<<<<<< HEAD
-            doctorId?: string;
-=======
->>>>>>> temp-main
         };
         Patient: {
             id?: string;
@@ -397,10 +377,6 @@ export interface components {
             personalHealthNumber?: string;
             address?: string;
             userId?: string;
-<<<<<<< HEAD
-            doctorId?: string;
-=======
->>>>>>> temp-main
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -456,15 +432,9 @@ export interface components {
             username?: string;
             authorities?: components["schemas"]["GrantedAuthority"][];
             enabled?: boolean;
-<<<<<<< HEAD
-            credentialsNonExpired?: boolean;
-            accountNonLocked?: boolean;
-            accountNonExpired?: boolean;
-=======
             accountNonExpired?: boolean;
             accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
->>>>>>> temp-main
         };
         UserLoginDto: {
             email?: string;
@@ -513,16 +483,9 @@ export interface components {
             reportedAt?: string;
         };
         PatientCreateDto: {
-<<<<<<< HEAD
-            personalHealthNumber?: string;
-            address?: string;
-            userId?: string;
-            doctorId?: string;
-=======
             name?: string;
             personalHealthNumber?: string;
             address?: string;
->>>>>>> temp-main
         };
         DoctorCreateDto: {
             name?: string;
@@ -1271,28 +1234,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Doctor"];
-                };
-            };
-        };
-    };
-    getSlotsByDoctorUserId: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Slot"][];
                 };
             };
         };

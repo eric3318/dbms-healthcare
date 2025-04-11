@@ -101,8 +101,4 @@ export default function MyAppointments() {
             </Modal>
         </Group>
     );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> temp-main
