@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import lombok.Data;
 import org.dbms.dbmshealthcare.model.pojo.Prescription;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "medical_records")
+@Data
 public class MedicalRecord {
   @Id
   private String id;
@@ -23,10 +25,6 @@ public class MedicalRecord {
   @NotBlank
   @Field(name = "doctor_id")
   private String doctorId;
-
-  @NotBlank
-  @Field(name = "user_id")
-  private String userId;
 
   @NotBlank
   @Field(name = "visit_reason")
@@ -41,9 +39,7 @@ public class MedicalRecord {
 
   private String finalDiagnosis;
 
-  // private List<String> requisitions;
-
-  // private List<Prescription> prescriptions;
+  private List<Prescription> prescriptions;
 
   @Field(name = "billing_amount") // equal to the value in Payment class: private BigDecimal amount;
   private BigDecimal billingAmount;

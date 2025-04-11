@@ -3,7 +3,7 @@ spring:
     name: "dbms-healthcare"
   data:
     mongodb:
-      uri: mongodb://user:pass@localhost:27017/healthcare?authSource=admin
+      uri: mongodb://localhost:27017/healthcare
       auto-index-creation: true
 
 server:
