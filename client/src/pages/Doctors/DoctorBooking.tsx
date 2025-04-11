@@ -85,7 +85,7 @@ const DoctorBooking = () => {
                                 <p>
                                     <strong>Specialty:</strong> {doctor.specialization}
                                 </p>
-                                {doctor.email && (
+                                {/* {doctor.email && (
                                     <p>
                                         <strong>Email:</strong> {doctor.email}
                                     </p>
@@ -94,7 +94,7 @@ const DoctorBooking = () => {
                                     <p>
                                         <strong>Phone:</strong> {doctor.phoneNumber}
                                     </p>
-                                )}
+                                )} */}
                                 <p className="debug-info">
                                     <small>User ID: {doctor.userId || 'N/A'}</small>
                                 </p>

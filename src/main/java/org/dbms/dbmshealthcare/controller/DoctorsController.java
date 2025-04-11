@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/doctors")
@@ -53,8 +55,17 @@ public class DoctorsController {
   }
 
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteDoctor(@PathVariable String id) {
-    doctorsService.deleteDoctor(id);
+  public ResponseEntity<?> deleteDoctor(@PathVariable String id) {
+      boolean success = doctorsService.deleteDoctor(id);
+      
+      if (success) {
+          return ResponseEntity.ok().body(Map.of(
+              "message", "Doctor and associated slots deleted successfully",
+              "doctorId", id
+          ));
+      } else {
+          return ResponseEntity.status(HttpStatus.NOT_FOUND)
+              .body(Map.of("message", "Doctor not found or deletion failed"));
+      }
   }
 }
