@@ -43,7 +43,7 @@ public class SecurityConfig {
       throws Exception {
     http
         .securityMatcher(new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/**"),
+            new AntPathRequestMatcher("/api/**"), // comment out when inserting data
             new AntPathRequestMatcher("/auth/me")
         ))
         .csrf(AbstractHttpConfigurer::disable)
