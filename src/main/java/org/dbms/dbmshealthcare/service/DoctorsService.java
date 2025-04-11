@@ -23,15 +23,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class DoctorsService {
 
   private final DoctorsRepository doctorsRepository;
-<<<<<<< HEAD
-
-  public DoctorsService(DoctorsRepository doctorsRepository) {
-=======
   private final MongoClient mongoClient;
   private final MongoTemplate mongoTemplate;
   
   public DoctorsService(DoctorsRepository doctorsRepository, MongoClient mongoClient, MongoTemplate mongoTemplate) {
->>>>>>> temp-main
     this.doctorsRepository = doctorsRepository;
     this.mongoClient = mongoClient;
     this.mongoTemplate = mongoTemplate;
@@ -79,12 +74,6 @@ public class DoctorsService {
 
     return doctorsRepository.update(id, update);
   }
-<<<<<<< HEAD
-
-  // DELETE operation
-  public Doctor deleteDoctor(String id) {
-    return doctorsRepository.delete(id);
-=======
   
   /**
    * Deletes a doctor and all their associated slots in a single transaction
@@ -133,6 +122,5 @@ public class DoctorsService {
       e.printStackTrace();
       return false;
     }
->>>>>>> temp-main
   }
 }
