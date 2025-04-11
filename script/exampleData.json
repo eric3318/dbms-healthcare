@@ -743,5 +743,250 @@
         "updatedAt": "2025-04-03T13:45:00Z"
       }
     ]
+  },
+  "medical_records": {
+    "apiResource": true,
+    "entries": [
+      {
+        "id": "medrec-1",
+        "patientId": "patient-1",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Prescribed medication and advised rest",
+        "finalDiagnosis": "Sinusitis",
+        "billingAmount": 150.0,
+        "createdAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "medrec-2",
+        "patientId": "patient-2",
+        "doctorId": "doc-2",
+        "visitReason": "Chest pain",
+        "patientDescription": "Follow-up after blood test",
+        "doctorNotes": "Prescribed medication and advised rest",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T10:00:00Z",
+        "updatedAt": "2025-04-01T10:30:00Z"
+      },
+      {
+        "id": "medrec-3",
+        "patientId": "patient-3",
+        "doctorId": "doc-3",
+        "visitReason": "Allergy symptoms",
+        "patientDescription": "Itchy skin rash on arms and legs",
+        "doctorNotes": "Recommended additional testing",
+        "finalDiagnosis": "Gastroenteritis",
+        "billingAmount": 100.0,
+        "createdAt": "2025-04-01T11:00:00Z",
+        "updatedAt": "2025-04-01T11:30:00Z"
+      },
+      {
+        "id": "medrec-4",
+        "patientId": "patient-4",
+        "doctorId": "doc-4",
+        "visitReason": "Routine Checkup",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Symptoms consistent with seasonal flu",
+        "finalDiagnosis": "Viral infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T12:00:00Z",
+        "updatedAt": "2025-04-01T12:30:00Z"
+      },
+      {
+        "id": "medrec-5",
+        "patientId": "patient-5",
+        "doctorId": "doc-5",
+        "visitReason": "Allergy symptoms",
+        "patientDescription": "Patient reports mild symptoms for 3 days",
+        "doctorNotes": "Patient recovering well, continue current plan",
+        "finalDiagnosis": "Gastroenteritis",
+        "billingAmount": 100.0,
+        "createdAt": "2025-04-01T13:00:00Z",
+        "updatedAt": "2025-04-01T13:30:00Z"
+      },
+      {
+        "id": "medrec-6",
+        "patientId": "patient-6",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Red eyes and congestion",
+        "doctorNotes": "Recommended additional testing",
+        "finalDiagnosis": "Gastroenteritis",
+        "billingAmount": 150.0,
+        "createdAt": "2025-04-01T14:00:00Z",
+        "updatedAt": "2025-04-01T14:30:00Z"
+      },
+      {
+        "id": "medrec-7",
+        "patientId": "patient-7",
+        "doctorId": "doc-2",
+        "visitReason": "Fever and chills",
+        "patientDescription": "Persistent cough and sore throat",
+        "doctorNotes": "Possible viral infection",
+        "finalDiagnosis": "Allergic Rhinitis",
+        "billingAmount": 150.0,
+        "createdAt": "2025-04-01T15:00:00Z",
+        "updatedAt": "2025-04-01T15:30:00Z"
+      },
+      {
+        "id": "medrec-8",
+        "patientId": "patient-8",
+        "doctorId": "doc-3",
+        "visitReason": "Chronic cough",
+        "patientDescription": "Patient reports mild symptoms for 3 days",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Lower back strain",
+        "billingAmount": 75.0,
+        "createdAt": "2025-04-01T16:00:00Z",
+        "updatedAt": "2025-04-01T16:30:00Z"
+      },
+      {
+        "id": "medrec-9",
+        "patientId": "patient-9",
+        "doctorId": "doc-4",
+        "visitReason": "Allergy symptoms",
+        "patientDescription": "Mild fever and nausea since yesterday",
+        "doctorNotes": "Advised to monitor symptoms for next 48 hours",
+        "finalDiagnosis": "Hypertension",
+        "billingAmount": 75.0,
+        "createdAt": "2025-04-01T17:00:00Z",
+        "updatedAt": "2025-04-01T17:30:00Z"
+      },
+      {
+        "id": "medrec-10",
+        "patientId": "patient-10",
+        "doctorId": "doc-5",
+        "visitReason": "Back pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T18:00:00Z",
+        "updatedAt": "2025-04-01T18:30:00Z"
+      },
+      {
+        "id": "medrec-11",
+        "patientId": "patient-11",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T19:00:00Z",
+        "updatedAt": "2025-04-01T19:30:00Z"
+      },
+      {
+        "id": "medrec-12",
+        "patientId": "patient-12",
+        "doctorId": "doc-2",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T20:00:00Z",
+        "updatedAt": "2025-04-01T20:30:00Z"
+      },
+      {
+        "id": "medrec-13",
+        "patientId": "patient-13",
+        "doctorId": "doc-3",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T21:00:00Z",
+        "updatedAt": "2025-04-01T21:30:00Z"
+      },
+      {
+        "id": "medrec-14",
+        "patientId": "patient-14",
+        "doctorId": "doc-4",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T22:00:00Z",
+        "updatedAt": "2025-04-01T22:30:00Z"
+      },
+      {
+        "id": "medrec-15",
+        "patientId": "patient-15",
+        "doctorId": "doc-5",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T23:00:00Z",
+        "updatedAt": "2025-04-01T23:30:00Z"
+      },
+      {
+        "id": "medrec-16",
+        "patientId": "patient-16",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T24:00:00Z",
+        "updatedAt": "2025-04-01T24:30:00Z"
+      },
+      {
+        "id": "medrec-17",
+        "patientId": "patient-17",
+        "doctorId": "doc-2",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T25:00:00Z",
+        "updatedAt": "2025-04-01T25:30:00Z"
+      },
+      {
+        "id": "medrec-18",
+        "patientId": "patient-18",
+        "doctorId": "doc-3",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T26:00:00Z",
+        "updatedAt": "2025-04-01T26:30:00Z"
+      },
+      {
+        "id": "medrec-19",
+        "patientId": "patient-19",
+        "doctorId": "doc-4",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T27:00:00Z",
+        "updatedAt": "2025-04-01T27:30:00Z"
+      },
+      {
+        "id": "medrec-20",
+        "patientId": "patient-20",
+        "doctorId": "doc-5",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T28:00:00Z",
+        "updatedAt": "2025-04-01T28:30:00Z"
+      }  
+    ]
   }
 }
