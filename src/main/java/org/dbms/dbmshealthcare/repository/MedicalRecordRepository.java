@@ -2,6 +2,9 @@ package org.dbms.dbmshealthcare.repository;
 
 import java.util.List;
 import org.dbms.dbmshealthcare.model.MedicalRecord;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +20,7 @@ public class MedicalRecordRepository extends BaseMongoRepository<MedicalRecord> 
         return mongoTemplate.find(query, MedicalRecord.class);
     }
 
-    public List<Patient> findByDoctorId(String doctorId) {
+    public List<MedicalRecord> findByDoctorId(String doctorId) {
         Query query = new Query(Criteria.where("doctorId").is(doctorId));
         return mongoTemplate.find(query, MedicalRecord.class);
     }

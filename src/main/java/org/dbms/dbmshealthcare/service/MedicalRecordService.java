@@ -3,9 +3,11 @@ package org.dbms.dbmshealthcare.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.model.MedicalRecord;
+import org.dbms.dbmshealthcare.dto.MedicalRecordCreateDto;
+import org.dbms.dbmshealthcare.dto.MedicalRecordUpdateDto;
 import org.dbms.dbmshealthcare.repository.MedicalRecordRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.mongodb.core.query.Update;
 @Service
 @RequiredArgsConstructor
 public class MedicalRecordService {
@@ -16,12 +18,14 @@ public class MedicalRecordService {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setId(medicalRecordCreateDto.id());
         medicalRecord.setPatientId(medicalRecordCreateDto.patientId());
+        medicalRecord.setDoctorId(medicalRecordCreateDto.doctorId());
+        medicalRecord.setUserId(medicalRecordCreateDto.userId());
         medicalRecord.setVisitReason(medicalRecordCreateDto.visitReason());
         medicalRecord.setPatientDescription(medicalRecordCreateDto.patientDescription());
         medicalRecord.setDoctorNotes(medicalRecordCreateDto.doctorNotes());
         medicalRecord.setFinalDiagnosis(medicalRecordCreateDto.finalDiagnosis());
-        medicalRecord.setRequisitions(medicalRecordCreateDto.requisitions());
-        medicalRecord.setPrescriptions(medicalRecordCreateDto.prescriptions());
+        // medicalRecord.setRequisitions(medicalRecordCreateDto.requisitions());
+        // medicalRecord.setPrescriptions(medicalRecordCreateDto.prescriptions());
         medicalRecord.setBillingAmount(medicalRecordCreateDto.billingAmount());
         return medicalRecordRepository.save(medicalRecord);
     }
@@ -50,12 +54,12 @@ public class MedicalRecordService {
         if (medicalRecordUpdateDto.finalDiagnosis() != null) {
             update.set("finalDiagnosis", medicalRecordUpdateDto.finalDiagnosis());
         }
-        if (medicalRecordUpdateDto.requisitions() != null) {
-            update.set("requisitions", medicalRecordUpdateDto.requisitions());
-        }
-        if (medicalRecordUpdateDto.prescriptions() != null) {
-            update.set("prescriptions", medicalRecordUpdateDto.prescriptions());
-        }
+        // if (medicalRecordUpdateDto.requisitions() != null) {
+        //     update.set("requisitions", medicalRecordUpdateDto.requisitions());
+        // }
+        // if (medicalRecordUpdateDto.prescriptions() != null) {
+        //     update.set("prescriptions", medicalRecordUpdateDto.prescriptions());
+        // }
         if (medicalRecordUpdateDto.billingAmount() != null) {
             update.set("billingAmount", medicalRecordUpdateDto.billingAmount());
         }
