@@ -2,7 +2,6 @@ package org.dbms.dbmshealthcare.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.config.MongoTemplateResolver;
 import org.dbms.dbmshealthcare.constants.Role;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
@@ -20,13 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRepository extends BaseMongoRepository<User> {
 
   private final PatientRepository patientRepository;
-  private final DoctorsRepository doctorRepository;
+  private final DoctorRepository doctorRepository;
   private final PasswordEncoder passwordEncoder;
 
   public UserRepository(MongoTemplateResolver mongoTemplateResolver, PatientRepository patientRepository,
-      DoctorsRepository doctorsRepository, PasswordEncoder passwordEncoder) {
+      DoctorRepository doctorRepository, PasswordEncoder passwordEncoder) {
     super(mongoTemplateResolver, User.class);
-    this.doctorRepository = doctorsRepository;
+    this.doctorRepository = doctorRepository;
     this.patientRepository = patientRepository;
     this.passwordEncoder = passwordEncoder;
   }

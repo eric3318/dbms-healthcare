@@ -4,19 +4,16 @@ import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import java.sql.Date;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
-import org.dbms.dbmshealthcare.constants.Role;
 import org.dbms.dbmshealthcare.dto.IdentityCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
 import org.dbms.dbmshealthcare.model.Doctor;
 import org.dbms.dbmshealthcare.model.Patient;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
-import org.dbms.dbmshealthcare.repository.DoctorsRepository;
+import org.dbms.dbmshealthcare.repository.DoctorRepository;
 import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.UserRepository;
 import org.dbms.dbmshealthcare.utils.JwtUtils;
@@ -30,7 +27,7 @@ public class AuthService {
   private final UserService userService;
   private final UserRepository userRepository;
   private final PatientRepository patientRepository;
-  private final DoctorsRepository doctorsRepository;
+  private final DoctorRepository doctorRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtUtils jwtUtils;
 
@@ -38,14 +35,13 @@ public class AuthService {
     return userRepository.createUser(identity, roleId, userCreateDto);
   }
 
-
   public String verifyIdentity(IdentityCheckDto identityCheckDto) {
     String licenseNumber = identityCheckDto.licenseNumber();
     String personalHealthNumber = identityCheckDto.personalHealthNumber();
     String name = identityCheckDto.name();
 
     if (licenseNumber != null) {
-      Doctor doctor = doctorsRepository.findByLicenseNumber(licenseNumber);
+      Doctor doctor = doctorRepository.findByLicenseNumber(licenseNumber);
       if (doctor != null && name.equals(doctor.getName())) {
         return doctor.getId();
       }

@@ -1,7 +1,5 @@
 package org.dbms.dbmshealthcare.service;
 
-import com.nimbusds.jwt.JWT;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +13,6 @@ import org.dbms.dbmshealthcare.dto.SlotFilter;
 import org.dbms.dbmshealthcare.model.Appointment;
 import org.dbms.dbmshealthcare.model.Slot;
 import org.dbms.dbmshealthcare.repository.AppointmentRepository;
-import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.SlotRepository;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -101,7 +98,7 @@ public class AppointmentService {
 
     String slotId = appointmentCreateDto.slotId();
     String visitReason = appointmentCreateDto.visitReason();
-    Appointment appointment = appointmentRepository.createAppointment(patientId, slotId,
+    Appointment appointment = appointmentRepository.create(patientId, slotId,
         visitReason);
     return appointment;
   }

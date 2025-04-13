@@ -4,7 +4,7 @@ import java.util.List;
 import org.dbms.dbmshealthcare.dto.DoctorCreateDto;
 import org.dbms.dbmshealthcare.dto.DoctorUpdateDto;
 import org.dbms.dbmshealthcare.model.Doctor;
-import org.dbms.dbmshealthcare.service.DoctorsService;
+import org.dbms.dbmshealthcare.service.DoctorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,43 +20,43 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/doctors")
-public class DoctorsController {
+public class DoctorController {
 
-  private final DoctorsService doctorsService;
+  private final DoctorService doctorService;
 
-  public DoctorsController(DoctorsService doctorsService) {
-    this.doctorsService = doctorsService;
+  public DoctorController(DoctorService doctorService) {
+    this.doctorService = doctorService;
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Doctor createDoctor(@RequestBody DoctorCreateDto doctorCreateDto) {
-    return doctorsService.createDoctor(doctorCreateDto);
+    return doctorService.createDoctor(doctorCreateDto);
   }
 
   @GetMapping
   public List<Doctor> getAllDoctors() {
-    return doctorsService.getAllDoctors();
+    return doctorService.getAllDoctors();
   }
 
   @GetMapping("/{id}")
   public Doctor getDoctorById(@PathVariable String id) {
-    return doctorsService.getDoctorById(id);
+    return doctorService.getDoctorById(id);
   }
 
   @GetMapping("/user/{userId}")
   public Doctor getDoctorByUserId(@PathVariable String userId) {
-    return doctorsService.getDoctorByUserId(userId);
+    return doctorService.getDoctorByUserId(userId);
   }
 
   @PutMapping("/{id}")
   public Doctor updateDoctor(@PathVariable String id, @RequestBody DoctorUpdateDto doctorUpdateDto) {
-    return doctorsService.updateDoctor(id, doctorUpdateDto);
+    return doctorService.updateDoctor(id, doctorUpdateDto);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteDoctor(@PathVariable String id) {
-      boolean success = doctorsService.deleteDoctor(id);
+      boolean success = doctorService.deleteDoctor(id);
       
       if (success) {
           return ResponseEntity.ok().body(Map.of(

@@ -20,7 +20,7 @@ public class AppointmentRepository extends BaseMongoRepository<Appointment> {
   }
 
   @Transactional
-  public Appointment createAppointment(String patientId, String slotId, String visitReason) {
+  public Appointment create(String patientId, String slotId, String visitReason) {
     Slot slot = getMongoTemplate().findAndModify(
         Query.query(
             Criteria.where("_id").is(slotId)

@@ -5,8 +5,7 @@ import org.dbms.dbmshealthcare.dto.DoctorCreateDto;
 import org.dbms.dbmshealthcare.dto.DoctorUpdateDto;
 import org.dbms.dbmshealthcare.model.Doctor;
 import org.dbms.dbmshealthcare.model.Slot;
-import org.dbms.dbmshealthcare.repository.DoctorsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.dbms.dbmshealthcare.repository.DoctorRepository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,14 +19,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class DoctorsService {
+public class DoctorService {
 
-  private final DoctorsRepository doctorsRepository;
+  private final DoctorRepository doctorRepository;
   private final MongoClient mongoClient;
   private final MongoTemplate mongoTemplate;
   
-  public DoctorsService(DoctorsRepository doctorsRepository, MongoClient mongoClient, MongoTemplate mongoTemplate) {
-    this.doctorsRepository = doctorsRepository;
+  public DoctorService(DoctorRepository doctorRepository, MongoClient mongoClient, MongoTemplate mongoTemplate) {
+    this.doctorRepository = doctorRepository;
     this.mongoClient = mongoClient;
     this.mongoTemplate = mongoTemplate;
   }
@@ -36,20 +35,20 @@ public class DoctorsService {
   public Doctor createDoctor(DoctorCreateDto doctorCreateDto) {
     Doctor doctor = new Doctor(doctorCreateDto.name(), doctorCreateDto.licenseNumber(),
         doctorCreateDto.specialization());
-    return doctorsRepository.save(doctor);
+    return doctorRepository.save(doctor);
   }
 
   // READ operations
   public List<Doctor> getAllDoctors() {
-    return doctorsRepository.findAll();
+    return doctorRepository.findAll();
   }
 
   public Doctor getDoctorById(String id) {
-    return doctorsRepository.findById(id);
+    return doctorRepository.findById(id);
   }
 
   public Doctor getDoctorByUserId(String userId) {
-    return doctorsRepository.findByUserId(userId);
+    return doctorRepository.findByUserId(userId);
   }
 
   // UPDATE operation
@@ -72,7 +71,7 @@ public class DoctorsService {
       update.set("phoneNumber", doctorUpdateDto.phoneNumber());
     }
 
-    return doctorsRepository.update(id, update);
+    return doctorRepository.update(id, update);
   }
   
   /**

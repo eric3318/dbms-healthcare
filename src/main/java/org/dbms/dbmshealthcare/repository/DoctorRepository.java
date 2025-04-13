@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DoctorsRepository extends BaseMongoRepository<Doctor> {
+public class DoctorRepository extends BaseMongoRepository<Doctor> {
 
-  public DoctorsRepository(MongoTemplateResolver mongoTemplateResolver) {
+  public DoctorRepository(MongoTemplateResolver mongoTemplateResolver) {
     super(mongoTemplateResolver, Doctor.class);
   }
 
