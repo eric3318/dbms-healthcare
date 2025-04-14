@@ -988,5 +988,170 @@
         "updatedAt": "2025-04-01T28:30:00Z"
       }  
     ]
+  },
+  "payments": {
+    "apiResource": true,
+    "entries": [
+      {
+        "id": "payment-1",
+        "medicalRecordId": "medrec-1",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-2",
+        "medicalRecordId": "medrec-2",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-3",
+        "medicalRecordId": "medrec-3",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      { 
+        "id": "payment-4",
+        "medicalRecordId": "medrec-4",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-5",
+        "medicalRecordId": "medrec-5",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-6",
+        "medicalRecordId": "medrec-6",  
+        "amount": 100.0,  
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      { 
+        "id": "payment-7",
+        "medicalRecordId": "medrec-7",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-8",
+        "medicalRecordId": "medrec-8",
+        "amount": 100.0,
+        "status": "FAILED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-9",
+        "medicalRecordId": "medrec-9",
+        "amount": 100.0,
+        "status": "FAILED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-10", 
+        "medicalRecordId": "medrec-10",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-11",
+        "medicalRecordId": "medrec-11",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-12",
+        "medicalRecordId": "medrec-12",
+        "amount": 100.0,
+        "status": "FAILED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-13",
+        "medicalRecordId": "medrec-13", 
+        "amount": 100.0,      
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-14",
+        "medicalRecordId": "medrec-14",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-15",
+        "medicalRecordId": "medrec-15",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-16",
+        "medicalRecordId": "medrec-16",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-17",
+        "medicalRecordId": "medrec-17",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-18",
+        "medicalRecordId": "medrec-18",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-19",
+        "medicalRecordId": "medrec-19",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-20",
+        "medicalRecordId": "medrec-20",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      }
+    ]
   }
 }
