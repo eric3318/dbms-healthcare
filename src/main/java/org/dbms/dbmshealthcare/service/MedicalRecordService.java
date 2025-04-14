@@ -11,7 +11,7 @@ import org.dbms.dbmshealthcare.model.pojo.Prescription;
 import org.dbms.dbmshealthcare.dto.MedicalRecordCreateDto;
 import org.dbms.dbmshealthcare.dto.MedicalRecordUpdateDto;
 import org.dbms.dbmshealthcare.repository.MedicalRecordRepository;
-import org.dbms.dbmshealthcare.repository.DoctorsRepository;
+import org.dbms.dbmshealthcare.repository.DoctorRepository;
 import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -25,7 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class MedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
-    private final DoctorsRepository doctorsRepository;
+    private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final UserRepository userRepository;
 
@@ -44,7 +44,7 @@ public class MedicalRecordService {
 
         // Get doctor ID from user's roleId
         String doctorId = user.getRoleId();
-        Doctor doctor = doctorsRepository.findById(doctorId);
+        Doctor doctor = doctorRepository.findById(doctorId);
         if (doctor == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found");
         }
