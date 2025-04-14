@@ -1,129 +1,74 @@
 package org.dbms.dbmshealthcare.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.dbms.dbmshealthcare.constants.AppointmentStatus;
-import org.dbms.dbmshealthcare.dto.AppointmentFilter;
-import org.dbms.dbmshealthcare.dto.MedicalRecordCreateDto;
-import org.dbms.dbmshealthcare.dto.MedicalRecordFilter;
-import org.dbms.dbmshealthcare.dto.MedicalRecordUpdateDto;
-import org.dbms.dbmshealthcare.model.Appointment;
-import org.dbms.dbmshealthcare.model.MedicalRecord;
-import org.dbms.dbmshealthcare.model.pojo.Prescription;
-import org.dbms.dbmshealthcare.repository.MedicalRecordRepository;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.dbms.dbmshealthcare.constants.Role;
+import org.dbms.dbmshealthcare.model.Payment;
+import org.dbms.dbmshealthcare.model.User;
+import org.dbms.dbmshealthcare.model.Doctor;
+import org.dbms.dbmshealthcare.model.Patient;
+import org.dbms.dbmshealthcare.constants.PaymentStatus;
+import org.dbms.dbmshealthcare.dto.PaymentCreateDto;
+import org.dbms.dbmshealthcare.dto.PaymentUpdateDto;
+import org.dbms.dbmshealthcare.repository.PaymentRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
-public class MedicalRecordService {
+public class PaymentService {
+    private final PaymentRepository paymentRepository;
 
-  private final MedicalRecordRepository medicalRecordRepository;
-  private final AppointmentService appointmentService;
+    // CREATE
+    public Payment createPayment(PaymentCreateDto paymentCreateDto) {
 
-  public MedicalRecord createMedicalRecord(MedicalRecordCreateDto medicalRecordCreateDto) {
-    String appointmentId = medicalRecordCreateDto.appointmentId();
-    Appointment appointment = appointmentService.getAppointmentById(
-        appointmentId);
-
-    if (appointment == null) {
-      return null;
+        Payment payment = new Payment();
+        payment.setMedicalRecordId(paymentCreateDto.medicalRecordId());
+        payment.setAmount(paymentCreateDto.amount());
+        payment.setStatus(paymentCreateDto.status());
+        payment.setRequestedAt(paymentCreateDto.requestedAt());
+        payment.setUpdatedAt(paymentCreateDto.updatedAt());
+        return paymentRepository.save(payment);
     }
 
-    MedicalRecord medicalRecord = new MedicalRecord(appointment.getPatientId(),
-        appointment.getDoctorId(), appointmentId, appointment.getVisitReason(),
-        medicalRecordCreateDto.patientDescription(),
-        medicalRecordCreateDto.doctorNotes());
-
-    BigDecimal billingAmount = medicalRecordCreateDto.billingAmount();
-    if (billingAmount != null) {
-      medicalRecord.setBillingAmount(billingAmount);
+    // READ
+    public Payment getPaymentById(String id) {
+        Payment payment = paymentRepository.findById(id);
+        if (payment == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Payment not found with id: " + id);
+        }
+        return payment;
     }
 
-    MedicalRecord created = medicalRecordRepository.create(medicalRecord);
-    return created;
-  }
-
-  public List<MedicalRecord> getMedicalRecords(MedicalRecordFilter filter) {
-    Query query = buildQuery(filter);
-    return medicalRecordRepository.findAll(query);
-  }
-
-  public MedicalRecord getMedicalRecordById(String id) {
-    return medicalRecordRepository.findById(id);
-  }
-
-  public void deleteMedicalRecord(String id) {
-    MedicalRecord deleted = medicalRecordRepository.delete(id);
-    if (deleted == null) {
-      throw new RuntimeException("Medical record delete failed");
-    }
-  }
-
-  public void updateMedicalRecord(String id, MedicalRecordUpdateDto medicalRecordUpdateDto) {
-    Update updates = new Update();
-
-    String patientDescription = medicalRecordUpdateDto.patientDescription();
-    String doctorNotes = medicalRecordUpdateDto.doctorNotes();
-    String finalDiagnosis = medicalRecordUpdateDto.finalDiagnosis();
-    List<String> requisitionIds = medicalRecordUpdateDto.requisitionIds();
-    List<Prescription> prescriptions = medicalRecordUpdateDto.prescriptions();
-
-    if (patientDescription != null) {
-      updates.set("patient_description", patientDescription);
+    public List<Payment> getPaymentsByMedicalRecordId(String medicalRecordId) {
+        return paymentRepository.findByMedicalRecordId(medicalRecordId);
     }
 
-    if (doctorNotes != null) {
-      updates.set("doctor_notes", doctorNotes);
+    // UPDATE
+    public Payment updatePayment(String id, PaymentUpdateDto paymentUpdateDto) {
+        Update update = new Update();
+        
+        if (paymentUpdateDto.status() != null) {
+            update.set("status", paymentUpdateDto.status());
+        }
+        if (paymentUpdateDto.amount() != null) {
+            update.set("amount", paymentUpdateDto.amount());
+        }
+        if (paymentUpdateDto.requestedAt() != null) {
+            update.set("requestedAt", paymentUpdateDto.requestedAt());
+        }
+        if (paymentUpdateDto.updatedAt() != null) {
+            update.set("updatedAt", paymentUpdateDto.updatedAt());
+        }
+        return paymentRepository.update(id, update);
     }
 
-    if (finalDiagnosis != null) {
-      updates.set("final_diagnosis", finalDiagnosis);
+    // DELETE
+    public void deletePayment(String id) {
+        paymentRepository.delete(id);
     }
-
-    if (requisitionIds != null && !requisitionIds.isEmpty()) {
-      updates.set("requisitions", requisitionIds);
-    }
-
-    if (prescriptions != null && !prescriptions.isEmpty()) {
-      updates.set("prescriptions", prescriptions);
-    }
-
-    MedicalRecord updated = medicalRecordRepository.update(id, updates);
-    if (updated == null) {
-      throw new RuntimeException("Medical record update failed");
-    }
-  }
-
-  private Query buildQuery(MedicalRecordFilter filter) {
-    Query query = new Query();
-
-    String patientId = filter.patientId();
-    String doctorId = filter.doctorId();
-    LocalDateTime from = filter.from();
-    LocalDateTime to = filter.to();
-
-    if (patientId != null) {
-      query.addCriteria(Criteria.where("patient_id").is(patientId));
-    }
-
-    if (doctorId != null) {
-      query.addCriteria(Criteria.where("doctor_id").is(doctorId));
-    }
-
-    if (from != null) {
-      query.addCriteria(Criteria.where("created_at").gte(from.toInstant(ZoneOffset.UTC)));
-    }
-
-    if (to != null) {
-      query.addCriteria(Criteria.where("created_at").lte(to.toInstant(ZoneOffset.UTC)));
-    }
-
-    return query;
-  }
 }

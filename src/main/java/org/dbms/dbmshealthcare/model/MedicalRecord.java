@@ -18,32 +18,30 @@ public class MedicalRecord {
   @Id
   private String id;
 
+  @NotBlank
   @Field(name = "patient_id")
-  private final String patientId;
+  private String patientId;
 
+  @NotBlank
   @Field(name = "doctor_id")
-  private final String doctorId;
+  private String doctorId;
 
-  @Field(name = "appointment_id")
-  private final String appointmentId;
-
+  @NotBlank
   @Field(name = "visit_reason")
-  private final String visitReason;
+  private String visitReason;
 
+  @NotBlank
   @Field(name = "patient_description")
-  private final String patientDescription;
+  private String patientDescription;
 
   @Field(name = "doctor_notes")
-  private final String doctorNotes;
+  private String doctorNotes;
 
-  @Field(name = "final_diagnosis")
   private String finalDiagnosis;
-
-  private List<String> requisitions;
 
   private List<Prescription> prescriptions;
 
-  @Field(name = "billing_amount")
+  @Field(name = "billing_amount") // equal to the value in Payment class: private BigDecimal amount;
   private BigDecimal billingAmount;
 
   @Field(name = "created_at")
