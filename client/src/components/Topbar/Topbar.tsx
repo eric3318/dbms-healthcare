@@ -10,13 +10,13 @@ const links = [
         label: 'HOME',
         href: '/',
     },
-    {
-        label: 'OUR TEAM',
-        href: '/our-team',
-    },
+    // {
+    //     label: 'OUR TEAM',
+    //     href: '/our-team',
+    // },
     {
         label: 'SERVICES',
-        href: '/services',
+        href: '/doctor-booking',
     },
     {
         label: 'CONTACT US',
