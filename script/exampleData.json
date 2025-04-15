@@ -743,5 +743,595 @@
         "updatedAt": "2025-04-03T13:45:00Z"
       }
     ]
+  },
+  "medical_records": {
+    "apiResource": true,
+    "entries": [
+      {
+        "id": "medrec-1",
+        "patientId": "patient-1",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Prescribed medication and advised rest",
+        "finalDiagnosis": "Sinusitis",
+        "billingAmount": 150.0,
+        "createdAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Amoxicillin",
+            "dosage": "500mg",
+            "frequency": "Twice daily",
+            "duration": "7 days",
+            "notes": "Take with food"
+          }
+        ]
+      },
+      {
+        "id": "medrec-2",
+        "patientId": "patient-2",
+        "doctorId": "doc-2",
+        "visitReason": "Chest pain",
+        "patientDescription": "Follow-up after blood test",
+        "doctorNotes": "Prescribed medication and advised rest",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T10:00:00Z",
+        "updatedAt": "2025-04-01T10:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Ibuprofen",
+            "dosage": "200mg",
+            "frequency": "Every 4-6 hours as needed",
+            "duration": "3 days",
+            "notes": "For pain relief"
+          }
+        ]
+      },
+      {
+        "id": "medrec-3",
+        "patientId": "patient-3",
+        "doctorId": "doc-3",
+        "visitReason": "Allergy symptoms",
+        "patientDescription": "Itchy skin rash on arms and legs",
+        "doctorNotes": "Recommended additional testing",
+        "finalDiagnosis": "Gastroenteritis",
+        "billingAmount": 100.0,
+        "createdAt": "2025-04-01T11:00:00Z",
+        "updatedAt": "2025-04-01T11:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Cetirizine",
+            "dosage": "10mg",
+            "frequency": "Once daily",
+            "duration": "5 days",
+            "notes": "For allergy relief"
+          }
+        ]
+      },
+      {
+        "id": "medrec-4",
+        "patientId": "patient-4",
+        "doctorId": "doc-4",
+        "visitReason": "Routine Checkup",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Symptoms consistent with seasonal flu",
+        "finalDiagnosis": "Viral infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T12:00:00Z",
+        "updatedAt": "2025-04-01T12:30:00Z",
+         "prescriptions": [
+          {
+            "drugName": "Oseltamivir",
+            "dosage": "75mg",
+            "frequency": "Twice daily",
+            "duration": "5 days",
+            "notes": "Start within 48 hours of symptom onset"
+          }
+        ]
+      },
+      {
+        "id": "medrec-5",
+        "patientId": "patient-5",
+        "doctorId": "doc-5",
+        "visitReason": "Allergy symptoms",
+        "patientDescription": "Patient reports mild symptoms for 3 days",
+        "doctorNotes": "Patient recovering well, continue current plan",
+        "finalDiagnosis": "Gastroenteritis",
+        "billingAmount": 100.0,
+        "createdAt": "2025-04-01T13:00:00Z",
+        "updatedAt": "2025-04-01T13:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Loperamide",
+            "dosage": "2mg",
+            "frequency": "After each loose stool, max 8mg/day",
+            "duration": "2 days",
+            "notes": "For diarrhea"
+          }
+        ]
+      },
+      {
+        "id": "medrec-6",
+        "patientId": "patient-6",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Red eyes and congestion",
+        "doctorNotes": "Recommended additional testing",
+        "finalDiagnosis": "Gastroenteritis",
+        "billingAmount": 150.0,
+        "createdAt": "2025-04-01T14:00:00Z",
+        "updatedAt": "2025-04-01T14:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Artificial Tears",
+            "dosage": "1-2 drops",
+            "frequency": "As needed",
+            "duration": "Until symptoms resolve",
+            "notes": "For dry eyes"
+          }
+        ]
+      },
+      {
+        "id": "medrec-7",
+        "patientId": "patient-7",
+        "doctorId": "doc-2",
+        "visitReason": "Fever and chills",
+        "patientDescription": "Persistent cough and sore throat",
+        "doctorNotes": "Possible viral infection",
+        "finalDiagnosis": "Allergic Rhinitis",
+        "billingAmount": 150.0,
+        "createdAt": "2025-04-01T15:00:00Z",
+        "updatedAt": "2025-04-01T15:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Fluticasone Nasal Spray",
+            "dosage": "2 sprays per nostril",
+            "frequency": "Once daily",
+            "duration": "14 days",
+            "notes": "For nasal congestion"
+          }
+        ]
+      },
+      {
+        "id": "medrec-8",
+        "patientId": "patient-8",
+        "doctorId": "doc-3",
+        "visitReason": "Chronic cough",
+        "patientDescription": "Patient reports mild symptoms for 3 days",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Lower back strain",
+        "billingAmount": 75.0,
+        "createdAt": "2025-04-01T16:00:00Z",
+        "updatedAt": "2025-04-01T16:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Naproxen",
+            "dosage": "500mg",
+            "frequency": "Twice daily",
+            "duration": "5 days",
+            "notes": "For back pain"
+          }
+        ]
+      },
+      {
+        "id": "medrec-9",
+        "patientId": "patient-9",
+        "doctorId": "doc-4",
+        "visitReason": "Allergy symptoms",
+        "patientDescription": "Mild fever and nausea since yesterday",
+        "doctorNotes": "Advised to monitor symptoms for next 48 hours",
+        "finalDiagnosis": "Hypertension",
+        "billingAmount": 75.0,
+        "createdAt": "2025-04-01T17:00:00Z",
+        "updatedAt": "2025-04-01T17:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Acetaminophen",
+            "dosage": "500mg",
+            "frequency": "Every 6 hours as needed",
+            "duration": "3 days",
+            "notes": "For fever"
+          }
+        ]
+      },
+      {
+        "id": "medrec-10",
+        "patientId": "patient-10",
+        "doctorId": "doc-5",
+        "visitReason": "Back pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T18:00:00Z",
+        "updatedAt": "2025-04-01T18:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Guaifenesin",
+            "dosage": "200mg",
+            "frequency": "Every 4 hours",
+            "duration": "5 days",
+            "notes": "For cough"
+          }
+        ]
+      },
+      {
+        "id": "medrec-11",
+        "patientId": "patient-11",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T19:00:00Z",
+        "updatedAt": "2025-04-01T19:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Aspirin",
+            "dosage": "81mg",
+            "frequency": "Once daily",
+            "duration": "Ongoing",
+            "notes": "For heart health"
+          }
+        ]
+      },
+      {
+        "id": "medrec-12",
+        "patientId": "patient-12",
+        "doctorId": "doc-2",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T20:00:00Z",
+        "updatedAt": "2025-04-01T20:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Vitamin D",
+            "dosage": "2000 IU",
+            "frequency": "Once daily",
+            "duration": "Ongoing",
+            "notes": "For bone health"
+          }
+        ]
+      },
+      {
+        "id": "medrec-13",
+        "patientId": "patient-13",
+        "doctorId": "doc-3",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T21:00:00Z",
+        "updatedAt": "2025-04-01T21:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Probiotic",
+            "dosage": "1 capsule",
+            "frequency": "Once daily",
+            "duration": "30 days",
+            "notes": "For gut health"
+          }
+        ]
+      },
+      {
+        "id": "medrec-14",
+        "patientId": "patient-14",
+        "doctorId": "doc-4",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T22:00:00Z",
+        "updatedAt": "2025-04-01T22:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Melatonin",
+            "dosage": "5mg",
+            "frequency": "30 minutes before bed",
+            "duration": "As needed",
+            "notes": "For sleep"
+          }
+        ]
+      },
+      {
+        "id": "medrec-15",
+        "patientId": "patient-15",
+        "doctorId": "doc-5",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T23:00:00Z",
+        "updatedAt": "2025-04-01T23:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Magnesium",
+            "dosage": "250mg",
+            "frequency": "Once daily",
+            "duration": "Ongoing",
+            "notes": "For muscle relaxation"
+          }
+        ]
+      },
+      {
+        "id": "medrec-16",
+        "patientId": "patient-16",
+        "doctorId": "doc-1",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T24:00:00Z",
+        "updatedAt": "2025-04-01T24:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Coenzyme Q10",
+            "dosage": "100mg",
+            "frequency": "Once daily",
+            "duration": "Ongoing",
+            "notes": "For heart health"
+          }
+        ]
+      },
+      {
+        "id": "medrec-17",
+        "patientId": "patient-17",
+        "doctorId": "doc-2",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T25:00:00Z",
+        "updatedAt": "2025-04-01T25:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Zinc",
+            "dosage": "50mg",
+            "frequency": "Once daily",
+            "duration": "30 days",
+            "notes": "For immune support"
+          }
+        ]
+      },
+      {
+        "id": "medrec-18",
+        "patientId": "patient-18",
+        "doctorId": "doc-3",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T26:00:00Z",
+        "updatedAt": "2025-04-01T26:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Turmeric",
+            "dosage": "500mg",
+            "frequency": "Once daily",
+            "duration": "Ongoing",
+            "notes": "For inflammation"
+          }
+        ]
+      },
+      {
+        "id": "medrec-19",
+        "patientId": "patient-19",
+        "doctorId": "doc-4",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T27:00:00Z",
+        "updatedAt": "2025-04-01T27:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Omega-3",
+            "dosage": "1000mg",
+            "frequency": "Once daily",
+            "duration": "Ongoing",
+            "notes": "For heart health"
+          }
+        ]
+      },
+      {
+        "id": "medrec-20",
+        "patientId": "patient-20",
+        "doctorId": "doc-5",
+        "visitReason": "Chest pain",
+        "patientDescription": "Severe pain in lower abdomen",
+        "doctorNotes": "Suspected allergy, referred to specialist",
+        "finalDiagnosis": "Upper respiratory infection",
+        "billingAmount": 125.0,
+        "createdAt": "2025-04-01T28:00:00Z",
+        "updatedAt": "2025-04-01T28:30:00Z",
+        "prescriptions": [
+          {
+            "drugName": "Iron Supplement",
+            "dosage": "65mg",
+            "frequency": "Once daily",
+            "duration": "90 days",
+            "notes": "For iron deficiency"
+          }
+        ]
+      }  
+    ]
+  },
+  "payments": {
+    "apiResource": true,
+    "entries": [
+      {
+        "id": "payment-1",
+        "medicalRecordId": "medrec-1",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-2",
+        "medicalRecordId": "medrec-2",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-3",
+        "medicalRecordId": "medrec-3",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      { 
+        "id": "payment-4",
+        "medicalRecordId": "medrec-4",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-5",
+        "medicalRecordId": "medrec-5",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-6",
+        "medicalRecordId": "medrec-6",  
+        "amount": 100.0,  
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      { 
+        "id": "payment-7",
+        "medicalRecordId": "medrec-7",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-8",
+        "medicalRecordId": "medrec-8",
+        "amount": 100.0,
+        "status": "FAILED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-9",
+        "medicalRecordId": "medrec-9",
+        "amount": 100.0,
+        "status": "FAILED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-10", 
+        "medicalRecordId": "medrec-10",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-11",
+        "medicalRecordId": "medrec-11",
+        "amount": 100.0,
+        "status": "PENDING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-12",
+        "medicalRecordId": "medrec-12",
+        "amount": 100.0,
+        "status": "FAILED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-13",
+        "medicalRecordId": "medrec-13", 
+        "amount": 100.0,      
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-14",
+        "medicalRecordId": "medrec-14",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-15",
+        "medicalRecordId": "medrec-15",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-16",
+        "medicalRecordId": "medrec-16",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-17",
+        "medicalRecordId": "medrec-17",
+        "amount": 100.0,
+        "status": "PROCESSING",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-18",
+        "medicalRecordId": "medrec-18",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-19",
+        "medicalRecordId": "medrec-19",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      },
+      {
+        "id": "payment-20",
+        "medicalRecordId": "medrec-20",
+        "amount": 100.0,
+        "status": "COMPLETED",
+        "requestedAt": "2025-04-01T09:00:00Z",
+        "updatedAt": "2025-04-01T09:30:00Z"
+      }
+    ]
   }
 }

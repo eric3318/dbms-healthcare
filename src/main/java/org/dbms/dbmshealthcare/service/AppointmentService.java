@@ -67,19 +67,7 @@ public class AppointmentService {
   }
 
   public void updateAppointment(String id, AppointmentUpdateDto appointmentUpdateDto) {
-    Update updates = new Update();
-
-    AppointmentStatus status = appointmentUpdateDto.status();
-    String visitReason = appointmentUpdateDto.visitReason();
-
-    updates.set("status", status);
-    updates.set("visit_reason", visitReason);
-
-    Appointment updated = appointmentRepository.update(id, updates);
-
-    if (updated == null) {
-      throw new RuntimeException("Appointment update failed");
-    }
+    appointmentRepository.update(id, appointmentUpdateDto.status(), appointmentUpdateDto.visitReason());
   }
 
   public void deleteAppointment(String id) {
