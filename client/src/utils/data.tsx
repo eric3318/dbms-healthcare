@@ -11,6 +11,10 @@ import {
     UpdateAppointmentParams,
     AppointmentFilter,
     VerifyIdentityParams,
+    AgeDistributionDto,
+    SpecialtyStatsDto,
+    TopDoctorsDto,
+    AnalyticsFilterDto,
 } from '../lib/types';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -288,4 +292,73 @@ export async function cancelAppointment(appointmentId: string): Promise<boolean>
         console.error('Error canceling appointment', err);
         return false;
     }
+}
+
+// Analytics API methods
+export async function getAgeDistribution(): Promise<AgeDistributionDto[] | null> {
+  try {
+      const res = await fetch(`${API_URL}/analytics/age-distribution`, {
+          credentials: 'include',
+      });
+
+      if (!res.ok) {
+          throw new Error('Failed to fetch age distribution');
+      }
+
+      const data: AgeDistributionDto[] = await res.json();
+      return data;
+  } catch (err) {
+      console.error('Error fetching age distribution:', err);
+      return null;
+  }
+}
+
+export async function getSpecialtyStats(
+  filter: AnalyticsFilterDto
+): Promise<SpecialtyStatsDto[] | null> {
+  try {
+      const res = await fetch(`${API_URL}/analytics/specialty-stats`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(filter),
+          credentials: 'include',
+      });
+
+      if (!res.ok) {
+          throw new Error('Failed to fetch specialty statistics');
+      }
+
+      const data: SpecialtyStatsDto[] = await res.json();
+      return data;
+  } catch (err) {
+      console.error('Error fetching specialty statistics:', err);
+      return null;
+  }
+}
+
+export async function getTopDoctors(
+  filter: AnalyticsFilterDto
+): Promise<TopDoctorsDto[] | null> {
+  try {
+      const res = await fetch(`${API_URL}/analytics/top-doctors`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(filter),
+          credentials: 'include',
+      });
+
+      if (!res.ok) {
+          throw new Error('Failed to fetch top doctors');
+      }
+
+      const data: TopDoctorsDto[] = await res.json();
+      return data;
+  } catch (err) {
+      console.error('Error fetching top doctors:', err);
+      return null;
+  }
 }
