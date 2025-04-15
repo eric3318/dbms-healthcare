@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.dbms.dbmshealthcare.dto.analytics.AgeDistributionDto;
+import org.dbms.dbmshealthcare.dto.analytics.AnalyticsFilterDto;
+import org.dbms.dbmshealthcare.dto.analytics.SpecialtyStatsDto;
+import org.dbms.dbmshealthcare.dto.analytics.TopDoctorsDto;
+import org.dbms.dbmshealthcare.service.AnalyticsService;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +33,7 @@ import java.util.Map;
 public class AnalyticsController {
 
     private final MongoTemplate mongoTemplate;
+    private final AnalyticsService analyticsService;
 
     @Operation(summary = "Execute aggregation pipeline", description = "Run a custom MongoDB aggregation pipeline on a specified collection")
     @PostMapping("/aggregate")
@@ -148,6 +155,27 @@ public class AnalyticsController {
             response.put("error", e.getMessage());
             return ResponseEntity.status(500).body(response);
         }
+    }
+
+    @Operation(summary = "Get top 5 doctors with most appointments", 
+        description = "Retrieves the top 5 doctors with the most appointments in the specified month")
+    @PostMapping("/top-doctors")
+    public ResponseEntity<List<TopDoctorsDto>> getTopDoctors(@RequestBody AnalyticsFilterDto filter) {
+        return ResponseEntity.ok(analyticsService.getTopDoctors(filter));
+    }
+
+    @Operation(summary = "Get specialty statistics", 
+        description = "Retrieves statistics about the most chosen specialties in the specified month")
+    @PostMapping("/specialty-stats")
+    public ResponseEntity<List<SpecialtyStatsDto>> getSpecialtyStats(@RequestBody AnalyticsFilterDto filter) {
+        return ResponseEntity.ok(analyticsService.getSpecialtyStats(filter));
+    }
+
+    @Operation(summary = "Get age distribution", 
+        description = "Retrieves the age distribution of patients")
+    @GetMapping("/age-distribution")
+    public ResponseEntity<List<AgeDistributionDto>> getAgeDistribution() {
+        return ResponseEntity.ok(analyticsService.getAgeDistribution());
     }
 
     // Request objects

@@ -39,7 +39,7 @@ const DoctorBooking = () => {
     const handleBookAppointment = (doctor: Doctor) => {
         navigate('/booking', {
             state: {
-                doctorId: doctor.id,
+                doctor
             },
         });
     };
@@ -95,9 +95,9 @@ const DoctorBooking = () => {
                                         <strong>Phone:</strong> {doctor.phoneNumber}
                                     </p>
                                 )} */}
-                                <p className="debug-info">
+                                {/* <p className="debug-info">
                                     <small>User ID: {doctor.userId || 'N/A'}</small>
-                                </p>
+                                </p> */}
                             </div>
                             <button
                                 className="book-button"

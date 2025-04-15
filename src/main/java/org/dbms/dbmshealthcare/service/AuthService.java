@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.dbms.dbmshealthcare.constants.JwtType;
 import org.dbms.dbmshealthcare.dto.IdentityCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
+  private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
   private final UserService userService;
   private final UserRepository userRepository;

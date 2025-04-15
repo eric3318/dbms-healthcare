@@ -30,3 +30,8 @@ export type AppointmentUpdateDto = components['schemas']['AppointmentUpdateDto']
 export type Doctor = components['schemas']['Doctor'];
 export type DoctorCreateDto = components['schemas']['DoctorCreateDto'];
 export type DoctorUpdateDto = components['schemas']['DoctorUpdateDto'];
+
+export type AgeDistributionDto = components['schemas']['AgeDistributionDto'];
+export type SpecialtyStatsDto = components['schemas']['SpecialtyStatsDto'];
+export type TopDoctorsDto = components['schemas']['TopDoctorsDto'];
+export type AnalyticsFilterDto = components['schemas']['AnalyticsFilterDto'];
