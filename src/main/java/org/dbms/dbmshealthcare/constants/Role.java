@@ -4,7 +4,7 @@ public enum Role {
   ADMIN("Admin"),
   DOCTOR("Doctor"),
   PATIENT("Patient"),
-  ANONYMOUS("Anonymous");
+  GUEST("Guest");
 
   private final String role;
 

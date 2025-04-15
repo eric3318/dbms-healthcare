@@ -1,13 +1,10 @@
 package org.dbms.dbmshealthcare.service;
 
-import java.time.Instant;
 import java.util.List;
 import org.dbms.dbmshealthcare.constants.RequisitionStatus;
 import org.dbms.dbmshealthcare.dto.RequisitionCreateDto;
-import org.dbms.dbmshealthcare.dto.RequisitionResultDto;
 import org.dbms.dbmshealthcare.dto.RequisitionUpdateDto;
 import org.dbms.dbmshealthcare.model.Requisition;
-import org.dbms.dbmshealthcare.model.pojo.RequisitionResult;
 import org.dbms.dbmshealthcare.repository.RequisitionRepository;
 import org.springframework.stereotype.Service;
 

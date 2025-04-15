@@ -1,13 +1,11 @@
 package org.dbms.dbmshealthcare.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nimbusds.jwt.JWT;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.dto.IdentityCheckDto;
@@ -16,7 +14,7 @@ import org.dbms.dbmshealthcare.dto.UserLoginDto;
 import org.dbms.dbmshealthcare.model.User;
 import org.dbms.dbmshealthcare.model.pojo.TokenPair;
 import org.dbms.dbmshealthcare.service.AuthService;
-import org.springframework.http.HttpHeaders;
+import org.dbms.dbmshealthcare.utils.AuthUtils;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,7 +44,7 @@ public class AuthController {
   @PostMapping("/identity")
   public ResponseEntity<String> verifyIdentity(
       @Valid @RequestBody IdentityCheckDto identityCheckDto, HttpServletResponse httpResponse) {
-    authService.verifyIdentity(getAuthenticatedUserId(), identityCheckDto);
+    authService.verifyIdentity(AuthUtils.getAuthenticatedUserInfo().id(), identityCheckDto);
 
     ResponseCookie refreshTokenCookie = buildCookie("refresh_token", "", 0);
     ResponseCookie accessTokenCookie = buildCookie("access_token", "", 0);
@@ -107,9 +105,9 @@ public class AuthController {
   public ResponseEntity<?> me() {
     Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    Map<String, Object> infoMap = jwt.getClaims();
+    Map<String, Object> claims =  jwt.getClaims();
 
-    return ResponseEntity.ok(infoMap);
+    return ResponseEntity.ok(claims);
   }
 
   private ResponseCookie buildCookie(String name, String value, int maxAge) {
@@ -120,16 +118,6 @@ public class AuthController {
         .path("/")
         .maxAge(maxAge).build();
     return cookie;
-  }
-
-  private String getAuthenticatedUserId() {
-    Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    Map<String, Object> claims = jwt.getClaims();
-
-    Map<String, Object> profileClaim = (Map<String, Object>) claims.get("profile");
-
-    return (String) profileClaim.get("id");
   }
 
 }

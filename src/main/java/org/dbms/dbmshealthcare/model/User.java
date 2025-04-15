@@ -38,7 +38,7 @@ public class User implements UserDetails {
   @Field(name = "phone_number")
   private final String phoneNumber;
 
-  private List<Role> roles = List.of(Role.ANONYMOUS);
+  private List<Role> roles = List.of(Role.GUEST);
 
   @Field(name = "jwt_id")
   private String jwtId;
