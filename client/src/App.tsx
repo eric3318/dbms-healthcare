@@ -1,5 +1,6 @@
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import '@mantine/notifications/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Profile from './pages/Profile/Profile';
@@ -9,13 +10,17 @@ import Root from './pages/Root/Root';
 import Auth from './pages/Auth/Auth';
 import OurTeam from './pages/OurTeam/OurTeam';
 import AuthProvider from './hooks/useAuth/AuthProvider';
-import Booking from './pages/Booking/Booking';
+import Availability from './pages/Booking/Availability/Availability';
 import Information from './pages/Profile/Information/Information';
 import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Services from './pages/Services/Services';
 import ContactUs from './pages/ContactUs/ContactUs';
-import DoctorBooking from './pages/Doctors/DoctorBooking';
+import Booking from './pages/Booking/Booking';
+import ProtectedLayout from './pages/ProtectedLayout/ProtectedLayout';
+import Unauthorized from './pages/Unauthorized/Unauthorized';
+import VerificationForm from './components/VerificationForm/VerificationForm';
+import { Notifications } from '@mantine/notifications';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -25,6 +30,20 @@ const router = createBrowserRouter([
                 index: true,
                 Component: Home,
             },
+            {
+                path: '/booking',
+                Component: Booking,
+            },
+            {
+                element: <ProtectedLayout allowedRoles={['PATIENT']} />,
+                children: [
+                    {
+                        path: '/booking/:doctorId',
+                        Component: Availability,
+                    },
+                ],
+            },
+
             {
                 path: '/our-team',
                 Component: OurTeam,
@@ -36,18 +55,6 @@ const router = createBrowserRouter([
             {
                 path: '/contact-us',
                 Component: ContactUs,
-            },
-            {
-                path: '/dashboard',
-                Component: Dashboard,
-            },
-            {
-                path: '/doctor-booking',
-                Component: DoctorBooking,
-            },
-            {
-                path: '/booking',
-                Component: Booking,
             },
             {
                 path: '/profile',
@@ -66,6 +73,15 @@ const router = createBrowserRouter([
         ],
     },
     {
+        element: <ProtectedLayout />,
+        children: [
+            {
+                path: '/dashboard',
+                Component: Dashboard,
+            },
+        ],
+    },
+    {
         path: '/signin',
         element: <Auth isSignIn={true} />,
     },
@@ -73,12 +89,21 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Auth isSignIn={false} />,
     },
+    {
+        path: '/verify',
+        Component: VerificationForm,
+    },
+    {
+        path: '/unauthorized',
+        Component: Unauthorized,
+    },
 ]);
 
 function App() {
     return (
         <MantineProvider>
             <AuthProvider>
+                <Notifications />
                 <RouterProvider router={router} />
             </AuthProvider>
         </MantineProvider>

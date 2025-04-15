@@ -1,30 +1,33 @@
 package org.dbms.dbmshealthcare.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.dto.AppointmentCreateDto;
 import org.dbms.dbmshealthcare.dto.AppointmentFilter;
 import org.dbms.dbmshealthcare.dto.AppointmentUpdateDto;
+import org.dbms.dbmshealthcare.dto.SlotFilter;
 import org.dbms.dbmshealthcare.model.Appointment;
 import org.dbms.dbmshealthcare.model.Slot;
-import org.dbms.dbmshealthcare.dto.SlotFilter;
 import org.dbms.dbmshealthcare.service.AppointmentService;
+import org.dbms.dbmshealthcare.utils.AuthUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
@@ -68,7 +71,7 @@ public class AppointmentController {
   @Operation(summary = "Create a new appointment", description = "Books an appointment in an available time slot based on the provided data")
   @PostMapping("/appointments")
   public ResponseEntity<Appointment> createAppointment(
-      @RequestBody AppointmentCreateDto appointmentCreateDto) throws ParseException {
+     @Valid @RequestBody AppointmentCreateDto appointmentCreateDto) {
     Appointment createdAppointment = appointmentService.createAppointment(appointmentCreateDto);
     return createdAppointment != null ? ResponseEntity.ok(createdAppointment)
         : ResponseEntity.badRequest().build();

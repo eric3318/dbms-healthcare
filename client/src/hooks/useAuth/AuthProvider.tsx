@@ -6,17 +6,17 @@ import { login, logout, register } from '../../utils/data';
 export type AuthContextType = {
     user: User | null | undefined;
     authenticated: boolean | undefined;
-    login: ((params: LoginParams) => Promise<boolean>) | null;
-    logout: (() => Promise<boolean>) | null;
-    register: ((params: RegisterParams) => Promise<boolean>) | null;
+    login: (params: LoginParams) => Promise<boolean>;
+    logout: () => Promise<boolean>;
+    register: (params: RegisterParams) => Promise<boolean>;
 };
 
 export const AuthContext = createContext<AuthContextType>({
     user: undefined,
     authenticated: undefined,
-    login: null,
-    logout: null,
-    register: null,
+    login: async () => false,
+    logout: async () => false,
+    register: async () => false,
 });
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {

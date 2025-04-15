@@ -5,6 +5,7 @@ import { Table, Button, Stack } from '@mantine/core';
 import styles from './appointments.module.css';
 import { format } from 'date-fns';
 import { Appointment, Slot } from '../../../../../lib/types';
+import { Text } from '@mantine/core';
 
 const tableHeads = [
     {
@@ -56,49 +57,66 @@ export default function Appointments() {
         setAppointments(appointments);
     };
 
-    const handleEditAppointment = async (
-      id: string,
-      status: 'APPROVED' | 'REJECTED' | 'CANCELLED'
-    ) => {
-      const success = await updateAppointment(id, { status });
-    
-      if (success) {
-        setAppointments((prev) =>
-          prev.map((appointment) =>
-            appointment.id === id ? { ...appointment, status } : appointment
-          )
-        );
-      }
+    const handleEditAppointment = async (id: string, status: 'APPROVED' | 'REJECTED' | 'CANCELLED') => {
+        const success = await updateAppointment(id, {
+            status,
+        });
+
+        if (success) {
+            setAppointments((prev) => {
+                return prev.map((appointment) => {
+                    if (appointment.id === id) {
+                        return { ...appointment, status };
+                    }
+                    return appointment;
+                });
+            });
+        }
     };
 
     return (
         <>
             <div className={styles.tableContainer}>
-                <Table verticalSpacing="lg">
-                    <Table.Thead>
-                        <Table.Tr>
-                            {tableHeads.map((head) => (
-                                <Table.Th key={head.value}>{head.label}</Table.Th>
-                            ))}
-                        </Table.Tr>
-                    </Table.Thead>
+                {appointments.length === 0 ? (
+                    <Text size="lg" fw={500}>
+                        No upcoming appointments
+                    </Text>
+                ) : (
+                    <Table verticalSpacing="lg">
+                        <Table.Thead>
+                            <Table.Tr>
+                                {tableHeads.map((head) => (
+                                    <Table.Th key={head.value}>{head.label}</Table.Th>
+                                ))}
+                            </Table.Tr>
+                        </Table.Thead>
 
-                    <Table.Tbody>
-                        {appointments.map((appointment) => (
-                            <Table.Tr key={appointment.id}>
-                                <Table.Td>
-                                    {format(new Date(appointment.slot?.startTime as string), 'MMM dd, yyyy')}
-                                </Table.Td>
-                                <Table.Td>{appointment.patient?.name}</Table.Td>
-                                <Table.Td>{format(new Date(appointment.slot?.startTime as string), 'HH:mm')}</Table.Td>
-                                <Table.Td>{format(new Date(appointment.slot?.endTime as string), 'HH:mm')}</Table.Td>
-                                <Table.Td>{appointment.status}</Table.Td>
-                                <Table.Td>
-                                    {format(new Date(appointment.createdAt as string), 'yyyy-MM-dd HH:mm')}
-                                </Table.Td>
-                                <Table.Td>
-                                    {format(new Date(appointment.updatedAt as string), 'yyyy-MM-dd HH:mm')}
-                                </Table.Td>
+                        <Table.Tbody>
+                            {appointments.map((appointment) => (
+                                <Table.Tr key={appointment.id}>
+                                    <Table.Td>
+                                        {format(new Date(appointment.slot?.startTime as string), 'MMM dd, yyyy')}
+                                    </Table.Td>
+
+                                    <Table.Td>{appointment.patientName}</Table.Td>
+
+                                    <Table.Td>
+                                        {format(new Date(appointment.slot?.startTime as string), 'HH:mm')}
+                                    </Table.Td>
+
+                                    <Table.Td>
+                                        {format(new Date(appointment.slot?.endTime as string), 'HH:mm')}
+                                    </Table.Td>
+
+                                    <Table.Td>{appointment.status}</Table.Td>
+
+                                    <Table.Td>
+                                        {format(new Date(appointment.createdAt as string), 'yyyy-MM-dd HH:mm')}
+                                    </Table.Td>
+
+                                    <Table.Td>
+                                        {format(new Date(appointment.updatedAt as string), 'yyyy-MM-dd HH:mm')}
+                                    </Table.Td>
 
                                 {appointment.status === 'PENDING_APPROVAL' && (
                                     <>

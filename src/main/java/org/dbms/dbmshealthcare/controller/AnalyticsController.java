@@ -4,6 +4,10 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
@@ -19,11 +23,6 @@ import org.dbms.dbmshealthcare.dto.analytics.SpecialtyStatsDto;
 import org.dbms.dbmshealthcare.dto.analytics.TopDoctorsDto;
 import org.dbms.dbmshealthcare.service.AnalyticsService;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/analytics")

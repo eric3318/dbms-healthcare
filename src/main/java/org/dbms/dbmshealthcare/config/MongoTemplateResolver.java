@@ -1,5 +1,6 @@
 package org.dbms.dbmshealthcare.config;
 
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.Authentication;
@@ -7,8 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 
 @Component
 public class MongoTemplateResolver {
@@ -36,13 +35,10 @@ public class MongoTemplateResolver {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
             if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                System.out.println("Admin template");
                 return adminMongoTemplate;
             } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_DOCTOR"))) {
-                System.out.println("Doctor template");
                 return doctorMongoTemplate;
             } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_PATIENT"))) {
-                System.out.println("Patient template");
                 return patientMongoTemplate;
             }
         }
