@@ -1,8 +1,9 @@
 .container {
+    height: 100%;
     display: flex;
-    column-gap: var(--mantine-spacing-md);
 }
 
 .contentContainer {
-    overflow-x: scroll;
+    flex: 1;
+    padding: var(--mantine-spacing-lg) var(--mantine-spacing-md);
 }

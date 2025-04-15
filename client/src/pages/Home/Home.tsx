@@ -2,8 +2,12 @@ import { Stack, Text, Button } from '@mantine/core';
 import mainImage from '/main.webp';
 import styles from './home.module.css';
 import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth/useAuth';
 
 export default function Home() {
+    const { user } = useAuth();
+    const role = user?.roles?.[0].toLowerCase();
+
     return (
         <div className={styles.container}>
             <div className={styles.mainImageContainer}>
@@ -12,16 +16,18 @@ export default function Home() {
                         Welcome to our clinic
                     </Text>
 
-                    <div>
-                        <Button
-                            component={Link}
-                            to="/doctor-booking"
-                            size="xl"
-                            styles={{ root: { backgroundColor: 'red' } }}
-                        >
-                            Book an appointment
-                        </Button>
-                    </div>
+                    {role === 'patient' && (
+                        <div>
+                            <Button
+                                component={Link}
+                                to="/booking"
+                                size="xl"
+                                styles={{ root: { backgroundColor: 'red' } }}
+                            >
+                                Book an appointment
+                            </Button>
+                        </div>
+                    )}
                 </Stack>
 
                 <img src={mainImage} alt="main" className={styles.mainImage} />

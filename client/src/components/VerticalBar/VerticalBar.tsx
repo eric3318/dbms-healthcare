@@ -3,6 +3,8 @@ import styles from './verticalBar.module.css';
 import { User } from '../../lib/types';
 import { Stack } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth/useAuth';
+import { useNavigate } from 'react-router';
 
 type Option = {
     label: string;
@@ -19,6 +21,14 @@ type Props = {
 };
 
 export default function VerticalBar({ user, selectedRole, options, active, onChange, onRoleChange }: Props) {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/signin');
+    };
+
     return (
         <div className={styles.container}>
             <Stack>
@@ -65,7 +75,7 @@ export default function VerticalBar({ user, selectedRole, options, active, onCha
                         Home
                     </Button>
 
-                    <Button variant="subtle" size="lg" radius={0} h={64}>
+                    <Button onClick={handleLogout} variant="subtle" size="lg" radius={0} h={64}>
                         Log out
                     </Button>
                 </Stack>

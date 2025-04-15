@@ -1,7 +1,9 @@
 .container {
     display: flex;
     column-gap: var(--mantine-spacing-md);
-    height: 360px;
+    border: var(--mantine-color-gray-2) 1px solid;
+    border-radius: var(--mantine-radius-lg);
+    padding: var(--mantine-spacing-md);
 }
 
 .datePickerContainer {
@@ -14,7 +16,7 @@
 }
 
 .timePicker {
-    width: 450px;
+    flex: 1;
 }
 
 .header {
@@ -22,19 +24,10 @@
     flex-direction: column;
     justify-content: center;
     height: 50px;
-    background-color: var(--mantine-color-gray-0);
-}
-
-.body {
-    overflow-y: scroll;
-    height: 100%;
-    height: calc(100% - 50px);
 }
 
 .slotContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: var(--mantine-spacing-md);
-    padding: var(--mantine-spacing-md) 0;
 }

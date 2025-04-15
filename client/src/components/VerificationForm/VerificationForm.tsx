@@ -4,18 +4,16 @@ import { Radio, Group } from '@mantine/core';
 import styles from './verificationForm.module.css';
 import { useState } from 'react';
 import { verifyIdentity } from '../../utils/data';
+import { useNavigate } from 'react-router';
 type FormValues = {
     name?: string;
     personalHealthNumber?: string;
     licenseNumber?: string;
 };
 
-type VerificationFormProps = {
-    onVerificationSuccess: () => void;
-};
-
-export default function VerificationForm({ onVerificationSuccess }: VerificationFormProps) {
+export default function VerificationForm() {
     const [identityType, setIdentityType] = useState<string>('practitioner');
+    const navigate = useNavigate();
 
     const form = useForm<FormValues>({
         mode: 'uncontrolled',
@@ -34,7 +32,7 @@ export default function VerificationForm({ onVerificationSuccess }: Verification
         };
         const success = await verifyIdentity(payload);
         if (success) {
-            onVerificationSuccess();
+            navigate('/signin');
         }
     };
 

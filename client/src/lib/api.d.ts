@@ -4,6 +4,22 @@
  */
 
 export interface paths {
+    "/api/records/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMedicalRecord"];
+        put: operations["updateMedicalRecord"];
+        post?: never;
+        delete: operations["deleteMedicalRecord"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/patients/{id}": {
         parameters: {
             query?: never;
@@ -208,6 +224,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMedicalRecords"];
+        put?: never;
+        post: operations["createMedicalRecord"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/patients": {
         parameters: {
             query?: never;
@@ -262,6 +294,46 @@ export interface paths {
          * @description Books an appointment in an available time slot based on the provided data
          */
         post: operations["createAppointment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/indexes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create database indexes
+         * @description Create indexes on specified collections to optimize query performance
+         */
+        post: operations["createIndexes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/aggregate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Execute aggregation pipeline
+         * @description Run a custom MongoDB aggregation pipeline on a specified collection
+         */
+        post: operations["executeAggregation"];
         delete?: never;
         options?: never;
         head?: never;
@@ -368,6 +440,19 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        MedicalRecordUpdateDto: {
+            patientDescription?: string;
+            doctorNotes?: string;
+            finalDiagnosis?: string;
+            requisitionIds?: string[];
+            prescriptions?: components["schemas"]["Prescription"][];
+            billingAmount?: number;
+        };
+        Prescription: {
+            medicineName?: string;
+            dosage?: string;
+            frequency?: string;
+        };
         PatientUpdateDto: {
             address?: string;
         };
@@ -401,7 +486,7 @@ export interface components {
         };
         AppointmentUpdateDto: {
             /** @enum {string} */
-            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
             visitReason?: string;
         };
         UserCreateDto: {
@@ -482,6 +567,29 @@ export interface components {
             /** Format: date-time */
             reportedAt?: string;
         };
+        MedicalRecordCreateDto: {
+            appointmentId?: string;
+            patientDescription?: string;
+            doctorNotes?: string;
+            billingAmount?: number;
+        };
+        MedicalRecord: {
+            id?: string;
+            patientId?: string;
+            doctorId?: string;
+            appointmentId?: string;
+            visitReason?: string;
+            patientDescription?: string;
+            doctorNotes?: string;
+            finalDiagnosis?: string;
+            requisitions?: string[];
+            prescriptions?: components["schemas"]["Prescription"][];
+            billingAmount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         PatientCreateDto: {
             name?: string;
             personalHealthNumber?: string;
@@ -503,7 +611,7 @@ export interface components {
             slot?: components["schemas"]["SlotDetails"];
             visitReason?: string;
             /** @enum {string} */
-            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -514,6 +622,13 @@ export interface components {
             startTime?: string;
             /** Format: date-time */
             endTime?: string;
+        };
+        IndexRequest: {
+            commands?: string;
+        };
+        AggregationRequest: {
+            collection?: string;
+            pipeline?: string;
         };
         SlotFilter: {
             doctorId?: string;
@@ -532,7 +647,7 @@ export interface components {
             /** Format: date-time */
             to?: string;
             /** @enum {string} */
-            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
         };
     };
     responses: never;
@@ -543,6 +658,76 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+        };
+    };
+    updateMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalRecordUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
+    deleteMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
     getPatientById: {
         parameters: {
             query?: never;
@@ -670,12 +855,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description No Content */
-            204: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": Record<string, never>;
+                };
             };
         };
     };
@@ -954,6 +1141,50 @@ export interface operations {
             };
         };
     };
+    getMedicalRecords: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"][];
+                };
+            };
+        };
+    };
+    createMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalRecordCreateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+        };
+    };
     getAllPatients: {
         parameters: {
             query?: never;
@@ -1084,6 +1315,56 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Appointment"];
+                };
+            };
+        };
+    };
+    createIndexes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IndexRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: Record<string, never>;
+                    };
+                };
+            };
+        };
+    };
+    executeAggregation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AggregationRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
                 };
             };
         };
