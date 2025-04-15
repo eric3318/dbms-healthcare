@@ -60,18 +60,20 @@ export default function SlotPicker({ items, onSlotSelect }: Props) {
                 <div className={styles.body}>
                     <div className={styles.slotContainer}>
                         {filteredItems.map((item) => (
-                            <Button
-                                key={item.id}
-                                variant={selectedSlotId === item.id ? 'filled' : 'outline'}
-                                color="blue"
-                                size="lg"
-                                radius="lg"
-                                w={250}
-                                onClick={() => handleSlotSelect(item.id as string)}
-                            >
-                                {format(new Date(item.startTime as string), 'h:mm a')} -{' '}
-                                {format(new Date(item.endTime as string), 'h:mm a')}
-                            </Button>
+                          <Button
+                            key={item.id}
+                            variant={selectedSlotId === item.id ? 'filled' : 'outline'}
+                            color={item.status === 'AVAILABLE' ? 'blue' : 'gray'}
+                            size="lg"
+                            radius="lg"
+                            w={250}
+                            onClick={() => handleSlotSelect(item.id as string)}
+                            disabled={item.status !== 'AVAILABLE'} // 🔒 Disable if not available
+                            title={item.status !== 'AVAILABLE' ? 'This slot is already booked' : ''}
+                          >
+                            {format(new Date(item.startTime as string), 'h:mm a')} -{' '}
+                            {format(new Date(item.endTime as string), 'h:mm a')}
+                          </Button>
                         ))}
                     </div>
                 </div>
