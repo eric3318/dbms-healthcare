@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.JwtType;
 import org.dbms.dbmshealthcare.dto.IdentityCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
+import org.dbms.dbmshealthcare.dto.UserUpdateDto;
 import org.dbms.dbmshealthcare.model.Doctor;
 import org.dbms.dbmshealthcare.model.Patient;
 import org.dbms.dbmshealthcare.model.User;
@@ -17,6 +18,7 @@ import org.dbms.dbmshealthcare.repository.DoctorRepository;
 import org.dbms.dbmshealthcare.repository.PatientRepository;
 import org.dbms.dbmshealthcare.repository.UserRepository;
 import org.dbms.dbmshealthcare.utils.JwtUtils;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,33 +28,22 @@ public class AuthService {
 
   private final UserService userService;
   private final UserRepository userRepository;
-  private final PatientRepository patientRepository;
-  private final DoctorRepository doctorRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtUtils jwtUtils;
 
-  public User register(String identity, String roleId, UserCreateDto userCreateDto) {
-    return userRepository.createUser(identity, roleId, userCreateDto);
+  public User register(UserCreateDto userCreateDto) {
+    User user = new User(
+        userCreateDto.name(),
+        userCreateDto.email(),
+        passwordEncoder.encode(userCreateDto.password()),
+        userCreateDto.dateOfBirth(),
+        userCreateDto.phoneNumber()
+    );
+    return userRepository.save(user);
   }
 
-  public String verifyIdentity(IdentityCheckDto identityCheckDto) {
-    String licenseNumber = identityCheckDto.licenseNumber();
-    String personalHealthNumber = identityCheckDto.personalHealthNumber();
-    String name = identityCheckDto.name();
-
-    if (licenseNumber != null) {
-      Doctor doctor = doctorRepository.findByLicenseNumber(licenseNumber);
-      if (doctor != null && name.equals(doctor.getName())) {
-        return doctor.getId();
-      }
-    } else if (personalHealthNumber != null) {
-      Patient patient = patientRepository.findByPersonalHealthNumber(personalHealthNumber);
-      if (patient != null && name.equals(patient.getName())) {
-        return patient.getId();
-      }
-    }
-
-    return null;
+  public void verifyIdentity(String userId, IdentityCheckDto identityCheckDto) {
+    userRepository.authorize(userId, identityCheckDto);
   }
 
   public TokenPair login(String email, String password, boolean rememberMe) throws Exception {
@@ -63,12 +54,15 @@ public class AuthService {
       throw new RuntimeException("Invalid credentials");
     }
 
+    String roleId = user.getRoleId();
+    String name = user.getName();
+
     Map<String, Object> claims = Map.of(
         "roles", user.getRoles(),
         "profile", Map.of(
             "id", user.getId(),
-            "role_id", user.getRoleId(),
-            "name", user.getName(),
+            "role_id", roleId == null ? "" : roleId ,
+            "name", name == null ? "" : name,
             "date_of_birth", user.getDateOfBirth().toString()
         )
     );
@@ -77,7 +71,9 @@ public class AuthService {
 
     String jti = tokens.jti();
 
-    userService.updateUser(user.getId(), jti);
+    Update update = new Update().set("jwt_id", jti);
+
+    userRepository.update(user.getId(), update);
 
     return tokens;
   }

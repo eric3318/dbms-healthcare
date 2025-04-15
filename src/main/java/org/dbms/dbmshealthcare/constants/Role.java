@@ -3,7 +3,8 @@ package org.dbms.dbmshealthcare.constants;
 public enum Role {
   ADMIN("Admin"),
   DOCTOR("Doctor"),
-  PATIENT("Patient");
+  PATIENT("Patient"),
+  ANONYMOUS("Anonymous");
 
   private final String role;
 
