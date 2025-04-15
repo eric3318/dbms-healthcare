@@ -118,55 +118,50 @@ export default function Appointments() {
                                         {format(new Date(appointment.updatedAt as string), 'yyyy-MM-dd HH:mm')}
                                     </Table.Td>
 
-                                {appointment.status === 'PENDING_APPROVAL' && (
-                                    <>
+                                    {appointment.status === 'PENDING_APPROVAL' && (
+                                        <>
+                                            <Table.Td>
+                                                <Button
+                                                    onClick={() =>
+                                                        handleEditAppointment(appointment.id as string, 'APPROVED')
+                                                    }
+                                                    size="xs"
+                                                >
+                                                    Approve
+                                                </Button>
+                                            </Table.Td>
+
+                                            <Table.Td>
+                                                <Button
+                                                    onClick={() =>
+                                                        handleEditAppointment(appointment.id as string, 'REJECTED')
+                                                    }
+                                                    size="xs"
+                                                >
+                                                    Reject
+                                                </Button>
+                                            </Table.Td>
+                                        </>
+                                    )}
+
+                                    {appointment.status === 'APPROVED' && (
                                         <Table.Td>
                                             <Button
-                                                onClick={() => {
-                                                  if (appointment.id) {
-                                                    handleEditAppointment(appointment.id, 'APPROVED');
-                                                  }
-                                                }}
                                                 size="xs"
+                                                color="red"
+                                                onClick={() =>
+                                                    handleEditAppointment(appointment.id as string, 'CANCELLED')
+                                                }
                                             >
-                                                Approve
+                                                Cancel
                                             </Button>
                                         </Table.Td>
-
-                                        <Table.Td>
-                                            <Button
-                                                onClick={() => {
-                                                  if (appointment.id) {
-                                                    handleEditAppointment(appointment.id, 'REJECTED');
-                                                  }
-                                                }}
-                                                size="xs"
-                                            >
-                                                Reject
-                                            </Button>
-                                        </Table.Td>
-                                    </>
-                                )}
-
-                                {appointment.status === 'APPROVED' && (
-                                    <Table.Td>
-                                        <Button
-                                            size="xs"
-                                            color="red"
-                                            onClick={() => {
-                                              if (appointment.id) {
-                                                handleEditAppointment(appointment.id, 'CANCELLED');
-                                              }
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </Table.Td>
-                                )}
-                            </Table.Tr>
-                        ))}
-                    </Table.Tbody>
-                </Table>
+                                    )}
+                                </Table.Tr>
+                            ))}
+                        </Table.Tbody>
+                    </Table>
+                )}
             </div>
         </>
     );
