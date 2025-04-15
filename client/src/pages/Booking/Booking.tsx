@@ -5,14 +5,17 @@ import { useNavigate, useLocation } from 'react-router';
 import { fetchSlots } from '../../utils/data';
 import SlotPicker from '../../components/SlotPicker/SlotPicker';
 import styles from './booking.module.css';
-import { Button, Text, Stack } from '@mantine/core';
+import { Button, Text, Modal } from '@mantine/core';
 
 export default function Booking() {
     const { state } = useLocation();
-    const { doctorId } = state;
+    const { doctor } = state;
+    const doctorId = doctor._id || doctor.id;
+
 
     const [slots, setSlots] = useState<Slot[]>([]);
     const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+    const [modalOpened, setModalOpened] = useState(false);
 
     const handleSubmit = async () => {
         if (!selectedSlot) {
@@ -25,6 +28,7 @@ export default function Booking() {
 
         if (createdAppointment) {
             console.log(createdAppointment);
+            setModalOpened(true);
         }
     };
 
@@ -43,7 +47,7 @@ export default function Booking() {
     return (
         <div className={styles.container}>
             <Text fw={500} size="xl">
-                Dr. John Doe
+                {doctor.name}
             </Text>
 
             <SlotPicker items={slots} onSlotSelect={handleSlotSelect} />
@@ -53,6 +57,14 @@ export default function Booking() {
                     Confirm
                 </Button>
             </div>
+
+            <Modal
+              opened={modalOpened}
+              onClose={() => setModalOpened(false)}
+              title="Appointment Submitted"
+              centered
+            >
+            </Modal>
         </div>
     );
 }
