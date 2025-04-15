@@ -1,129 +1,151 @@
 package org.dbms.dbmshealthcare.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.dbms.dbmshealthcare.constants.AppointmentStatus;
-import org.dbms.dbmshealthcare.dto.AppointmentFilter;
-import org.dbms.dbmshealthcare.dto.MedicalRecordCreateDto;
-import org.dbms.dbmshealthcare.dto.MedicalRecordFilter;
-import org.dbms.dbmshealthcare.dto.MedicalRecordUpdateDto;
-import org.dbms.dbmshealthcare.model.Appointment;
+import org.dbms.dbmshealthcare.constants.Role;
 import org.dbms.dbmshealthcare.model.MedicalRecord;
+import org.dbms.dbmshealthcare.model.User;
+import org.dbms.dbmshealthcare.model.Doctor;
+import org.dbms.dbmshealthcare.model.Patient;
 import org.dbms.dbmshealthcare.model.pojo.Prescription;
+import org.dbms.dbmshealthcare.dto.MedicalRecordCreateDto;
+import org.dbms.dbmshealthcare.dto.MedicalRecordUpdateDto;
 import org.dbms.dbmshealthcare.repository.MedicalRecordRepository;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.dbms.dbmshealthcare.repository.DoctorRepository;
+import org.dbms.dbmshealthcare.repository.PatientRepository;
+import org.dbms.dbmshealthcare.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
 public class MedicalRecordService {
+    private final MedicalRecordRepository medicalRecordRepository;
+    private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
 
-  private final MedicalRecordRepository medicalRecordRepository;
-  private final AppointmentService appointmentService;
+    // CREATE
+    public MedicalRecord createMedicalRecord(MedicalRecordCreateDto medicalRecordCreateDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
 
-  public MedicalRecord createMedicalRecord(MedicalRecordCreateDto medicalRecordCreateDto) {
-    String appointmentId = medicalRecordCreateDto.appointmentId();
-    Appointment appointment = appointmentService.getAppointmentById(
-        appointmentId);
+        String userId = authentication.getName();
+        User user = userRepository.findById(userId);
+        if (user == null || !user.getRoles().contains(Role.DOCTOR)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only doctors can create medical records");
+        }
 
-    if (appointment == null) {
-      return null;
+        // Get doctor ID from user's roleId
+        String doctorId = user.getRoleId();
+        Doctor doctor = doctorRepository.findById(doctorId);
+        if (doctor == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found");
+        }
+
+        // Verify patient exists
+        Patient patient = patientRepository.findById(medicalRecordCreateDto.patientId());
+        if (patient == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found");
+        }
+
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setPatientId(medicalRecordCreateDto.patientId());
+        medicalRecord.setDoctorId(doctorId);
+        medicalRecord.setVisitReason(medicalRecordCreateDto.visitReason());
+        medicalRecord.setPatientDescription(medicalRecordCreateDto.patientDescription());
+        medicalRecord.setDoctorNotes(medicalRecordCreateDto.doctorNotes());
+        medicalRecord.setFinalDiagnosis(medicalRecordCreateDto.finalDiagnosis());
+        medicalRecord.setPrescriptions(medicalRecordCreateDto.prescriptions());
+        medicalRecord.setBillingAmount(medicalRecordCreateDto.billingAmount());
+        return medicalRecordRepository.save(medicalRecord);
     }
 
-    MedicalRecord medicalRecord = new MedicalRecord(appointment.getPatientId(),
-        appointment.getDoctorId(), appointmentId, appointment.getVisitReason(),
-        medicalRecordCreateDto.patientDescription(),
-        medicalRecordCreateDto.doctorNotes());
-
-    BigDecimal billingAmount = medicalRecordCreateDto.billingAmount();
-    if (billingAmount != null) {
-      medicalRecord.setBillingAmount(billingAmount);
+    // READ
+    public MedicalRecord getMedicalRecordById(String id) {
+        MedicalRecord record = medicalRecordRepository.findById(id);
+        if (record == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Medical record not found with id: " + id);
+        }
+        return record;
     }
 
-    MedicalRecord created = medicalRecordRepository.create(medicalRecord);
-    return created;
-  }
 
-  public List<MedicalRecord> getMedicalRecords(MedicalRecordFilter filter) {
-    Query query = buildQuery(filter);
-    return medicalRecordRepository.findAll(query);
-  }
-
-  public MedicalRecord getMedicalRecordById(String id) {
-    return medicalRecordRepository.findById(id);
-  }
-
-  public void deleteMedicalRecord(String id) {
-    MedicalRecord deleted = medicalRecordRepository.delete(id);
-    if (deleted == null) {
-      throw new RuntimeException("Medical record delete failed");
-    }
-  }
-
-  public void updateMedicalRecord(String id, MedicalRecordUpdateDto medicalRecordUpdateDto) {
-    Update updates = new Update();
-
-    String patientDescription = medicalRecordUpdateDto.patientDescription();
-    String doctorNotes = medicalRecordUpdateDto.doctorNotes();
-    String finalDiagnosis = medicalRecordUpdateDto.finalDiagnosis();
-    List<String> requisitionIds = medicalRecordUpdateDto.requisitionIds();
-    List<Prescription> prescriptions = medicalRecordUpdateDto.prescriptions();
-
-    if (patientDescription != null) {
-      updates.set("patient_description", patientDescription);
+    public List<MedicalRecord> getMedicalRecordsByPatientId(String patientId) {
+        return medicalRecordRepository.findByPatientId(patientId);
     }
 
-    if (doctorNotes != null) {
-      updates.set("doctor_notes", doctorNotes);
+    public List<MedicalRecord> getMedicalRecordsByDoctorId(String doctorId) {
+        return medicalRecordRepository.findByDoctorId(doctorId);
     }
 
-    if (finalDiagnosis != null) {
-      updates.set("final_diagnosis", finalDiagnosis);
+    // UPDATE
+    public MedicalRecord updateMedicalRecord(String id, MedicalRecordUpdateDto medicalRecordUpdateDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+
+        String userId = authentication.getName();
+        User user = userRepository.findById(userId);
+        if (user == null || !user.getRoles().contains(Role.DOCTOR)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only doctors can update medical records");
+        }
+
+        MedicalRecord existingRecord = medicalRecordRepository.findById(id);
+        if (existingRecord == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Medical record not found");
+        }
+
+        if (!existingRecord.getDoctorId().equals(user.getRoleId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the doctor who created the record can update it");
+        }
+
+        Update update = new Update();
+        
+        if (medicalRecordUpdateDto.doctorNotes() != null) {
+            update.set("doctorNotes", medicalRecordUpdateDto.doctorNotes());
+        }
+        if (medicalRecordUpdateDto.finalDiagnosis() != null) {
+            update.set("finalDiagnosis", medicalRecordUpdateDto.finalDiagnosis());
+        }
+        if (medicalRecordUpdateDto.prescriptions() != null) {
+            update.set("prescriptions", medicalRecordUpdateDto.prescriptions());
+        }
+        if (medicalRecordUpdateDto.billingAmount() != null) {
+            update.set("billingAmount", medicalRecordUpdateDto.billingAmount());
+        }
+        return medicalRecordRepository.update(id, update);
     }
 
-    if (requisitionIds != null && !requisitionIds.isEmpty()) {
-      updates.set("requisitions", requisitionIds);
+    // DELETE
+    public void deleteMedicalRecord(String id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+
+        String userId = authentication.getName();
+        User user = userRepository.findById(userId);
+        if (user == null || !user.getRoles().contains(Role.DOCTOR)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only doctors can delete medical records");
+        }
+
+        MedicalRecord existingRecord = medicalRecordRepository.findById(id);
+        if (existingRecord == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Medical record not found");
+        }
+
+        if (!existingRecord.getDoctorId().equals(user.getRoleId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the doctor who created the record can delete it");
+        }
+
+        medicalRecordRepository.delete(id);
     }
-
-    if (prescriptions != null && !prescriptions.isEmpty()) {
-      updates.set("prescriptions", prescriptions);
-    }
-
-    MedicalRecord updated = medicalRecordRepository.update(id, updates);
-    if (updated == null) {
-      throw new RuntimeException("Medical record update failed");
-    }
-  }
-
-  private Query buildQuery(MedicalRecordFilter filter) {
-    Query query = new Query();
-
-    String patientId = filter.patientId();
-    String doctorId = filter.doctorId();
-    LocalDateTime from = filter.from();
-    LocalDateTime to = filter.to();
-
-    if (patientId != null) {
-      query.addCriteria(Criteria.where("patient_id").is(patientId));
-    }
-
-    if (doctorId != null) {
-      query.addCriteria(Criteria.where("doctor_id").is(doctorId));
-    }
-
-    if (from != null) {
-      query.addCriteria(Criteria.where("created_at").gte(from.toInstant(ZoneOffset.UTC)));
-    }
-
-    if (to != null) {
-      query.addCriteria(Criteria.where("created_at").lte(to.toInstant(ZoneOffset.UTC)));
-    }
-
-    return query;
-  }
 }
