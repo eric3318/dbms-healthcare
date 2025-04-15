@@ -114,8 +114,19 @@ public class AuthController {
       httpResponse.addHeader("Set-Cookie", accessTokenCookie.toString());
 
     return ResponseEntity.ok("Login successful");
+  } 
 
+  @PostMapping("/logout")
+  public ResponseEntity<String> logout(HttpServletResponse httpResponse) {
+    ResponseCookie refreshTokenCookie = buildCookie("refresh_token", "", 0);
+    ResponseCookie accessTokenCookie = buildCookie("access_token", "", 0);
+
+    httpResponse.addHeader("Set-Cookie", refreshTokenCookie.toString());
+    httpResponse.addHeader("Set-Cookie", accessTokenCookie.toString());
+
+    return ResponseEntity.ok("Logout successful");
   }
+
 
   @PreAuthorize("hasRole('Refresh_token')")
   @PostMapping("/refresh")

@@ -231,6 +231,7 @@ export async function login(params: LoginParams): Promise<boolean> {
 export async function logout(): Promise<boolean> {
     try {
         const res = await fetch(`${AUTH_URL}/logout`, {
+            method: 'POST',
             credentials: 'include',
         });
 
