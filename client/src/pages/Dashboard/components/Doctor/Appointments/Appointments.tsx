@@ -56,21 +56,19 @@ export default function Appointments() {
         setAppointments(appointments);
     };
 
-    const handleEditAppointment = async (id: string, status: 'APPROVED' | 'REJECTED') => {
-        const success = await updateAppointment(id, {
-            status,
-        });
-
-        if (success) {
-            setAppointments((prev) => {
-                return prev.map((appointment) => {
-                    if (appointment.id === id) {
-                        return { ...appointment, status: 'APPROVED' };
-                    }
-                    return appointment;
-                });
-            });
-        }
+    const handleEditAppointment = async (
+      id: string,
+      status: 'APPROVED' | 'REJECTED' | 'CANCELLED'
+    ) => {
+      const success = await updateAppointment(id, { status });
+    
+      if (success) {
+        setAppointments((prev) =>
+          prev.map((appointment) =>
+            appointment.id === id ? { ...appointment, status } : appointment
+          )
+        );
+      }
     };
 
     return (
@@ -106,7 +104,11 @@ export default function Appointments() {
                                     <>
                                         <Table.Td>
                                             <Button
-                                                onClick={() => handleEditAppointment(appointment.id, 'APPROVED')}
+                                                onClick={() => {
+                                                  if (appointment.id) {
+                                                    handleEditAppointment(appointment.id, 'APPROVED');
+                                                  }
+                                                }}
                                                 size="xs"
                                             >
                                                 Approve
@@ -115,7 +117,11 @@ export default function Appointments() {
 
                                         <Table.Td>
                                             <Button
-                                                onClick={() => handleEditAppointment(appointment.id, 'REJECTED')}
+                                                onClick={() => {
+                                                  if (appointment.id) {
+                                                    handleEditAppointment(appointment.id, 'REJECTED');
+                                                  }
+                                                }}
                                                 size="xs"
                                             >
                                                 Reject
@@ -129,7 +135,11 @@ export default function Appointments() {
                                         <Button
                                             size="xs"
                                             color="red"
-                                            onClick={() => handleEditAppointment(appointment.id, 'CANCELLED')}
+                                            onClick={() => {
+                                              if (appointment.id) {
+                                                handleEditAppointment(appointment.id, 'CANCELLED');
+                                              }
+                                            }}
                                         >
                                             Cancel
                                         </Button>
