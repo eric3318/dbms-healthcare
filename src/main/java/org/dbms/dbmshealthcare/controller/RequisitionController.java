@@ -65,4 +65,9 @@ public class RequisitionController {
   public void deleteRequisition(@PathVariable String id) {
     requisitionService.deleteRequisition(id);
   }
+  @Operation(summary = "Get requisitions by user ID", description = "Retrieves all requisitions for a given user via patient -> medicalRecord -> requisition chain")
+  @GetMapping("/by-user/{userId}")
+  public List<Requisition> getRequisitionsByUserId(@PathVariable String userId) {
+    return requisitionService.getRequisitionsByUserId(userId);
+  }
 } 
