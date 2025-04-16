@@ -52,6 +52,7 @@
        { resource: { db: "healthcare", collection: "slots" }, actions: ["find", "insert", "update", "remove"] },
        { resource: { db: "healthcare", collection: "requisitions" }, actions: ["find", "insert", "update"] },
        { resource: { db: "healthcare", collection: "medical_records" }, actions: ["find", "insert", "update"] },
+       { resource: { db: "healthcare", collection: "users" }, actions: ["find", "update"] }
      ],
      roles: []
    })
@@ -65,7 +66,8 @@
        { resource: { db: "healthcare", collection: "doctors" }, actions: ["find"] },
        { resource: { db: "healthcare", collection: "appointments" }, actions: ["find", "insert", "update"] },
        { resource: { db: "healthcare", collection: "slots" }, actions: ["find", "update"] },
-       { resource: { db: "healthcare", collection: "requisitions" }, actions: ["find"] }
+       { resource: { db: "healthcare", collection: "requisitions" }, actions: ["find"] },
+       { resource: { db: "healthcare", collection: "users" }, actions: ["find", "update"] }
      ],
      roles: []
    })
