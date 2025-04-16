@@ -43,14 +43,14 @@ public class UserRepository extends BaseMongoRepository<User> {
 
     if (licenseNumber != null) {
       Doctor doctor = doctorRepository.findByLicenseNumber(licenseNumber);
-      if (doctor != null && name.equals(doctor.getName())) {
+      if (doctor != null && name.equals(doctor.getName()) && doctor.getUserId() == null) {
         roleId = doctor.getId();
         userUpdates.set("roles", List.of(Role.DOCTOR));
         doctorRepository.update(doctor.getId(), updates);
       }
     } else if (personalHealthNumber != null) {
       Patient patient = patientRepository.findByPersonalHealthNumber(personalHealthNumber);
-      if (patient != null && name.equals(patient.getName())) {
+      if (patient != null && name.equals(patient.getName()) && patient.getUserId() == null) {
         roleId = patient.getId();
         userUpdates.set("roles", List.of(Role.PATIENT));
         patientRepository.update(patient.getId(), updates);
