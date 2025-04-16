@@ -29,6 +29,11 @@ export default function SlotPicker({ items, onSelect }: Props) {
         setFilteredItems(items.filter((slot) => isSameDay(new Date(slot.startTime as string), selectedDate)));
     }, [selectedDate]);
 
+    useEffect(() => {
+        setSelectedSlotId(null);
+        onSelect('');
+    }, [selectedDate]);
+
     return (
         <div className={styles.container}>
             <div className={styles.datePickerContainer}>
