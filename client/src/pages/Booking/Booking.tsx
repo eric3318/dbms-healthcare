@@ -1,70 +1,137 @@
-import { createAppointment } from '../../utils/data';
-import { useState, useEffect } from 'react';
-import { Slot } from '../../lib/types';
-import { useNavigate, useLocation } from 'react-router';
-import { fetchSlots } from '../../utils/data';
-import SlotPicker from '../../components/SlotPicker/SlotPicker';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Doctor, getAllDoctors } from '../../utils/doctors';
 import styles from './booking.module.css';
-import { Button, Text, Modal } from '@mantine/core';
+import {
+    Button,
+    Card,
+    Container,
+    Select,
+    Title,
+    Text,
+    LoadingOverlay,
+    Alert,
+    Stack,
+    Group,
+    Avatar,
+    Badge,
+    SimpleGrid,
+} from '@mantine/core';
+import { IconAlertCircle, IconStethoscope } from '@tabler/icons-react';
 
-export default function Booking() {
-    const { state } = useLocation();
-    const { doctor } = state;
-    const doctorId = doctor._id || doctor.id;
-
-
-    const [slots, setSlots] = useState<Slot[]>([]);
-    const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-    const [modalOpened, setModalOpened] = useState(false);
-
-    const handleSubmit = async () => {
-        if (!selectedSlot) {
-            return;
-        }
-
-        const createdAppointment = await createAppointment({
-            slotId: selectedSlot,
-        });
-
-        if (createdAppointment) {
-            console.log(createdAppointment);
-            setModalOpened(true);
-        }
-    };
-
-    const handleSlotSelect = (slotId: string) => {
-        setSelectedSlot(slotId);
-    };
+const Booking = () => {
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [specialtyFilter, setSpecialtyFilter] = useState<string>('');
+    const [specialties, setSpecialties] = useState<string[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        async function getData() {
-            const slots = await fetchSlots({ doctorId });
-            setSlots(slots);
-        }
-        getData();
+        const fetchDoctors = async () => {
+            try {
+                setLoading(true);
+                const data = await getAllDoctors();
+                setDoctors(data || []);
+
+                const uniqueSpecialties = Array.from(
+                    new Set((data || []).map((doctor) => doctor.specialization || '').filter((specialty) => specialty)),
+                );
+                setSpecialties(uniqueSpecialties);
+
+                setLoading(false);
+            } catch (err) {
+                setError('Failed to load doctors. Please try again later.');
+                setLoading(false);
+                console.error('Error fetching doctors:', err);
+            }
+        };
+
+        fetchDoctors();
     }, []);
 
+    const filteredDoctors = specialtyFilter
+        ? doctors.filter((doctor) => doctor.specialization === specialtyFilter)
+        : doctors;
+
+    if (loading) {
+        return <LoadingOverlay visible={true} />;
+    }
+
+    if (error) {
+        return (
+            <Container size="md">
+                <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="red">
+                    {error}
+                </Alert>
+            </Container>
+        );
+    }
+
+    const handleBookingClick = (doctor: Doctor) => {
+        navigate(`/booking/${doctor.id}`, { state: { doctor } });
+    };
+
     return (
-        <div className={styles.container}>
-            <Text fw={500} size="xl">
-                {doctor.name}
-            </Text>
+        <Container size="xl" className={styles.container}>
+            <Stack gap="xl">
+                <Group justify="space-between" align="center">
+                    <Title order={2}>Book an Appointment</Title>
+                    <Select
+                        label="Filter by Specialty"
+                        placeholder="All Specialties"
+                        data={[
+                            { value: '', label: 'All Specialties' },
+                            ...specialties.map((specialty) => ({
+                                value: specialty,
+                                label: specialty,
+                            })),
+                        ]}
+                        value={specialtyFilter}
+                        onChange={(value) => setSpecialtyFilter(value || '')}
+                        style={{ width: '200px' }}
+                    />
+                </Group>
 
-            <SlotPicker items={slots} onSlotSelect={handleSlotSelect} />
+                {filteredDoctors.length > 0 ? (
+                    <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
+                        {filteredDoctors.map((doctor) => (
+                            <Card key={doctor.id} shadow="sm" padding="lg" radius="md" withBorder>
+                                <Card.Section p="md">
+                                    <Group>
+                                        <Avatar size="lg" radius="xl" color="blue" variant="filled">
+                                            {(doctor.name || '')
+                                                .split(' ')
+                                                .map((n) => n[0])
+                                                .join('')}
+                                        </Avatar>
+                                        <div>
+                                            <Text fw={500} size="lg">
+                                                {doctor.name}
+                                            </Text>
+                                            <Badge leftSection={<IconStethoscope size={12} />} variant="light">
+                                                {doctor.specialization}
+                                            </Badge>
+                                        </div>
+                                    </Group>
+                                </Card.Section>
 
-            <div>
-                <Button onClick={handleSubmit} size="lg" radius="md">
-                    Confirm
-                </Button>
-            </div>
-
-            <Modal
-              opened={modalOpened}
-              onClose={() => setModalOpened(false)}
-              title="Appointment Submitted"
-              centered
-            >
-            </Modal>
-        </div>
+                                <Button onClick={() => handleBookingClick(doctor)} fullWidth mt="md" variant="filled">
+                                    Book Appointment
+                                </Button>
+                            </Card>
+                        ))}
+                    </SimpleGrid>
+                ) : (
+                    <Text className={styles.noResults} c="dimmed" size="lg">
+                        {specialtyFilter
+                            ? `No doctors found with specialty: ${specialtyFilter}`
+                            : 'No doctors available at the moment.'}
+                    </Text>
+                )}
+            </Stack>
+        </Container>
     );
-}
+};
+
+export default Booking;

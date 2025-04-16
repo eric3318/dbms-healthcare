@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.constants.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -24,7 +23,7 @@ public class User implements UserDetails {
   private String id;
 
   @Field(name = "role_id")
-  private final String roleId;
+  private String roleId;
 
   private final String name;
 
@@ -39,7 +38,7 @@ public class User implements UserDetails {
   @Field(name = "phone_number")
   private final String phoneNumber;
 
-  private final List<Role> roles;
+  private List<Role> roles = List.of(Role.GUEST);
 
   @Field(name = "jwt_id")
   private String jwtId;

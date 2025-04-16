@@ -11,6 +11,7 @@ type FormValues = {
     confirmPassword?: string;
     dateOfBirth?: string;
     phoneNumber?: string;
+    name?: string;
 };
 
 type AuthFormProps = {
@@ -26,7 +27,7 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
         initialValues: {
             email: '',
             password: '',
-            ...(!isSignIn && { confirmPassword: '', dateOfBirth: '', phoneNumber: '' }),
+            ...(!isSignIn && { confirmPassword: '', dateOfBirth: '', phoneNumber: '', name: '' }),
         },
         validate: {
             confirmPassword: (value, values) =>
@@ -50,10 +51,11 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                 password: values.password,
                 dateOfBirth: values.dateOfBirth,
                 phoneNumber: values.phoneNumber,
+                name: values.name,
             });
 
             if (registerSuccess) {
-                navigate('/');
+                navigate('/signin');
             }
         }
     };
@@ -94,7 +96,15 @@ export default function AuthForm({ isSignIn }: AuthFormProps) {
                                 },
                             },
                         })}
-                    />{' '}
+                    />
+
+                    <TextInput
+                        label="Name"
+                        placeholder="Enter your name (optional)"
+                        key={form.key('name')}
+                        {...form.getInputProps('name')}
+                    />
+
                     <DateInput
                         label="Date of birth"
                         placeholder="Date of birth"

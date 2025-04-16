@@ -1,5 +1,9 @@
 package org.dbms.dbmshealthcare.service;
 
+import com.mongodb.client.ClientSession;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.TransactionBody;
+import com.mongodb.client.result.DeleteResult;
 import java.util.List;
 import org.dbms.dbmshealthcare.dto.DoctorCreateDto;
 import org.dbms.dbmshealthcare.dto.DoctorUpdateDto;
@@ -10,12 +14,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Service;
-import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.TransactionBody;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service

@@ -15,6 +15,7 @@ import {
     SpecialtyStatsDto,
     TopDoctorsDto,
     AnalyticsFilterDto,
+    UserUpdateDto,
     DoctorCountBySpecialtyDto,
     RoleDistributionDto,
 } from '../lib/types';
@@ -152,6 +153,7 @@ export async function verifyIdentity(params: VerifyIdentityParams): Promise<bool
         return false;
     }
 }
+
 type AuthErrorResponse = {
     status: 'unauthorized';
     code: 0 | 1;
@@ -298,72 +300,91 @@ export async function cancelAppointment(appointmentId: string): Promise<boolean>
 
 // Analytics API methods
 export async function getAgeDistribution(): Promise<AgeDistributionDto[] | null> {
-  try {
-      const res = await fetch(`${API_URL}/analytics/age-distribution`, {
-          credentials: 'include',
-      });
+    try {
+        const res = await fetch(`${API_URL}/analytics/age-distribution`, {
+            credentials: 'include',
+        });
 
-      if (!res.ok) {
-          throw new Error('Failed to fetch age distribution');
-      }
+        if (!res.ok) {
+            throw new Error('Failed to fetch age distribution');
+        }
 
-      const data: AgeDistributionDto[] = await res.json();
-      return data;
-  } catch (err) {
-      console.error('Error fetching age distribution:', err);
-      return null;
-  }
+        const data: AgeDistributionDto[] = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Error fetching age distribution:', err);
+        return null;
+    }
 }
 
-export async function getSpecialtyStats(
-  filter: AnalyticsFilterDto
-): Promise<SpecialtyStatsDto[] | null> {
-  try {
-      const res = await fetch(`${API_URL}/analytics/specialty-stats`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(filter),
-          credentials: 'include',
-      });
+export async function getSpecialtyStats(filter: AnalyticsFilterDto): Promise<SpecialtyStatsDto[] | null> {
+    try {
+        const res = await fetch(`${API_URL}/analytics/specialty-stats`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(filter),
+            credentials: 'include',
+        });
 
-      if (!res.ok) {
-          throw new Error('Failed to fetch specialty statistics');
-      }
+        if (!res.ok) {
+            throw new Error('Failed to fetch specialty statistics');
+        }
 
-      const data: SpecialtyStatsDto[] = await res.json();
-      return data;
-  } catch (err) {
-      console.error('Error fetching specialty statistics:', err);
-      return null;
-  }
+        const data: SpecialtyStatsDto[] = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Error fetching specialty statistics:', err);
+        return null;
+    }
 }
 
-export async function getTopDoctors(
-  filter: AnalyticsFilterDto
-): Promise<TopDoctorsDto[] | null> {
-  try {
-      const res = await fetch(`${API_URL}/analytics/top-doctors`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(filter),
-          credentials: 'include',
-      });
+export async function getTopDoctors(filter: AnalyticsFilterDto): Promise<TopDoctorsDto[] | null> {
+    try {
+        const res = await fetch(`${API_URL}/analytics/top-doctors`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(filter),
+            credentials: 'include',
+        });
 
-      if (!res.ok) {
-          throw new Error('Failed to fetch top doctors');
-      }
+        if (!res.ok) {
+            throw new Error('Failed to fetch top doctors');
+        }
 
-      const data: TopDoctorsDto[] = await res.json();
-      return data;
-  } catch (err) {
-      console.error('Error fetching top doctors:', err);
-      return null;
-  }
+        const data: TopDoctorsDto[] = await res.json();
+        return data;
+    } catch (err) {
+        console.error('Error fetching top doctors:', err);
+        return null;
+    }
 }
+
+export async function updateUser(id: string, params: UserUpdateDto): Promise<boolean> {
+    try {
+        const res = await fetch(`${API_URL}/users/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to update user');
+        }
+
+        return true;
+    } catch (err) {
+        console.error('Error updating user:', err);
+        return false;
+    }
+}
+
 
 export async function getDoctorCountBySpecialty(): Promise<DoctorCountBySpecialtyDto[] | null> {
   try {

@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router';
 import Topbar from '../../components/Topbar/Topbar';
-import styles from './root.module.css';
+import styles from './rootLayout.module.css';
 
-export default function Root() {
+export default function RootLayout() {
     return (
         <div className={styles.container}>
             <Topbar />
