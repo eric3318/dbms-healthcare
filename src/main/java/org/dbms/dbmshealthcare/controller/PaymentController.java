@@ -73,7 +73,7 @@ public class PaymentController {
      * Updates an existing payment.
      */
     @PutMapping("/{id}")
-    public Payment updatePayment(@PathVariable String id, @Valid @RequestBody PaymentUpdateDto paymentUpdateDto) {
+    public Payment updatePaymentAndRecord(@PathVariable String id, @Valid @RequestBody PaymentUpdateDto paymentUpdateDto) {
         return paymentService.updatePayment(id, paymentUpdateDto);
     }
 
@@ -82,8 +82,8 @@ public class PaymentController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a payment", description = "Deletes a payment.")
-    public void deletePayment(@PathVariable String id) {
-        paymentService.deletePayment(id);
+    @Operation(summary = "Delete a payment along with its medical record.", description = "Delete a payment along with its medical record by medical record id.")
+    public void deletePaymentAndMedicalRecord(@PathVariable String id) {
+        paymentService.deletePaymentAndMedicalRecord(id);
     }
 } 

@@ -6,8 +6,8 @@ import java.util.List;
 import org.dbms.dbmshealthcare.model.pojo.Prescription;
 
 public record MedicalRecordUpdateDto(
+    String patientDescription,
     String doctorNotes,
     String finalDiagnosis,
-    List<Prescription> prescriptions,
-    BigDecimal billingAmount
+    List<Prescription> prescriptions
 ) {} 

@@ -15,9 +15,7 @@ public record PaymentCreateDto(
     @NotBlank(message = "status is required")
     PaymentStatus status,
     
-    @NotBlank(message = "requestedAt is required")
     Instant requestedAt,
 
-    @NotBlank(message = "updatedAt is required")
     Instant updatedAt
 ) {}

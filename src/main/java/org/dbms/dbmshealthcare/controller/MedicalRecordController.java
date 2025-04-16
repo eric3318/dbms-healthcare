@@ -2,8 +2,10 @@ package org.dbms.dbmshealthcare.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.model.MedicalRecord;
 import org.dbms.dbmshealthcare.service.MedicalRecordService;
+import java.util.Map;
 import org.dbms.dbmshealthcare.dto.MedicalRecordCreateDto;
 import org.dbms.dbmshealthcare.dto.MedicalRecordUpdateDto;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,31 +39,18 @@ public class MedicalRecordController {
     public MedicalRecordController(MedicalRecordService medicalRecordService) {
         this.medicalRecordService = medicalRecordService;
     }
-
     /**
      * Creates a new medical record.
-     * Only doctors can create medical records.
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('DOCTOR')")
-    @Operation(summary = "Create a new medical record", description = "Creates a new medical record. Only doctors can create records.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Medical record created successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid input"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "403", description = "Forbidden - Only doctors can create records"),
-        @ApiResponse(responseCode = "404", description = "Patient not found")
-    })
+    @Operation(summary = "Create a new medical record", description = "Creates a new medical record.")
     public MedicalRecord createMedicalRecord(@Valid @RequestBody MedicalRecordCreateDto medicalRecordCreateDto) {
         return medicalRecordService.createMedicalRecord(medicalRecordCreateDto);
     }
 
     /**
      * Retrieves a medical record by its ID.
-     * Doctors can view their own records and their patients' records.
-     * Patients can only view their own records.
-     * Admins can view all records.
      */
     @GetMapping("/{id}")
     @Operation(summary = "Get a medical record by ID", description = "Retrieves a specific medical record.")
@@ -88,37 +78,31 @@ public class MedicalRecordController {
 
     /**
      * Updates an existing medical record.
-     * Only the doctor who created the record can update it.
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
-    @Operation(summary = "Update a medical record", description = "Updates an existing medical record. Only the doctor who created the record can update it.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Medical record updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid input"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "403", description = "Forbidden - Only the creator can update"),
-        @ApiResponse(responseCode = "404", description = "Medical record not found")
-    })
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update a medical record", description = "Updates an existing medical record.")
     public MedicalRecord updateMedicalRecord(@PathVariable String id, @Valid @RequestBody MedicalRecordUpdateDto medicalRecordUpdateDto) {
         return medicalRecordService.updateMedicalRecord(id, medicalRecordUpdateDto);
     }
 
+
     /**
-     * Deletes a medical record by its ID.
-     * Only the doctor who created the record can delete it.
+     * Deletes a medical record by its ID with transaction.
      */
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('DOCTOR')")
-    @Operation(summary = "Delete a medical record", description = "Deletes a medical record. Only the doctor who created the record can delete it.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Medical record deleted successfully"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "403", description = "Forbidden - Only the creator can delete"),
-        @ApiResponse(responseCode = "404", description = "Medical record not found")
-    })
-    public void deleteMedicalRecord(@PathVariable String id) {
-        medicalRecordService.deleteMedicalRecord(id);
+    @Operation(summary = "Delete a medical record along with its payment", description = "Delete a medical record along with its payment by medical record ID.")
+    public ResponseEntity<?> deleteMedicalRecord(@PathVariable String id) {
+        boolean success = medicalRecordService.deleteMedicalRecordWithTransaction(id);
+        
+        if (success) {
+            return ResponseEntity.ok().body(Map.of(
+                "message", "Medical Records and associated Payments deleted successfully",
+                "medicalRecordId", id
+            ));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", "Medical Record not found or deletion failed"));
+        }
     }
 } 
