@@ -45,6 +45,11 @@ public class SecurityConfig {
       throws Exception {
     http
         .securityMatcher(new OrRequestMatcher(
+            new AndRequestMatcher(
+                new AntPathRequestMatcher("/api/**"),
+                new NegatedRequestMatcher(new AntPathRequestMatcher("/api/doctors", "GET"))
+            ),
+// COMMENT OUT LIKE THIS WHEN INSERTING DATA
 //            new AndRequestMatcher(
 //                new AntPathRequestMatcher("/api/**"),
 //                new NegatedRequestMatcher(new AntPathRequestMatcher("/api/doctors", "GET"))
