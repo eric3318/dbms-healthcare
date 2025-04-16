@@ -1,4 +1,7 @@
 const fs = require('fs');
+const axios = require('axios');
+const { wrapper } = require('axios-cookiejar-support');
+const { CookieJar } = require('tough-cookie');
 
 const API_URL = 'http://localhost:8080/api';
 const AUTH_URL = 'http://localhost:8080/auth';
