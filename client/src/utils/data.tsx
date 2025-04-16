@@ -16,6 +16,8 @@ import {
     TopDoctorsDto,
     AnalyticsFilterDto,
     UserUpdateDto,
+    DoctorCountBySpecialtyDto,
+    RoleDistributionDto,
 } from '../lib/types';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -381,4 +383,43 @@ export async function updateUser(id: string, params: UserUpdateDto): Promise<boo
         console.error('Error updating user:', err);
         return false;
     }
+}
+
+
+export async function getDoctorCountBySpecialty(): Promise<DoctorCountBySpecialtyDto[] | null> {
+  try {
+    const res = await fetch(`${API_URL}/analytics/doctor-count-by-specialty`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch doctor count by specialty');
+    }
+
+    const data: DoctorCountBySpecialtyDto[] = await res.json();
+    return data;
+  } catch (err) {
+    console.error('Error fetching doctor count by specialty:', err);
+    return null;
+  }
+}
+
+export async function getUserRoleDistribution(): Promise<RoleDistributionDto[] | null> {
+  try {
+    const res = await fetch(`${API_URL}/analytics/user-role-distribution`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch user role distribution');
+    }
+
+    const data: RoleDistributionDto[] = await res.json();
+    return data;
+  } catch (err) {
+    console.error('Error fetching user role distribution:', err);
+    return null;
+  }
 }

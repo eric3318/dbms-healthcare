@@ -35,3 +35,5 @@ export type AgeDistributionDto = components['schemas']['AgeDistributionDto'];
 export type SpecialtyStatsDto = components['schemas']['SpecialtyStatsDto'];
 export type TopDoctorsDto = components['schemas']['TopDoctorsDto'];
 export type AnalyticsFilterDto = components['schemas']['AnalyticsFilterDto'];
+export type DoctorCountBySpecialtyDto = components['schemas']['DoctorCountBySpecialtyDto'];
+export type RoleDistributionDto = components['schemas']['RoleDistributionDto'];

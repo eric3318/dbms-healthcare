@@ -15,6 +15,8 @@ import org.dbms.dbmshealthcare.config.MongoTemplateResolver;
 import org.dbms.dbmshealthcare.dto.analytics.AgeDistributionDto;
 import org.dbms.dbmshealthcare.dto.analytics.SpecialtyStatsDto;
 import org.dbms.dbmshealthcare.dto.analytics.TopDoctorsDto;
+import org.dbms.dbmshealthcare.dto.analytics.RoleDistributionDto;
+import org.dbms.dbmshealthcare.dto.analytics.DoctorCountBySpecialtyDto;
 import org.dbms.dbmshealthcare.model.User;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
@@ -175,4 +177,52 @@ public List<SpecialtyStatsDto> getSpecialtyStats(YearMonth month) {
     if (age < 65) return "55-64";
     return "65+";
   }
+
+  public List<DoctorCountBySpecialtyDto> getDoctorCountBySpecialty() {
+    GroupOperation groupOperation = Aggregation.group("specialization")
+        .count().as("doctorCount");
+
+    ProjectionOperation projectOperation = Aggregation.project()
+        .and("_id").as("specialty")
+        .and("doctorCount").as("doctorCount")
+        .andExclude("_id");
+
+    Aggregation aggregation = Aggregation.newAggregation(
+        groupOperation,
+        projectOperation
+    );
+
+    AggregationResults<DoctorCountBySpecialtyDto> results = mongoTemplateResolver.resolveMongoTemplate()
+        .aggregate(aggregation, "doctors", DoctorCountBySpecialtyDto.class);
+
+    return results.getMappedResults();
+  }
+
+  public List<RoleDistributionDto> getUserRoleDistribution() {
+    UnwindOperation unwind = Aggregation.unwind("roles");
+
+    GroupOperation group = Aggregation.group("roles")
+        .count().as("count");
+
+    ProjectionOperation project = Aggregation.project()
+        .and("_id").as("role")
+        .and("count").as("count")
+        .andExclude("_id");
+
+    SortOperation sort = Aggregation.sort(Sort.by(Sort.Direction.DESC, "count"));
+
+    Aggregation aggregation = Aggregation.newAggregation(
+        unwind,
+        group,
+        project,
+        sort
+    );
+
+    AggregationResults<RoleDistributionDto> results = mongoTemplateResolver.resolveMongoTemplate()
+        .aggregate(aggregation, "users", RoleDistributionDto.class);
+
+    return results.getMappedResults();
+}
+
+
 } 

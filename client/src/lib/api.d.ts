@@ -608,6 +608,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/analytics/user-role-distribution": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user role distribution
+         * @description Retrieves the distribution of user roles
+         */
+        get: operations["getUserRoleDistribution"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/doctor-count-by-specialty": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get doctor count by specialty
+         * @description Retrieves the number of doctors in each specialty
+         */
+        get: operations["getDoctorCountBySpecialty"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/analytics/age-distribution": {
         parameters: {
             query?: never;
@@ -900,6 +940,8 @@ export interface components {
             /** @enum {string} */
             status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
         };
+        RoleDistributionDto: Record<string, never>;
+        DoctorCountBySpecialtyDto: Record<string, never>;
         AgeDistributionDto: {
             ageGroup?: string;
             /** Format: int64 */
@@ -2094,6 +2136,46 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Doctor"];
+                };
+            };
+        };
+    };
+    getUserRoleDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoleDistributionDto"][];
+                };
+            };
+        };
+    };
+    getDoctorCountBySpecialty: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DoctorCountBySpecialtyDto"][];
                 };
             };
         };
