@@ -322,6 +322,40 @@ async function generateSlotsForDoctor(doctor, slotTemplates) {
   console.log('患者ID映射:', idMappings.patients);
   console.log('医生ID映射:', idMappings.doctors);
   console.log('-------------------------------');
+
+  await insertData("users");
+
+  const [doctors, patients, users] = await Promise.all([
+    fetchData(`${API_URL}/doctors`),
+    fetchData(`${API_URL}/patients`),
+    fetchData(`${API_URL}/users`),
+  ])
+
+  console.log("doctors size", doctors.length);
+  console.log("patients size", patients.length);
+  console.log("users size", users.length);
+
+  await Promise.all(
+    doctors.map((doctor) => generateSlotsForDoctor(doctor, data.slots.entries))
+  );
+
+  for (let i = 0; i < 20; i ++){
+    await verifyUser({
+      userId: users[i].id,
+      roleId: doctors[i].id,
+      role : "DOCTOR"
+    });
+  }
+
+  for (let i = 20; i < 35; i ++){
+    await verifyUser({
+      userId: users[i].id,
+      roleId: patients[i - 20].id,
+      role : "PATIENT"
+    });
+  }
+
+  await updateUser(users[35].id, {roles: ['ADMIN']});
   
   // 尝试插入一条测试医疗记录
   await insertTestMedicalRecord();
@@ -359,44 +393,6 @@ async function verifyUser(payload){
     throw new Error(`Failed to verify user ${payload.userId}`);
   }
 }
-
-async function main(){
-  await Promise.all([
-    insertData('patients'),
-    insertData('doctors'),
-    insertData('users'),
-  ])
-
-  const [doctors, patients, users] = await Promise.all([
-    fetchData(`${API_URL}/doctors`),
-    fetchData(`${API_URL}/patients`),
-    fetchData(`${API_URL}/users`),
-  ])
-
-  await Promise.all(
-    doctors.map((doctor) => generateSlotsForDoctor(doctor, data.slots.entries))
-  );
-
-  await updateUser(users[0].id, {roles: ['ADMIN']});
-
-  for (let i = 1; i < 10; i ++){
-    await verifyUser({
-      userId: users[i].id,
-      roleId: doctors[i].id,
-      role : "DOCTOR"
-    });
-  }
-
-  for (let i = 10; i < 19; i ++){
-    await verifyUser({
-      userId: users[i].id,
-      roleId: patients[i].id,
-      role : "PATIENT"
-    });
-  }
-}
-
-main();
 
 
 

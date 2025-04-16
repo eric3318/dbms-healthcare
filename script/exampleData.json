@@ -96,6 +96,12 @@
         "dateOfBirth": "1990-01-01"
       },
       {
+        "email": "alice2@example.com",
+        "password": "password123",
+        "phoneNumber": "123-456-0002",
+        "dateOfBirth": "1990-01-01"
+      },
+      {
         "email": "bob2@example.com",
         "password": "password123",
         "phoneNumber": "123-456-0002",
