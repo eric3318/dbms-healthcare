@@ -9,6 +9,7 @@ import org.dbms.dbmshealthcare.dto.DoctorCreateDto;
 import org.dbms.dbmshealthcare.dto.DoctorUpdateDto;
 import org.dbms.dbmshealthcare.model.Doctor;
 import org.dbms.dbmshealthcare.model.Slot;
+import org.dbms.dbmshealthcare.model.Appointment;
 import org.dbms.dbmshealthcare.repository.DoctorRepository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -102,7 +103,12 @@ public class DoctorService {
         // 3. Delete all slots
         DeleteResult slotDeleteResult = mongoTemplate.remove(query, Slot.class);
         System.out.println("Transaction: Deleted " + slotDeleteResult.getDeletedCount() + " slots");
-        
+
+        // 4. Delete all appointments for this doctor
+        Query appointmentQuery = new Query(Criteria.where("doctor_id").is(doctorId));
+        DeleteResult appointmentDeleteResult = mongoTemplate.remove(appointmentQuery, Appointment.class);
+        System.out.println("Transaction: Deleted " + appointmentDeleteResult.getDeletedCount() + " appointments");
+
         // 4. Delete the doctor
         mongoTemplate.remove(
             Query.query(Criteria.where("_id").is(doctorId)), 

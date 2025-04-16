@@ -342,7 +342,7 @@
       },
       {
         "name": "Dr. Chen",
-        "specialization": "Dermatology",
+        "specialization": "Cardiology",
         "licenseNumber": "1234567891"
       },
       {
@@ -352,7 +352,7 @@
       },
       {
         "name": "Dr. Lopez",
-        "specialization": "Pediatrics",
+        "specialization": "Neurology",
         "licenseNumber": "1234567893"
       },
       {
@@ -362,7 +362,7 @@
       },
       {
         "name": "Dr. Ahmed",
-        "specialization": "Endocrinology",
+        "specialization": "Oncology",
         "licenseNumber": "1234567895"
       },
       {
@@ -372,7 +372,7 @@
       },
       {
         "name": "Dr. Kim",
-        "specialization": "Orthopedics",
+        "specialization": "Psychiatry",
         "licenseNumber": "1234567897"
       },
       {
@@ -382,7 +382,7 @@
       },
       {
         "name": "Dr. Brown",
-        "specialization": "ENT",
+        "specialization": "Ophthalmology",
         "licenseNumber": "1234567899"
       },
       {
@@ -392,7 +392,7 @@
       },
       {
         "name": "Dr. Singh",
-        "specialization": "Hematology",
+        "specialization": "Nephrology",
         "licenseNumber": "1234567901"
       },
       {
@@ -402,7 +402,7 @@
       },
       {
         "name": "Dr. Lee 14",
-        "specialization": "Rheumatology",
+        "specialization": "Pulmonology",
         "licenseNumber": "1234567903"
       },
       {
@@ -412,7 +412,7 @@
       },
       {
         "name": "Dr. Thomas",
-        "specialization": "Urology",
+        "specialization": "Gastroenterology",
         "licenseNumber": "1234567905"
       },
       {
@@ -422,7 +422,7 @@
       },
       {
         "name": "Dr. Allen",
-        "specialization": "Allergy & Immunology",
+        "specialization": "Infectious Disease",
         "licenseNumber": "1234567907"
       },
       {
@@ -432,7 +432,7 @@
       },
       {
         "name": "Dr. Evans",
-        "specialization": "Anesthesiology",
+        "specialization": "General Medicine",
         "licenseNumber": "1234567909"
       }
     ]
