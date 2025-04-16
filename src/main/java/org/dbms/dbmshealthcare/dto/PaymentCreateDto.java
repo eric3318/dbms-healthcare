@@ -9,15 +9,7 @@ public record PaymentCreateDto(
     @NotBlank(message = "Medical Record ID is required")
     String medicalRecordId,
     
-    @NotBlank(message = "amount is required")
     BigDecimal amount,
     
-    @NotBlank(message = "status is required")
-    PaymentStatus status,
-    
-    @NotBlank(message = "requestedAt is required")
-    Instant requestedAt,
-
-    @NotBlank(message = "updatedAt is required")
-    Instant updatedAt
+    PaymentStatus status
 ) {}

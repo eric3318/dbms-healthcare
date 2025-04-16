@@ -30,8 +30,7 @@ public class PaymentService {
         payment.setMedicalRecordId(paymentCreateDto.medicalRecordId());
         payment.setAmount(paymentCreateDto.amount());
         payment.setStatus(paymentCreateDto.status());
-        payment.setRequestedAt(paymentCreateDto.requestedAt());
-        payment.setUpdatedAt(paymentCreateDto.updatedAt());
+
         return paymentRepository.save(payment);
     }
 
