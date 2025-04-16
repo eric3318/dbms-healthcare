@@ -372,6 +372,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/analytics/top-doctors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get top 5 doctors with most appointments
+         * @description Retrieves the top 5 doctors with the most appointments in the specified month
+         */
+        post: operations["getTopDoctors"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/specialty-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get specialty statistics
+         * @description Retrieves statistics about the most chosen specialties in the specified month
+         */
+        post: operations["getSpecialtyStats"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/analytics/indexes": {
         parameters: {
             query?: never;
@@ -568,7 +608,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/analytics/top-doctors": {
+    "/api/analytics/user-role-distribution": {
         parameters: {
             query?: never;
             header?: never;
@@ -576,10 +616,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get top 5 doctors with most appointments
-         * @description Retrieves the top 5 doctors with the most appointments in the specified month
+         * Get user role distribution
+         * @description Retrieves the distribution of user roles
          */
-        get: operations["getTopDoctors"];
+        get: operations["getUserRoleDistribution"];
         put?: never;
         post?: never;
         delete?: never;
@@ -588,7 +628,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/analytics/specialty-stats": {
+    "/api/analytics/doctor-count-by-specialty": {
         parameters: {
             query?: never;
             header?: never;
@@ -596,10 +636,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get specialty statistics
-         * @description Retrieves statistics about the most chosen specialties in the specified month
+         * Get doctor count by specialty
+         * @description Retrieves the number of doctors in each specialty
          */
-        get: operations["getSpecialtyStats"];
+        get: operations["getDoctorCountBySpecialty"];
         put?: never;
         post?: never;
         delete?: never;
@@ -845,6 +885,24 @@ export interface components {
             /** Format: date-time */
             endTime?: string;
         };
+        AnalyticsFilterDto: {
+            /** Format: int32 */
+            year?: number;
+            /** Format: int32 */
+            month?: number;
+        };
+        TopDoctorsDto: {
+            doctorId?: string;
+            doctorName?: string;
+            specialization?: string;
+            /** Format: int32 */
+            appointmentCount?: number;
+        };
+        SpecialtyStatsDto: {
+            specialty?: string;
+            /** Format: int64 */
+            appointmentCount?: number;
+        };
         IndexRequest: {
             commands?: string;
         };
@@ -871,22 +929,8 @@ export interface components {
             /** @enum {string} */
             status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
         };
-        AnalyticsFilterDto: {
-            /** @example 2025-03 */
-            month?: string;
-        };
-        TopDoctorsDto: {
-            doctorId?: string;
-            doctorName?: string;
-            specialization?: string;
-            /** Format: int64 */
-            appointmentCount?: number;
-        };
-        SpecialtyStatsDto: {
-            specialty?: string;
-            /** Format: int64 */
-            appointmentCount?: number;
-        };
+        RoleDistributionDto: Record<string, never>;
+        DoctorCountBySpecialtyDto: Record<string, never>;
         AgeDistributionDto: {
             ageGroup?: string;
             /** Format: int64 */
@@ -1745,6 +1789,54 @@ export interface operations {
             };
         };
     };
+    getTopDoctors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsFilterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TopDoctorsDto"][];
+                };
+            };
+        };
+    };
+    getSpecialtyStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsFilterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SpecialtyStatsDto"][];
+                };
+            };
+        };
+    };
     createIndexes: {
         parameters: {
             query?: never;
@@ -2011,18 +2103,14 @@ export interface operations {
             };
         };
     };
-    getTopDoctors: {
+    getUserRoleDistribution: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AnalyticsFilterDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description OK */
             200: {
@@ -2030,23 +2118,19 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["TopDoctorsDto"][];
+                    "*/*": components["schemas"]["RoleDistributionDto"][];
                 };
             };
         };
     };
-    getSpecialtyStats: {
+    getDoctorCountBySpecialty: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AnalyticsFilterDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description OK */
             200: {
@@ -2054,7 +2138,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["SpecialtyStatsDto"][];
+                    "*/*": components["schemas"]["DoctorCountBySpecialtyDto"][];
                 };
             };
         };

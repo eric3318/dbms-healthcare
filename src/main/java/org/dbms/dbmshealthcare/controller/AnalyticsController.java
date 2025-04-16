@@ -17,6 +17,8 @@ import org.dbms.dbmshealthcare.dto.analytics.AgeDistributionDto;
 import org.dbms.dbmshealthcare.dto.analytics.AnalyticsFilterDto;
 import org.dbms.dbmshealthcare.dto.analytics.SpecialtyStatsDto;
 import org.dbms.dbmshealthcare.dto.analytics.TopDoctorsDto;
+import org.dbms.dbmshealthcare.dto.analytics.DoctorCountBySpecialtyDto;
+import org.dbms.dbmshealthcare.dto.analytics.RoleDistributionDto;
 import org.dbms.dbmshealthcare.service.AnalyticsService;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -176,6 +178,20 @@ public class AnalyticsController {
     @GetMapping("/age-distribution")
     public ResponseEntity<List<AgeDistributionDto>> getAgeDistribution() {
         return ResponseEntity.ok(analyticsService.getAgeDistribution());
+    }
+
+    @Operation(summary = "Get doctor count by specialty", 
+        description = "Retrieves the number of doctors in each specialty")
+    @GetMapping("/doctor-count-by-specialty")
+    public ResponseEntity<List<DoctorCountBySpecialtyDto>> getDoctorCountBySpecialty() {
+        return ResponseEntity.ok(analyticsService.getDoctorCountBySpecialty());
+    }
+
+    @Operation(summary = "Get user role distribution", 
+        description = "Retrieves the distribution of user roles")
+    @GetMapping("/user-role-distribution")
+    public ResponseEntity<List<RoleDistributionDto>> getUserRoleDistribution() {
+        return ResponseEntity.ok(analyticsService.getUserRoleDistribution());
     }
 
     // Request objects

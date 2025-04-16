@@ -23,11 +23,13 @@ import {
   Pie,
   Cell
 } from 'recharts';
-import { getAgeDistribution, getTopDoctors, getSpecialtyStats } from '../../../../../utils/data';
+import { getAgeDistribution, getTopDoctors, getSpecialtyStats, getDoctorCountBySpecialty, getUserRoleDistribution } from '../../../../../utils/data';
 import { 
   AgeDistributionDto, 
   TopDoctorsDto, 
-  SpecialtyStatsDto 
+  SpecialtyStatsDto,
+  DoctorCountBySpecialtyDto,
+  RoleDistributionDto
 } from '../../../../../lib/types';
 
 // Colors for charts
@@ -40,6 +42,8 @@ const Analytics = () => {
   const [ageDistribution, setAgeDistribution] = useState<AgeDistributionDto[] | null>(null);
   const [topDoctors, setTopDoctors] = useState<TopDoctorsDto[] | null>(null);
   const [specialtyStats, setSpecialtyStats] = useState<SpecialtyStatsDto[] | null>(null);
+  const [doctorCountBySpecialty, setDoctorCountBySpecialty] = useState<DoctorCountBySpecialtyDto[] | null>(null);
+  const [roleDistribution, setRoleDistribution] = useState<RoleDistributionDto[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -90,6 +94,12 @@ const Analytics = () => {
         const specialtiesData = await getSpecialtyStats(filter);
         console.log('Specialty statistics data:', specialtiesData);
         setSpecialtyStats(specialtiesData);
+
+        const doctorCount = await getDoctorCountBySpecialty();
+        setDoctorCountBySpecialty(doctorCount);
+
+        const roleData = await getUserRoleDistribution();
+        setRoleDistribution(roleData);
       } catch (err) {
         console.error('Error fetching analytics data:', err);
         setError('Failed to load analytics data. Please try again later.');
@@ -199,6 +209,52 @@ const Analytics = () => {
     );
   };
 
+  const renderDoctorCountChart = () => {
+    if (!doctorCountBySpecialty) return <Center><Loader /></Center>;
+  
+    return (
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={doctorCountBySpecialty}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="specialty" angle={-45} textAnchor="end" height={60} />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="doctorCount" name="Doctors" fill="#82ca9d" />
+        </BarChart>
+      </ResponsiveContainer>
+    );
+  };
+  
+  const renderRoleDistributionChart = () => {
+    if (!roleDistribution) return <Center><Loader /></Center>;
+  
+    return (
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={roleDistribution}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+            outerRadius={100}
+            fill="#8884d8"
+            dataKey="count"
+            nameKey="role"
+          >
+            {roleDistribution.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    );
+  };
+  
+
   return (
     <div style={{ padding: '20px' }}>
       <Title order={2} mb="lg">Healthcare Analytics Dashboard</Title>
@@ -257,6 +313,20 @@ const Analytics = () => {
             <Paper shadow="xs" p="md" mb="lg">
               <Title order={3} mb="md">Patient Age Distribution</Title>
               {renderAgeDistributionChart()}
+            </Paper>
+          </Grid.Col>
+
+          <Grid.Col span={12}>
+            <Paper shadow="xs" p="md" mb="lg">
+              <Title order={3} mb="md">Doctor Count by Specialty</Title>
+              {renderDoctorCountChart()}
+            </Paper>
+          </Grid.Col>
+
+          <Grid.Col span={12}>
+            <Paper shadow="xs" p="md" mb="lg">
+              <Title order={3} mb="md">User Role Distribution</Title>
+              {renderRoleDistributionChart()}
             </Paper>
           </Grid.Col>
         </Grid>

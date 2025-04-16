@@ -8,6 +8,8 @@ import org.dbms.dbmshealthcare.dto.analytics.AnalyticsFilterDto;
 import org.dbms.dbmshealthcare.dto.analytics.SpecialtyStatsDto;
 import org.dbms.dbmshealthcare.dto.analytics.TopDoctorsDto;
 import org.dbms.dbmshealthcare.repository.AnalyticsRepository;
+import org.dbms.dbmshealthcare.dto.analytics.DoctorCountBySpecialtyDto;
+import org.dbms.dbmshealthcare.dto.analytics.RoleDistributionDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,5 +29,13 @@ public class AnalyticsService {
 
   public List<AgeDistributionDto> getAgeDistribution() {
     return analyticsRepository.getAgeDistribution();
+  }
+
+  public List<DoctorCountBySpecialtyDto> getDoctorCountBySpecialty() {
+    return analyticsRepository.getDoctorCountBySpecialty();
+  }
+  
+  public List<RoleDistributionDto> getUserRoleDistribution() {
+    return analyticsRepository.getUserRoleDistribution();
   }
 }
