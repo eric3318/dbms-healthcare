@@ -1,6 +1,5 @@
 package org.dbms.dbmshealthcare.model;
 
-import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

@@ -7,17 +7,17 @@ import { Button, Text } from '@mantine/core';
 
 type Props = {
     items: Slot[];
-    onSlotSelect: (slotId: string) => void;
+    onSelect: (slotId: string) => void;
 };
 
-export default function SlotPicker({ items, onSlotSelect }: Props) {
+export default function SlotPicker({ items, onSelect }: Props) {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
     const [filteredItems, setFilteredItems] = useState<Slot[]>([]);
 
     const handleSlotSelect = (slotId: string) => {
         setSelectedSlotId(slotId);
-        onSlotSelect(slotId);
+        onSelect(slotId);
     };
 
     useEffect(() => {
@@ -27,6 +27,11 @@ export default function SlotPicker({ items, onSlotSelect }: Props) {
         }
 
         setFilteredItems(items.filter((slot) => isSameDay(new Date(slot.startTime as string), selectedDate)));
+    }, [selectedDate]);
+
+    useEffect(() => {
+        setSelectedSlotId(null);
+        onSelect('');
     }, [selectedDate]);
 
     return (
@@ -51,30 +56,33 @@ export default function SlotPicker({ items, onSlotSelect }: Props) {
             </div>
 
             <div className={styles.timePicker}>
-                <div className={styles.header}>
-                    <Text fw={500} size="xl" style={{ textAlign: 'center' }}>
-                        {selectedDate ? format(new Date(selectedDate), 'MMMM d, yyyy') : 'Select a date'}
-                    </Text>
-                </div>
+                {selectedDate && (
+                    <>
+                        <div className={styles.header}>
+                            <Text fw={500} size="xl" style={{ textAlign: 'center' }}>
+                                {format(new Date(selectedDate), 'MMMM d, yyyy')}
+                            </Text>
+                        </div>
 
-                <div className={styles.body}>
-                    <div className={styles.slotContainer}>
-                        {filteredItems.map((item) => (
-                            <Button
-                                key={item.id}
-                                variant={selectedSlotId === item.id ? 'filled' : 'outline'}
-                                color="blue"
-                                size="lg"
-                                radius="lg"
-                                w={250}
-                                onClick={() => handleSlotSelect(item.id as string)}
-                            >
-                                {format(new Date(item.startTime as string), 'h:mm a')} -{' '}
-                                {format(new Date(item.endTime as string), 'h:mm a')}
-                            </Button>
-                        ))}
-                    </div>
-                </div>
+                        <div className={styles.slotContainer}>
+                            {filteredItems.map((item) => (
+                                <Button
+                                    key={item.id}
+                                    variant={selectedSlotId === item.id ? 'filled' : 'outline'}
+                                    color="blue"
+                                    size="lg"
+                                    radius="lg"
+                                    w={250}
+                                    disabled={item.status === 'BOOKED'}
+                                    onClick={() => handleSlotSelect(item.id as string)}
+                                >
+                                    {format(new Date(item.startTime as string), 'h:mm a')} -{' '}
+                                    {format(new Date(item.endTime as string), 'h:mm a')}
+                                </Button>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

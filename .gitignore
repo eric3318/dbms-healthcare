@@ -34,3 +34,6 @@ build/
 
 node_modules/
 *.DS_Store
+
+# MongoDB security
+mongo-keyfile

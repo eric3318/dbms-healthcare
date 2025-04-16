@@ -11,12 +11,8 @@ const links = [
         href: '/',
     },
     {
-        label: 'OUR TEAM',
-        href: '/our-team',
-    },
-    {
         label: 'SERVICES',
-        href: '/services',
+        href: '/booking',
     },
     {
         label: 'CONTACT US',
