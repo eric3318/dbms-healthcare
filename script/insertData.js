@@ -223,7 +223,8 @@ async function insertTestMedicalRecord() {
       console.error('响应数据:', JSON.stringify(err.response.data));
     }
   }
-=======
+} 
+
 async function insertData(key) {
       const url = data[key].apiResource ? `${API_URL}/${key}` : `${AUTH_URL}/${data[key].endpoint}`;
       const entries = data[key].entries;
@@ -328,6 +329,8 @@ async function generateSlotsForDoctor(doctor, slotTemplates) {
   // 最后插入依赖医疗记录的数据
   await insertResource('requisitions', data.requisitions);
   await insertResource('payments', data.payments);
+  
+})();
 
 async function updateUser(id, payload){
   const res = await fetch(`${API_URL}/users/${id}`, {
@@ -391,4 +394,6 @@ async function main(){
 }
 
 main();
+
+
 
