@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Card, Text, Badge, Group, Stack, Button, Avatar, Grid, Title } from '@mantine/core';
-import { IconFlask, IconCalendar, IconClock, IconFileDescription } from '@tabler/icons-react';
+import { Card, Text, Badge, Group, Stack, Button, Avatar, Grid, Title, Modal, List, Divider } from '@mantine/core';
+import { IconFlask, IconCalendar, IconClock, IconFileDescription, IconChevronRight } from '@tabler/icons-react';
 import useAuth from '../../../../../hooks/useAuth/useAuth';
 import { components } from '../../../../../lib/api';
 
@@ -14,6 +14,8 @@ export default function Requisitions() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { user } = useAuth();
+    const [selectedRequisition, setSelectedRequisition] = useState<Requisition | null>(null);
+    const [detailsModalOpen, setDetailsModalOpen] = useState(false);
 
     useEffect(() => {
         console.log('Current user in Requisitions:', user);
@@ -141,6 +143,17 @@ export default function Requisitions() {
         return new Date(dateString).toLocaleString();
     };
 
+    const handleViewDetails = (requisition: Requisition) => {
+        console.log('Opening details for:', requisition);
+        setSelectedRequisition(requisition);
+        setDetailsModalOpen(true);
+    };
+
+    const closeDetailsModal = () => {
+        setDetailsModalOpen(false);
+        setSelectedRequisition(null);
+    };
+
     if (loading) {
         return <Text>Loading your lab tests...</Text>;
     }
@@ -245,7 +258,14 @@ export default function Requisitions() {
                                 </Stack>
 
                                 {req.status === 'Completed' && (
-                                    <Button variant="light" color="blue" fullWidth mt="md">
+                                    <Button 
+                                        variant="light" 
+                                        color="blue" 
+                                        fullWidth 
+                                        mt="md"
+                                        onClick={() => handleViewDetails(req)}
+                                        rightSection={<IconChevronRight size={16} />}
+                                    >
                                         View Detailed Results
                                     </Button>
                                 )}
@@ -254,6 +274,57 @@ export default function Requisitions() {
                     ))
                 )}
             </Grid>
+
+            {/* Details Modal */}
+            <Modal 
+                opened={detailsModalOpen} 
+                onClose={closeDetailsModal}
+                title={<Title order={3}>{selectedRequisition?.testName} - Detailed Results</Title>}
+                size="lg"
+            >
+                {selectedRequisition && selectedRequisition.result && (
+                    <Stack>
+                        <Group>
+                            <Text fw={600}>Test Name:</Text>
+                            <Text>{selectedRequisition.testName}</Text>
+                        </Group>
+                        
+                        <Group>
+                            <Text fw={600}>Requested:</Text>
+                            <Text>{formatDate(selectedRequisition.requestedAt)}</Text>
+                        </Group>
+                        
+                        <Group>
+                            <Text fw={600}>Results Ready:</Text>
+                            <Text>{formatDate(selectedRequisition.result.reportedAt)}</Text>
+                        </Group>
+                        
+                        <Divider my="sm" />
+                        
+                        <Text fw={600}>Conclusion:</Text>
+                        <Text>{selectedRequisition.result.conclusion}</Text>
+                        
+                        <Divider my="sm" />
+                        
+                        <Text fw={600}>Detailed Description:</Text>
+                        <Text>{selectedRequisition.result.description}</Text>
+                        
+                        {selectedRequisition.result.description && selectedRequisition.result.description.includes(':') && (
+                            <>
+                                <Divider my="sm" />
+                                <Text fw={600}>Breakdown of Results:</Text>
+                                <List>
+                                    {selectedRequisition.result.description.split(',').map((item, index) => (
+                                        <List.Item key={index}>{item.trim()}</List.Item>
+                                    ))}
+                                </List>
+                            </>
+                        )}
+                        
+                        <Button color="blue" mt="lg" onClick={closeDetailsModal}>Close</Button>
+                    </Stack>
+                )}
+            </Modal>
         </div>
     );
 }
