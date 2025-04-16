@@ -4,23 +4,51 @@
  */
 
 export interface paths {
-    '/api/records/{id}': {
+    "/api/users/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getMedicalRecord'];
-        put: operations['updateMedicalRecord'];
+        /**
+         * Get user by ID
+         * @description Retrieves user information by their unique identifier (Admin only)
+         */
+        get: operations["getUser"];
+        put: operations["updateUser"];
         post?: never;
-        delete: operations['deleteMedicalRecord'];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/patients/{id}': {
+    "/api/payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a payment by ID
+         * @description Retrieves a specific payment.
+         */
+        get: operations["getPayment"];
+        put: operations["updatePayment"];
+        post?: never;
+        /**
+         * Delete a payment
+         * @description Deletes a payment.
+         */
+        delete: operations["deletePayment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/patients/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -31,24 +59,24 @@ export interface paths {
          * Get patient by ID
          * @description Retrieves a specific patient by their unique identifier
          */
-        get: operations['getPatientById'];
+        get: operations["getPatientById"];
         /**
          * Update patient information
          * @description Updates an existing patient's information based on the provided data
          */
-        put: operations['updatePatient'];
+        put: operations["updatePatient"];
         post?: never;
         /**
          * Delete patient
          * @description Removes a patient record from the system by their ID
          */
-        delete: operations['deletePatient'];
+        delete: operations["deletePatient"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/medical-records/{id}': {
+    "/api/medical-records/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -59,64 +87,64 @@ export interface paths {
          * Get a medical record by ID
          * @description Retrieves a specific medical record.
          */
-        get: operations['getMedicalRecord'];
+        get: operations["getMedicalRecord"];
         /**
          * Update a medical record
          * @description Updates an existing medical record. Only the doctor who created the record can update it.
          */
-        put: operations['updateMedicalRecord'];
+        put: operations["updateMedicalRecord"];
         post?: never;
         /**
          * Delete a medical record
          * @description Deletes a medical record. Only the doctor who created the record can delete it.
          */
-        delete: operations['deleteMedicalRecord'];
+        delete: operations["deleteMedicalRecord"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/doctors/{id}': {
+    "/api/doctors/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getDoctorById'];
-        put: operations['updateDoctor'];
+        get: operations["getDoctorById"];
+        put: operations["updateDoctor"];
         post?: never;
-        delete: operations['deleteDoctor'];
+        delete: operations["deleteDoctor"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/appointments/{id}': {
+    "/api/appointments/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getAppointment'];
+        get: operations["getAppointment"];
         /**
          * Update appointment
          * @description Updates an existing appointment's information based on the provided data
          */
-        put: operations['updateAppointment'];
+        put: operations["updateAppointment"];
         post?: never;
         /**
          * Delete appointment
          * @description Cancels and removes an appointment from the system by its ID
          */
-        delete: operations['deleteAppointment'];
+        delete: operations["deleteAppointment"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/auth/register': {
+    "/auth/register": {
         parameters: {
             query?: never;
             header?: never;
@@ -129,14 +157,14 @@ export interface paths {
          * Register new user
          * @description Creates a new user account in the system with the provided credentials
          */
-        post: operations['createUser'];
+        post: operations["createUser"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/auth/refresh': {
+    "/auth/refresh": {
         parameters: {
             query?: never;
             header?: never;
@@ -145,14 +173,14 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations['refreshToken'];
+        post: operations["refreshToken"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/auth/me': {
+    "/auth/me": {
         parameters: {
             query?: never;
             header?: never;
@@ -161,14 +189,14 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations['me'];
+        post: operations["me"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/auth/logout': {
+    "/auth/logout": {
         parameters: {
             query?: never;
             header?: never;
@@ -177,14 +205,14 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations['logout'];
+        post: operations["logout"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/auth/login': {
+    "/auth/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -197,14 +225,14 @@ export interface paths {
          * User login
          * @description Authenticates a user and returns access and refresh tokens as HTTP-only cookies.
          */
-        post: operations['login'];
+        post: operations["login"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/auth/identity': {
+    "/auth/identity": {
         parameters: {
             query?: never;
             header?: never;
@@ -213,14 +241,14 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations['verifyIdentity'];
+        post: operations["verifyIdentity"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/slots': {
+    "/api/slots": {
         parameters: {
             query?: never;
             header?: never;
@@ -231,20 +259,20 @@ export interface paths {
          * Get available slots
          * @description Retrieves a list of available time slots based on the provided filters
          */
-        get: operations['getSlots'];
+        get: operations["getSlots"];
         put?: never;
         /**
          * Create a new slot
          * @description Creates a new available time slot based on the provided data
          */
-        post: operations['createSlot'];
+        post: operations["createSlot"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/requisitions': {
+    "/api/requisitions": {
         parameters: {
             query?: never;
             header?: never;
@@ -255,36 +283,36 @@ export interface paths {
          * Get all requisitions
          * @description Retrieves all requisitions with optional filtering by medical record ID and/or status
          */
-        get: operations['getAllRequisitions'];
+        get: operations["getAllRequisitions"];
         put?: never;
         /**
          * Create a new requisition
          * @description Creates a new requisition in the system based on the provided data
          */
-        post: operations['createRequisition'];
+        post: operations["createRequisition"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/records': {
+    "/api/payments": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getMedicalRecords'];
+        get?: never;
         put?: never;
-        post: operations['createMedicalRecord'];
+        post: operations["createPayment"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/patients': {
+    "/api/patients": {
         parameters: {
             query?: never;
             header?: never;
@@ -295,20 +323,20 @@ export interface paths {
          * Get all patients
          * @description Retrieves a list of all patients in the system
          */
-        get: operations['getAllPatients'];
+        get: operations["getAllPatients"];
         put?: never;
         /**
          * Create a new patient
          * @description Creates a new patient record in the system based on the provided data
          */
-        post: operations['createPatient'];
+        post: operations["createPatient"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/medical-records': {
+    "/api/medical-records": {
         parameters: {
             query?: never;
             header?: never;
@@ -321,50 +349,90 @@ export interface paths {
          * Create a new medical record
          * @description Creates a new medical record. Only doctors can create records.
          */
-        post: operations['createMedicalRecord'];
+        post: operations["createMedicalRecord"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/doctors': {
+    "/api/doctors": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getAllDoctors'];
+        get: operations["getAllDoctors"];
         put?: never;
-        post: operations['createDoctor'];
+        post: operations["createDoctor"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/appointments': {
+    "/api/appointments": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getAppointments'];
+        get: operations["getAppointments"];
         put?: never;
         /**
          * Create a new appointment
          * @description Books an appointment in an available time slot based on the provided data
          */
-        post: operations['createAppointment'];
+        post: operations["createAppointment"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/analytics/indexes': {
+    "/api/analytics/top-doctors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get top 5 doctors with most appointments
+         * @description Retrieves the top 5 doctors with the most appointments in the specified month
+         */
+        post: operations["getTopDoctors"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/specialty-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get specialty statistics
+         * @description Retrieves statistics about the most chosen specialties in the specified month
+         */
+        post: operations["getSpecialtyStats"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/indexes": {
         parameters: {
             query?: never;
             header?: never;
@@ -377,14 +445,14 @@ export interface paths {
          * Create database indexes
          * @description Create indexes on specified collections to optimize query performance
          */
-        post: operations['createIndexes'];
+        post: operations["createIndexes"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/analytics/aggregate': {
+    "/api/analytics/aggregate": {
         parameters: {
             query?: never;
             header?: never;
@@ -397,21 +465,21 @@ export interface paths {
          * Execute aggregation pipeline
          * @description Run a custom MongoDB aggregation pipeline on a specified collection
          */
-        post: operations['executeAggregation'];
+        post: operations["executeAggregation"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/users': {
+    "/api/users": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getUsers'];
+        get: operations["getUsers"];
         put?: never;
         post?: never;
         delete?: never;
@@ -420,47 +488,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/api/users/{id}': {
+    "/api/slots/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get user by ID
-         * @description Retrieves user information by their unique identifier (Admin only)
-         */
-        get: operations['getUser'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/api/slots/{id}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['getSlotById'];
+        get: operations["getSlotById"];
         put?: never;
         post?: never;
         /**
          * Delete a slot
          * @description Delete a slot by its ID.
          */
-        delete: operations['deleteSlot'];
+        delete: operations["deleteSlot"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/requisitions/{id}': {
+    "/api/requisitions/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -471,20 +519,20 @@ export interface paths {
          * Get requisition by ID
          * @description Retrieves a specific requisition by its unique identifier
          */
-        get: operations['getRequisitionById'];
+        get: operations["getRequisitionById"];
         put?: never;
         post?: never;
         /**
          * Delete requisition
          * @description Removes a requisition from the system by its ID
          */
-        delete: operations['deleteRequisition'];
+        delete: operations["deleteRequisition"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    '/api/payments/medical-records/{medicalRecordId}': {
+    "/api/payments/medical-records/{medicalRecordId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -495,7 +543,7 @@ export interface paths {
          * Get payments by medicalRecordId
          * @description Retrieves all payments for a specific medicalRecordId.
          */
-        get: operations['getPaymentsByMedicalRecordId'];
+        get: operations["getPaymentsByMedicalRecordId"];
         put?: never;
         post?: never;
         delete?: never;
@@ -504,7 +552,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/api/medical-records/patient/{patientId}': {
+    "/api/medical-records/patient/{patientId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -515,7 +563,7 @@ export interface paths {
          * Get medical records by patient ID
          * @description Retrieves all medical records for a specific patient.
          */
-        get: operations['getMedicalRecordsByPatientId'];
+        get: operations["getMedicalRecordsByPatientId"];
         put?: never;
         post?: never;
         delete?: never;
@@ -524,7 +572,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/api/medical-records/doctor/{doctorId}': {
+    "/api/medical-records/doctor/{doctorId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -535,7 +583,7 @@ export interface paths {
          * Get medical records by doctor ID
          * @description Retrieves all medical records for a specific doctor.
          */
-        get: operations['getMedicalRecordsByDoctorId'];
+        get: operations["getMedicalRecordsByDoctorId"];
         put?: never;
         post?: never;
         delete?: never;
@@ -544,14 +592,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/api/doctors/user/{userId}': {
+    "/api/doctors/user/{userId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations['getDoctorByUserId'];
+        get: operations["getDoctorByUserId"];
         put?: never;
         post?: never;
         delete?: never;
@@ -560,47 +608,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/api/analytics/top-doctors': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get top 5 doctors with most appointments
-         * @description Retrieves the top 5 doctors with the most appointments in the specified month
-         */
-        get: operations['getTopDoctors'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/api/analytics/specialty-stats': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get specialty statistics
-         * @description Retrieves statistics about the most chosen specialties in the specified month
-         */
-        get: operations['getSpecialtyStats'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/api/analytics/age-distribution': {
+    "/api/analytics/age-distribution": {
         parameters: {
             query?: never;
             header?: never;
@@ -611,7 +619,7 @@ export interface paths {
          * Get age distribution
          * @description Retrieves the age distribution of patients
          */
-        get: operations['getAgeDistribution'];
+        get: operations["getAgeDistribution"];
         put?: never;
         post?: never;
         delete?: never;
@@ -624,18 +632,33 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        MedicalRecordUpdateDto: {
-            patientDescription?: string;
-            doctorNotes?: string;
-            finalDiagnosis?: string;
-            requisitionIds?: string[];
-            prescriptions?: components['schemas']['Prescription'][];
-            billingAmount?: number;
+        UserUpdateDto: {
+            jwtId?: string;
+            roles?: ("Admin" | "Doctor" | "Patient" | "Guest")[];
+            name?: string;
+            phoneNumber?: string;
+            /** Format: date */
+            dateOfBirth?: string;
         };
-        Prescription: {
-            medicineName?: string;
-            dosage?: string;
-            frequency?: string;
+        PaymentUpdateDto: {
+            /** @enum {string} */
+            status?: "Pending" | "Processing" | "Completed" | "Failed";
+            amount?: number;
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        Payment: {
+            id?: string;
+            medicalRecordId?: string;
+            amount?: number;
+            /** @enum {string} */
+            status?: "Pending" | "Processing" | "Completed" | "Failed";
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         };
         PatientUpdateDto: {
             address?: string;
@@ -654,7 +677,7 @@ export interface components {
         MedicalRecordUpdateDto: {
             doctorNotes?: string;
             finalDiagnosis?: string;
-            prescriptions?: components['schemas']['Prescription'][];
+            prescriptions?: components["schemas"]["Prescription"][];
             billingAmount?: number;
         };
         Prescription: {
@@ -670,7 +693,7 @@ export interface components {
             patientDescription?: string;
             doctorNotes?: string;
             finalDiagnosis?: string;
-            prescriptions?: components['schemas']['Prescription'][];
+            prescriptions?: components["schemas"]["Prescription"][];
             billingAmount?: number;
             /** Format: date-time */
             createdAt?: string;
@@ -696,17 +719,11 @@ export interface components {
         };
         AppointmentUpdateDto: {
             /** @enum {string} */
-            status?:
-                | 'PENDING_APPROVAL'
-                | 'APPROVED'
-                | 'REJECTED'
-                | 'IN_PROGRESS'
-                | 'COMPLETED'
-                | 'CANCELLED'
-                | 'NO_SHOW';
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
             visitReason?: string;
         };
         UserCreateDto: {
+            name?: string;
             email?: string;
             password?: string;
             phoneNumber?: string;
@@ -725,18 +742,18 @@ export interface components {
             /** Format: date */
             dateOfBirth?: string;
             phoneNumber?: string;
-            roles?: ('Admin' | 'Doctor' | 'Patient')[];
+            roles?: ("Admin" | "Doctor" | "Patient" | "Guest")[];
             jwtId?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
             username?: string;
-            authorities?: components['schemas']['GrantedAuthority'][];
+            authorities?: components["schemas"]["GrantedAuthority"][];
+            enabled?: boolean;
             accountNonExpired?: boolean;
             accountNonLocked?: boolean;
             credentialsNonExpired?: boolean;
-            enabled?: boolean;
         };
         UserLoginDto: {
             email?: string;
@@ -756,7 +773,7 @@ export interface components {
             /** Format: date-time */
             endTime?: string;
             /** @enum {string} */
-            status?: 'AVAILABLE' | 'BOOKED';
+            status?: "AVAILABLE" | "BOOKED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -771,8 +788,8 @@ export interface components {
             medicalRecordId?: string;
             testName?: string;
             /** @enum {string} */
-            status?: 'Pending' | 'Pending_result' | 'Completed';
-            result?: components['schemas']['RequisitionResult'];
+            status?: "Pending" | "Pending_result" | "Completed";
+            result?: components["schemas"]["RequisitionResult"];
             /** Format: date-time */
             requestedAt?: string;
             /** Format: date-time */
@@ -784,26 +801,13 @@ export interface components {
             /** Format: date-time */
             reportedAt?: string;
         };
-        MedicalRecordCreateDto: {
-            appointmentId?: string;
-            patientDescription?: string;
-            doctorNotes?: string;
-            billingAmount?: number;
-        };
-        MedicalRecord: {
-            id?: string;
-            patientId?: string;
-            doctorId?: string;
-            appointmentId?: string;
-            visitReason?: string;
-            patientDescription?: string;
-            doctorNotes?: string;
-            finalDiagnosis?: string;
-            requisitions?: string[];
-            prescriptions?: components['schemas']['Prescription'][];
-            billingAmount?: number;
+        PaymentCreateDto: {
+            medicalRecordId?: string;
+            amount?: number;
+            /** @enum {string} */
+            status?: "Pending" | "Processing" | "Completed" | "Failed";
             /** Format: date-time */
-            createdAt?: string;
+            requestedAt?: string;
             /** Format: date-time */
             updatedAt?: string;
         };
@@ -818,7 +822,7 @@ export interface components {
             patientDescription?: string;
             doctorNotes?: string;
             finalDiagnosis?: string;
-            prescriptions?: components['schemas']['Prescription'][];
+            prescriptions?: components["schemas"]["Prescription"][];
             billingAmount: number;
         };
         DoctorCreateDto: {
@@ -834,17 +838,12 @@ export interface components {
             id?: string;
             patientId?: string;
             doctorId?: string;
-            slot?: components['schemas']['SlotDetails'];
+            patientName?: string;
+            doctorName?: string;
+            slot?: components["schemas"]["SlotDetails"];
             visitReason?: string;
             /** @enum {string} */
-            status?:
-                | 'PENDING_APPROVAL'
-                | 'APPROVED'
-                | 'REJECTED'
-                | 'IN_PROGRESS'
-                | 'COMPLETED'
-                | 'CANCELLED'
-                | 'NO_SHOW';
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -856,6 +855,24 @@ export interface components {
             startTime?: string;
             /** Format: date-time */
             endTime?: string;
+        };
+        AnalyticsFilterDto: {
+            /** Format: int32 */
+            year?: number;
+            /** Format: int32 */
+            month?: number;
+        };
+        TopDoctorsDto: {
+            doctorId?: string;
+            doctorName?: string;
+            specialization?: string;
+            /** Format: int32 */
+            appointmentCount?: number;
+        };
+        SpecialtyStatsDto: {
+            specialty?: string;
+            /** Format: int64 */
+            appointmentCount?: number;
         };
         IndexRequest: {
             commands?: string;
@@ -871,7 +888,7 @@ export interface components {
             /** Format: date-time */
             to?: string;
             /** @enum {string} */
-            status?: 'AVAILABLE' | 'BOOKED';
+            status?: "AVAILABLE" | "BOOKED";
         };
         AppointmentFilter: {
             patientId?: string;
@@ -881,14 +898,12 @@ export interface components {
             /** Format: date-time */
             to?: string;
             /** @enum {string} */
-            status?:
-                | 'PENDING_APPROVAL'
-                | 'APPROVED'
-                | 'REJECTED'
-                | 'IN_PROGRESS'
-                | 'COMPLETED'
-                | 'CANCELLED'
-                | 'NO_SHOW';
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+        };
+        AgeDistributionDto: {
+            ageGroup?: string;
+            /** Format: int64 */
+            patientCount?: number;
         };
     };
     responses: never;
@@ -899,7 +914,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    getMedicalRecord: {
+    getUser: {
         parameters: {
             query?: never;
             header?: never;
@@ -916,12 +931,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["User"];
                 };
             };
         };
     };
-    updateMedicalRecord: {
+    updateUser: {
         parameters: {
             query?: never;
             header?: never;
@@ -932,7 +947,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['MedicalRecordUpdateDto'];
+                "application/json": components["schemas"]["UserUpdateDto"];
             };
         };
         responses: {
@@ -942,12 +957,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
     };
-    deleteMedicalRecord: {
+    getPayment: {
         parameters: {
             query?: never;
             header?: never;
@@ -964,8 +979,54 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": components["schemas"]["Payment"];
                 };
+            };
+        };
+    };
+    updatePayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    deletePayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -986,7 +1047,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Patient'];
+                    "*/*": components["schemas"]["Patient"];
                 };
             };
         };
@@ -1002,7 +1063,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['PatientUpdateDto'];
+                "application/json": components["schemas"]["PatientUpdateDto"];
             };
         };
         responses: {
@@ -1012,7 +1073,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Patient'];
+                    "*/*": components["schemas"]["Patient"];
                 };
             };
         };
@@ -1054,7 +1115,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
         };
@@ -1070,7 +1131,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['MedicalRecordUpdateDto'];
+                "application/json": components["schemas"]["MedicalRecordUpdateDto"];
             };
         };
         responses: {
@@ -1080,7 +1141,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Invalid input */
@@ -1089,7 +1150,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Unauthorized */
@@ -1098,7 +1159,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Forbidden - Only the creator can update */
@@ -1107,7 +1168,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Medical record not found */
@@ -1116,7 +1177,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
         };
@@ -1179,7 +1240,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Doctor'];
+                    "*/*": components["schemas"]["Doctor"];
                 };
             };
         };
@@ -1195,7 +1256,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['DoctorUpdateDto'];
+                "application/json": components["schemas"]["DoctorUpdateDto"];
             };
         };
         responses: {
@@ -1205,7 +1266,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Doctor'];
+                    "*/*": components["schemas"]["Doctor"];
                 };
             };
         };
@@ -1227,7 +1288,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': Record<string, never>;
+                    "*/*": Record<string, never>;
                 };
             };
         };
@@ -1249,7 +1310,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Appointment'];
+                    "*/*": components["schemas"]["Appointment"];
                 };
             };
         };
@@ -1265,7 +1326,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['AppointmentUpdateDto'];
+                "application/json": components["schemas"]["AppointmentUpdateDto"];
             };
         };
         responses: {
@@ -1275,7 +1336,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
@@ -1297,7 +1358,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
@@ -1311,7 +1372,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['UserCreateDto'];
+                "application/json": components["schemas"]["UserCreateDto"];
             };
         };
         responses: {
@@ -1321,7 +1382,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['User'];
+                    "*/*": components["schemas"]["User"];
                 };
             };
         };
@@ -1341,7 +1402,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
@@ -1361,7 +1422,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': Record<string, never>;
+                    "*/*": Record<string, never>;
                 };
             };
         };
@@ -1381,7 +1442,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
@@ -1395,7 +1456,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['UserLoginDto'];
+                "application/json": components["schemas"]["UserLoginDto"];
             };
         };
         responses: {
@@ -1405,7 +1466,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
@@ -1419,7 +1480,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['IdentityCheckDto'];
+                "application/json": components["schemas"]["IdentityCheckDto"];
             };
         };
         responses: {
@@ -1429,7 +1490,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': Record<string, never>;
+                    "*/*": string;
                 };
             };
         };
@@ -1437,7 +1498,7 @@ export interface operations {
     getSlots: {
         parameters: {
             query: {
-                filter: components['schemas']['SlotFilter'];
+                filter: components["schemas"]["SlotFilter"];
             };
             header?: never;
             path?: never;
@@ -1451,7 +1512,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Slot'][];
+                    "*/*": components["schemas"]["Slot"][];
                 };
             };
         };
@@ -1465,7 +1526,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['Slot'];
+                "application/json": components["schemas"]["Slot"];
             };
         };
         responses: {
@@ -1475,7 +1536,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Slot'];
+                    "*/*": components["schemas"]["Slot"];
                 };
             };
         };
@@ -1484,7 +1545,7 @@ export interface operations {
         parameters: {
             query?: {
                 medicalRecordId?: string;
-                status?: 'Pending' | 'Pending_result' | 'Completed';
+                status?: "Pending" | "Pending_result" | "Completed";
             };
             header?: never;
             path?: never;
@@ -1498,7 +1559,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Requisition'][];
+                    "*/*": components["schemas"]["Requisition"][];
                 };
             };
         };
@@ -1512,7 +1573,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['RequisitionCreateDto'];
+                "application/json": components["schemas"]["RequisitionCreateDto"];
             };
         };
         responses: {
@@ -1522,32 +1583,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Requisition'];
+                    "*/*": components["schemas"]["Requisition"];
                 };
             };
         };
     };
-    getMedicalRecords: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    '*/*': components['schemas']['MedicalRecord'][];
-                };
-            };
-        };
-    };
-    createMedicalRecord: {
+    createPayment: {
         parameters: {
             query?: never;
             header?: never;
@@ -1556,17 +1597,17 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['MedicalRecordCreateDto'];
+                "application/json": components["schemas"]["PaymentCreateDto"];
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Created */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["Payment"];
                 };
             };
         };
@@ -1586,7 +1627,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Patient'][];
+                    "*/*": components["schemas"]["Patient"][];
                 };
             };
         };
@@ -1600,7 +1641,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['PatientCreateDto'];
+                "application/json": components["schemas"]["PatientCreateDto"];
             };
         };
         responses: {
@@ -1610,7 +1651,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Patient'];
+                    "*/*": components["schemas"]["Patient"];
                 };
             };
         };
@@ -1624,7 +1665,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['MedicalRecordCreateDto'];
+                "application/json": components["schemas"]["MedicalRecordCreateDto"];
             };
         };
         responses: {
@@ -1634,7 +1675,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Invalid input */
@@ -1643,7 +1684,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Unauthorized */
@@ -1652,7 +1693,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Forbidden - Only doctors can create records */
@@ -1661,7 +1702,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
             /** @description Patient not found */
@@ -1670,7 +1711,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'];
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
         };
@@ -1690,7 +1731,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Doctor'][];
+                    "*/*": components["schemas"]["Doctor"][];
                 };
             };
         };
@@ -1704,7 +1745,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['DoctorCreateDto'];
+                "application/json": components["schemas"]["DoctorCreateDto"];
             };
         };
         responses: {
@@ -1714,7 +1755,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Doctor'];
+                    "*/*": components["schemas"]["Doctor"];
                 };
             };
         };
@@ -1722,7 +1763,7 @@ export interface operations {
     getAppointments: {
         parameters: {
             query: {
-                filter: components['schemas']['AppointmentFilter'];
+                filter: components["schemas"]["AppointmentFilter"];
             };
             header?: never;
             path?: never;
@@ -1736,7 +1777,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Appointment'][];
+                    "*/*": components["schemas"]["Appointment"][];
                 };
             };
         };
@@ -1750,7 +1791,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['AppointmentCreateDto'];
+                "application/json": components["schemas"]["AppointmentCreateDto"];
             };
         };
         responses: {
@@ -1760,7 +1801,55 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Appointment'];
+                    "*/*": components["schemas"]["Appointment"];
+                };
+            };
+        };
+    };
+    getTopDoctors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsFilterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TopDoctorsDto"][];
+                };
+            };
+        };
+    };
+    getSpecialtyStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsFilterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SpecialtyStatsDto"][];
                 };
             };
         };
@@ -1774,7 +1863,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['IndexRequest'];
+                "application/json": components["schemas"]["IndexRequest"];
             };
         };
         responses: {
@@ -1784,7 +1873,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': {
+                    "*/*": {
                         [key: string]: Record<string, never>;
                     };
                 };
@@ -1800,7 +1889,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['AggregationRequest'];
+                "application/json": components["schemas"]["AggregationRequest"];
             };
         };
         responses: {
@@ -1810,7 +1899,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': Record<string, never>;
+                    "*/*": Record<string, never>;
                 };
             };
         };
@@ -1830,29 +1919,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['User'][];
-                };
-            };
-        };
-    };
-    getUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    '*/*': components['schemas']['User'];
+                    "*/*": components["schemas"]["User"][];
                 };
             };
         };
@@ -1874,7 +1941,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Slot'];
+                    "*/*": components["schemas"]["Slot"];
                 };
             };
         };
@@ -1896,7 +1963,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': string;
+                    "*/*": string;
                 };
             };
         };
@@ -1918,7 +1985,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Requisition'];
+                    "*/*": components["schemas"]["Requisition"];
                 };
             };
         };
@@ -1960,7 +2027,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Payment'][];
+                    "*/*": components["schemas"]["Payment"][];
                 };
             };
         };
@@ -1982,7 +2049,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'][];
+                    "*/*": components["schemas"]["MedicalRecord"][];
                 };
             };
         };
@@ -2004,7 +2071,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['MedicalRecord'][];
+                    "*/*": components["schemas"]["MedicalRecord"][];
                 };
             };
         };
@@ -2026,55 +2093,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['Doctor'];
-                };
-            };
-        };
-    };
-    getTopDoctors: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['AnalyticsFilterDto'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    '*/*': components['schemas']['TopDoctorsDto'][];
-                };
-            };
-        };
-    };
-    getSpecialtyStats: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['AnalyticsFilterDto'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    '*/*': components['schemas']['SpecialtyStatsDto'][];
+                    "*/*": components["schemas"]["Doctor"];
                 };
             };
         };
@@ -2094,7 +2113,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    '*/*': components['schemas']['AgeDistributionDto'][];
+                    "*/*": components["schemas"]["AgeDistributionDto"][];
                 };
             };
         };

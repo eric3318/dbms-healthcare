@@ -13,7 +13,7 @@ export type AuthResponse = components['schemas']['User'];
 export type LoginParams = components['schemas']['UserLoginDto'];
 export type User = AuthResponse;
 export type RegisterParams = components['schemas']['UserCreateDto'];
-
+export type UserUpdateDto = components['schemas']['UserUpdateDto'];
 export type VerifyIdentityParams = components['schemas']['IdentityCheckDto'];
 
 export type Patient = components['schemas']['Patient'];

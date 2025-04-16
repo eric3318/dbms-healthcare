@@ -32,7 +32,7 @@ export default function VerificationForm() {
         };
         const success = await verifyIdentity(payload);
         if (success) {
-            navigate('/signin');
+            navigate(0);
         }
     };
 

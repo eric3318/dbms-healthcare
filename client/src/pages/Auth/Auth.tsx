@@ -5,38 +5,46 @@ import styles from './auth.module.css';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router';
 import { Text } from '@mantine/core';
-
+import VerificationForm from '../../components/VerificationForm/VerificationForm';
 type AuthProps = {
-    isSignIn: boolean;
+    isSignIn?: boolean;
+    isVerification?: boolean;
 };
 
-export default function Auth({ isSignIn }: AuthProps) {
+export default function Auth({ isSignIn = true, isVerification = false }: AuthProps) {
     const { authenticated } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (authenticated) {
+        if (!isVerification && authenticated) {
             navigate('/');
+            return;
         }
-    }, [authenticated, navigate]);
+    }, [authenticated, navigate, isVerification]);
 
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
-                <Text size="xl" fw="bold">
-                    {isSignIn ? 'Login' : 'Sign Up'}
-                </Text>
-
-                <AuthForm isSignIn={isSignIn} />
-
-                {isSignIn ? (
-                    <Text>
-                        Don't have an account? <Link to="/signup">Sign up</Link>
-                    </Text>
+                {isVerification ? (
+                    <VerificationForm />
                 ) : (
-                    <Text>
-                        Already have an account? <Link to="/signin">Log in</Link>
-                    </Text>
+                    <>
+                        <Text size="xl" fw="bold">
+                            {isSignIn ? 'Login' : 'Sign Up'}
+                        </Text>
+
+                        <AuthForm isSignIn={isSignIn} />
+
+                        {isSignIn ? (
+                            <Text>
+                                Don't have an account? <Link to="/signup">Sign up</Link>
+                            </Text>
+                        ) : (
+                            <Text>
+                                Already have an account? <Link to="/signin">Log in</Link>
+                            </Text>
+                        )}
+                    </>
                 )}
             </div>
         </div>

@@ -6,25 +6,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import Profile from './pages/Profile/Profile';
 import Home from './pages/Home/Home';
 import './App.css';
-import Root from './pages/Root/Root';
+import RootLayout from './pages/RootLayout/RootLayout';
 import Auth from './pages/Auth/Auth';
-import OurTeam from './pages/OurTeam/OurTeam';
 import AuthProvider from './hooks/useAuth/AuthProvider';
 import Availability from './pages/Booking/Availability/Availability';
-import Information from './pages/Profile/Information/Information';
-import MedicalHistory from './pages/Profile/MedicalHistory.tsx/MedicalHistory';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Services from './pages/Services/Services';
 import ContactUs from './pages/ContactUs/ContactUs';
 import Booking from './pages/Booking/Booking';
 import ProtectedLayout from './pages/ProtectedLayout/ProtectedLayout';
 import Unauthorized from './pages/Unauthorized/Unauthorized';
-import VerificationForm from './components/VerificationForm/VerificationForm';
 import { Notifications } from '@mantine/notifications';
+
 const router = createBrowserRouter([
     {
         path: '/',
-        Component: Root,
+        Component: RootLayout,
         children: [
             {
                 index: true,
@@ -35,38 +31,23 @@ const router = createBrowserRouter([
                 Component: Booking,
             },
             {
-                element: <ProtectedLayout allowedRoles={['PATIENT']} />,
-                children: [
-                    {
-                        path: '/booking/:doctorId',
-                        Component: Availability,
-                    },
-                ],
-            },
-
-            {
-                path: '/our-team',
-                Component: OurTeam,
-            },
-            {
                 path: '/services',
-                Component: Services,
+                Component: Booking,
             },
             {
                 path: '/contact-us',
                 Component: ContactUs,
             },
             {
-                path: '/profile',
-                Component: Profile,
+                element: <ProtectedLayout allowedRoles={['PATIENT']} />,
                 children: [
                     {
-                        path: 'personal-information',
-                        Component: Information,
+                        path: '/booking/:doctorId',
+                        Component: Availability,
                     },
                     {
-                        path: 'medical-history',
-                        Component: MedicalHistory,
+                        path: '/profile',
+                        Component: Profile,
                     },
                 ],
             },
@@ -83,15 +64,20 @@ const router = createBrowserRouter([
     },
     {
         path: '/signin',
-        element: <Auth isSignIn={true} />,
+        element: <Auth />,
     },
     {
         path: '/signup',
         element: <Auth isSignIn={false} />,
     },
     {
-        path: '/verify',
-        Component: VerificationForm,
+        element: <ProtectedLayout allowedRoles={['GUEST']} />,
+        children: [
+            {
+                path: '/verify',
+                element: <Auth isVerification={true} />,
+            },
+        ],
     },
     {
         path: '/unauthorized',
