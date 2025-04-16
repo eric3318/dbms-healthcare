@@ -1,105 +1,62 @@
 const fs = require('fs');
-const axios = require('axios');
-const { wrapper } = require('axios-cookiejar-support');
-const { CookieJar } = require('tough-cookie');
 
 const API_URL = 'http://localhost:8080/api';
 const AUTH_URL = 'http://localhost:8080/auth';
 const data = JSON.parse(fs.readFileSync('exampleData.json', 'utf-8'));
 
-const jar = new CookieJar();
-const client = wrapper(axios.create({ jar, withCredentials: true }));
+async function insertData(key) {
+      const url = data[key].apiResource ? `${API_URL}/${key}` : `${AUTH_URL}/${data[key].endpoint}`;
+      const entries = data[key].entries;
 
-async function insertResource(resourceName, resource) {
-  const entries = resource.entries;
-  const url = resource.apiResource
-    ? `${API_URL}/${resourceName}`
-    : `${AUTH_URL}/${resource.endpoint}`;
-
-  console.log(`Starting insertion for ${resourceName}...`);
-  
-  try {
-    for (const entry of entries) {
-      const res = await client.post(url, entry, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (res.status !== 200 && res.status !== 201) {
-        throw new Error(`Failed to insert entry in ${resourceName}: ${res.status}`);
-      }
-    }
-    console.log(`Successfully inserted all ${resourceName}`);
-  } catch (err) {
-    console.error(`Insertion failed for ${resourceName}:`, err.message);
-  }
+      await Promise.all(
+        entries.map(async (entry) => {
+          try {
+            const res = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(entry)
+            });
+            if (!res.ok) {
+              throw new Error(`Failed to insert ${key}`);
+            }
+          } catch (err) {
+            console.error(`Failed to insert ${key}:`, err.message);
+          }
+        })
+  );
 }
 
-async function verifyIdentity(entry) {
+async function fetchData(url) {
   try {
-    const res = await client.post(`${AUTH_URL}/identity`, entry, {
+    const res = await fetch(url, {
       headers: { 'Content-Type': 'application/json' }
     });
 
-    if (res.status !== 200) {
-      throw new Error(`Failed to verify identity: ${res.status}`);
-    }
-  } catch (err) {
-    console.error(`Verification failed for ${JSON.stringify(entry)}:`, err.message);
-  }
-}
-
-async function createUser(entry) {
-  try {
-    const res = await client.post(`${AUTH_URL}/register`, entry, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (res.status !== 200 && res.status !== 201) {
-      throw new Error(`Failed to create user: ${res.status}`);
-    }
-  } catch (err) {
-    console.error(`Creation failed for ${JSON.stringify(entry)}:`, err.message);
-  }
-}
-
-async function getAllDoctors() {
-  try {
-    const res = await client.get(`${API_URL}/doctors`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (res.status !== 200) {
-      throw new Error(`Failed to get doctors: ${res.status}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${url}`);
     }
 
-    return res.data;
+    return res.json();
   } catch (err) {
-    console.error('Failed to fetch doctors:', err.message);
+    console.error(`Failed to fetch ${url}:`, err.message);
     return [];
   }
 }
 
 async function generateSlotsForDoctor(doctor, slotTemplates) {
-  // We'll use the example data as a pattern for time slots
   const createdSlots = [];
   const slotsPerDoctor = 20;
   
-  // Create slotsPerDoctor slots for each doctor
   for (let i = 0; i < slotsPerDoctor; i++) {
-    // Use the slot templates as patterns, cycling through them if needed
     const templateIndex = i % slotTemplates.length;
     const slotTemplate = slotTemplates[templateIndex];
     
-    // Generate a new date for this slot, offset by the slot index
-    // This ensures each slot has a unique date even when using the same template
     const baseDate = new Date(slotTemplate.startTime);
     const newStartDate = new Date(baseDate);
-    // Add i days to the base date to create different dates
     newStartDate.setDate(baseDate.getDate() + i);
     
     const startTime = newStartDate.toISOString();
     
-    // Calculate end time (30 minutes later)
     const newEndDate = new Date(newStartDate);
     newEndDate.setMinutes(newEndDate.getMinutes() + 30);
     const endTime = newEndDate.toISOString();
@@ -111,11 +68,13 @@ async function generateSlotsForDoctor(doctor, slotTemplates) {
     };
     
     try {
-      const res = await client.post(`${API_URL}/slots`, slot, {
-        headers: { 'Content-Type': 'application/json' }
+      const res = await fetch(`${API_URL}/slots`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(slot)
       });
       
-      if (res.status === 200 || res.status === 201) {
+      if (res.ok) {
         createdSlots.push(slot);
         console.log(`Created slot ${i+1}/20 for doctor ${doctor.name} (ID: ${doctor.id}) at ${startTime}`);
       }
@@ -123,50 +82,68 @@ async function generateSlotsForDoctor(doctor, slotTemplates) {
       console.error(`Failed to create slot ${i+1}/20 for doctor ${doctor.name} (ID: ${doctor.id}):`, err.message);
     }
   }
-  
   return createdSlots;
 }
 
-(async () => {
-  await insertResource('patients', data.patients);
-  await insertResource('doctors', data.doctors);
+async function updateUser(id, payload){
+  const res = await fetch(`${API_URL}/users/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
 
-  const patientEntries = data.patients.entries;
-  const doctorEntries = data.doctors.entries;
-  const userEntries = data.users.entries;
+  if (!res.ok) {
+    throw new Error(`Failed to update user ${id}`);
+  }
+}
 
-  let userIdx = 0;
+async function verifyUser(payload){
+  const res = await fetch(`${AUTH_URL}/test-identity`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
 
-  for (const patient of patientEntries) {
-    await verifyIdentity(patient);
-    await createUser(userEntries[userIdx]);
-    userIdx++;
+  if (!res.ok) {
+    throw new Error(`Failed to verify user ${payload.userId}`);
+  }
+}
+
+async function main(){
+  await Promise.all([
+    insertData('patients'),
+    insertData('doctors'),
+    insertData('users'),
+  ])
+
+  const [doctors, patients, users] = await Promise.all([
+    fetchData(`${API_URL}/doctors`),
+    fetchData(`${API_URL}/patients`),
+    fetchData(`${API_URL}/users`),
+  ])
+
+  await Promise.all(
+    doctors.map((doctor) => generateSlotsForDoctor(doctor, data.slots.entries))
+  );
+
+  await updateUser(users[0].id, {roles: ['ADMIN']});
+
+  for (let i = 1; i < 10; i ++){
+    await verifyUser({
+      userId: users[i].id,
+      roleId: doctors[i].id,
+      role : "DOCTOR"
+    });
   }
 
-  for (const doctor of doctorEntries) {
-    await verifyIdentity(doctor);
-    await createUser(userEntries[userIdx]);
-    userIdx++;
+  for (let i = 10; i < 19; i ++){
+    await verifyUser({
+      userId: users[i].id,
+      roleId: patients[i].id,
+      role : "PATIENT"
+    });
   }
+}
 
-  // Query all doctors and create slots using templates from example data
-  console.log('Querying all doctors...');
-  const doctors = await getAllDoctors();
-  console.log(`Found ${doctors.length} doctors`);
-  
-  if (doctors.length > 0 && data.slots && data.slots.entries) {
-    console.log('Creating 20 slots for each doctor...');
-    const slotTemplates = data.slots.entries;
-    
-    let totalCreatedSlots = 0;
-    for (const doctor of doctors) {
-      console.log(`Creating slots for doctor: ${doctor.name} (ID: ${doctor.id})`);
-      const doctorSlots = await generateSlotsForDoctor(doctor, slotTemplates);
-      totalCreatedSlots += doctorSlots.length;
-    }
-    
-    console.log(`Created a total of ${totalCreatedSlots} slots for ${doctors.length} doctors`);
-  } else {
-    console.log('No doctors found or no slot templates available');
-  }
-})();
+main();
+

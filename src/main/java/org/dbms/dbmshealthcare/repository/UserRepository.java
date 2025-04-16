@@ -69,4 +69,28 @@ public class UserRepository extends BaseMongoRepository<User> {
       throw new RuntimeException("User not updated");
     }
   }
+
+  @Transactional
+  public void authorize(String userId, String roleId, Role role){
+    Update updates = new Update().set("user_id", userId);
+    Update userUpdates = new Update().set("role_id", roleId);
+
+    if (role.equals(Role.DOCTOR)){
+      Doctor doctor = doctorRepository.findById(roleId);
+      userUpdates.set("name", doctor.getName()).set("roles", List.of(Role.DOCTOR));
+      doctorRepository.update(roleId,updates);
+    }
+
+    if (role.equals(Role.PATIENT)){
+      Patient patient = patientRepository.findById(roleId);
+      userUpdates.set("name", patient.getName()).set("roles", List.of(Role.PATIENT));
+      patientRepository.update(roleId,updates);
+    }
+
+    User user = super.update(userId, userUpdates);
+
+    if (user == null) {
+      throw new RuntimeException("User not updated");
+    }
+  }
 }

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.dbms.dbmshealthcare.dto.IdentityCheckDto;
+import org.dbms.dbmshealthcare.dto.TestIdentityCheckDto;
 import org.dbms.dbmshealthcare.dto.UserCreateDto;
 import org.dbms.dbmshealthcare.dto.UserLoginDto;
 import org.dbms.dbmshealthcare.model.User;
@@ -52,6 +53,13 @@ public class AuthController {
     httpResponse.addHeader("Set-Cookie", refreshTokenCookie.toString());
     httpResponse.addHeader("Set-Cookie", accessTokenCookie.toString());
 
+    return ResponseEntity.ok("Verification successful");
+  }
+
+  @PostMapping("/test-identity")
+  public ResponseEntity<String> testVerify(
+      @Valid @RequestBody TestIdentityCheckDto identityCheckDto) {
+    authService.verifyIdentity(identityCheckDto);
     return ResponseEntity.ok("Verification successful");
   }
 

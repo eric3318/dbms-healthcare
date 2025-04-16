@@ -45,10 +45,10 @@ public class SecurityConfig {
       throws Exception {
     http
         .securityMatcher(new OrRequestMatcher(
-            new AndRequestMatcher(
-                new AntPathRequestMatcher("/api/**"),
-                new NegatedRequestMatcher(new AntPathRequestMatcher("/api/doctors", "GET"))
-            ),
+//            new AndRequestMatcher(
+//                new AntPathRequestMatcher("/api/**"),
+//                new NegatedRequestMatcher(new AntPathRequestMatcher("/api/doctors", "GET"))
+//            ),
             new AntPathRequestMatcher("/auth/me"),
             new AntPathRequestMatcher("/auth/identity")
         ))

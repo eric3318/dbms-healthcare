@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.dbms.dbmshealthcare.dto.TestIdentityCheckDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.dbms.dbmshealthcare.constants.JwtType;
@@ -50,6 +51,11 @@ public class AuthService {
     userRepository.authorize(userId, identityCheckDto);
   }
 
+  public void verifyIdentity(TestIdentityCheckDto identityCheckDto) {
+    userRepository.authorize(identityCheckDto.userId(), identityCheckDto.roleId(),
+        identityCheckDto.role());
+  }
+
   public TokenPair login(String email, String password, boolean rememberMe) throws Exception {
     User user = userService.loadUserByUsername(email);
     String hashedPassword = user.getPassword();
@@ -65,7 +71,7 @@ public class AuthService {
         "roles", user.getRoles(),
         "profile", Map.of(
             "id", user.getId(),
-            "role_id", roleId == null ? "" : roleId ,
+            "role_id", roleId == null ? "" : roleId,
             "name", name == null ? "" : name,
             "date_of_birth", user.getDateOfBirth().toString()
         )
