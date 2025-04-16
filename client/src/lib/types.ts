@@ -13,7 +13,7 @@ export type AuthResponse = components['schemas']['User'];
 export type LoginParams = components['schemas']['UserLoginDto'];
 export type User = AuthResponse;
 export type RegisterParams = components['schemas']['UserCreateDto'];
-
+export type UserUpdateDto = components['schemas']['UserUpdateDto'];
 export type VerifyIdentityParams = components['schemas']['IdentityCheckDto'];
 
 export type Patient = components['schemas']['Patient'];
@@ -30,3 +30,10 @@ export type AppointmentUpdateDto = components['schemas']['AppointmentUpdateDto']
 export type Doctor = components['schemas']['Doctor'];
 export type DoctorCreateDto = components['schemas']['DoctorCreateDto'];
 export type DoctorUpdateDto = components['schemas']['DoctorUpdateDto'];
+
+export type AgeDistributionDto = components['schemas']['AgeDistributionDto'];
+export type SpecialtyStatsDto = components['schemas']['SpecialtyStatsDto'];
+export type TopDoctorsDto = components['schemas']['TopDoctorsDto'];
+export type AnalyticsFilterDto = components['schemas']['AnalyticsFilterDto'];
+export type DoctorCountBySpecialtyDto = components['schemas']['DoctorCountBySpecialtyDto'];
+export type RoleDistributionDto = components['schemas']['RoleDistributionDto'];

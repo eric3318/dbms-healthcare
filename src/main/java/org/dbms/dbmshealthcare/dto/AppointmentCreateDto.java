@@ -1,5 +1,7 @@
 package org.dbms.dbmshealthcare.dto;
 
-public record AppointmentCreateDto(String slotId, String visitReason) {
+import jakarta.validation.constraints.NotBlank;
+
+public record AppointmentCreateDto(@NotBlank String slotId, @NotBlank String visitReason) {
 
 }

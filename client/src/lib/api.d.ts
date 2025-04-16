@@ -4,6 +4,50 @@
  */
 
 export interface paths {
+    "/api/users/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user by ID
+         * @description Retrieves user information by their unique identifier (Admin only)
+         */
+        get: operations["getUser"];
+        put: operations["updateUser"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a payment by ID
+         * @description Retrieves a specific payment.
+         */
+        get: operations["getPayment"];
+        put: operations["updatePayment"];
+        post?: never;
+        /**
+         * Delete a payment
+         * @description Deletes a payment.
+         */
+        delete: operations["deletePayment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/patients/{id}": {
         parameters: {
             query?: never;
@@ -27,6 +71,34 @@ export interface paths {
          * @description Removes a patient record from the system by their ID
          */
         delete: operations["deletePatient"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/medical-records/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a medical record by ID
+         * @description Retrieves a specific medical record.
+         */
+        get: operations["getMedicalRecord"];
+        /**
+         * Update a medical record
+         * @description Updates an existing medical record. Only the doctor who created the record can update it.
+         */
+        put: operations["updateMedicalRecord"];
+        post?: never;
+        /**
+         * Delete a medical record
+         * @description Deletes a medical record. Only the doctor who created the record can delete it.
+         */
+        delete: operations["deleteMedicalRecord"];
         options?: never;
         head?: never;
         patch?: never;
@@ -124,6 +196,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/login": {
         parameters: {
             query?: never;
@@ -208,6 +296,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createPayment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/patients": {
         parameters: {
             query?: never;
@@ -226,6 +330,26 @@ export interface paths {
          * @description Creates a new patient record in the system based on the provided data
          */
         post: operations["createPatient"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/medical-records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a new medical record
+         * @description Creates a new medical record. Only doctors can create records.
+         */
+        post: operations["createMedicalRecord"];
         delete?: never;
         options?: never;
         head?: never;
@@ -268,6 +392,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/analytics/top-doctors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get top 5 doctors with most appointments
+         * @description Retrieves the top 5 doctors with the most appointments in the specified month
+         */
+        post: operations["getTopDoctors"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/specialty-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get specialty statistics
+         * @description Retrieves statistics about the most chosen specialties in the specified month
+         */
+        post: operations["getSpecialtyStats"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/indexes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create database indexes
+         * @description Create indexes on specified collections to optimize query performance
+         */
+        post: operations["createIndexes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/aggregate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Execute aggregation pipeline
+         * @description Run a custom MongoDB aggregation pipeline on a specified collection
+         */
+        post: operations["executeAggregation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/users": {
         parameters: {
             query?: never;
@@ -276,26 +480,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getUsers"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/users/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get user by ID
-         * @description Retrieves user information by their unique identifier (Admin only)
-         */
-        get: operations["getUser"];
         put?: never;
         post?: never;
         delete?: never;
@@ -348,6 +532,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/payments/medical-records/{medicalRecordId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get payments by medicalRecordId
+         * @description Retrieves all payments for a specific medicalRecordId.
+         */
+        get: operations["getPaymentsByMedicalRecordId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/medical-records/patient/{patientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get medical records by patient ID
+         * @description Retrieves all medical records for a specific patient.
+         */
+        get: operations["getMedicalRecordsByPatientId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/medical-records/doctor/{doctorId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get medical records by doctor ID
+         * @description Retrieves all medical records for a specific doctor.
+         */
+        get: operations["getMedicalRecordsByDoctorId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/doctors/user/{userId}": {
         parameters: {
             query?: never;
@@ -364,10 +608,98 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/analytics/user-role-distribution": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user role distribution
+         * @description Retrieves the distribution of user roles
+         */
+        get: operations["getUserRoleDistribution"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/doctor-count-by-specialty": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get doctor count by specialty
+         * @description Retrieves the number of doctors in each specialty
+         */
+        get: operations["getDoctorCountBySpecialty"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/analytics/age-distribution": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get age distribution
+         * @description Retrieves the age distribution of patients
+         */
+        get: operations["getAgeDistribution"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        UserUpdateDto: {
+            jwtId?: string;
+            roles?: ("Admin" | "Doctor" | "Patient" | "Guest")[];
+            name?: string;
+            phoneNumber?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+        };
+        PaymentUpdateDto: {
+            /** @enum {string} */
+            status?: "Pending" | "Processing" | "Completed" | "Failed";
+            amount?: number;
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        Payment: {
+            id?: string;
+            medicalRecordId?: string;
+            amount?: number;
+            /** @enum {string} */
+            status?: "Pending" | "Processing" | "Completed" | "Failed";
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         PatientUpdateDto: {
             address?: string;
         };
@@ -377,6 +709,32 @@ export interface components {
             personalHealthNumber?: string;
             address?: string;
             userId?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        MedicalRecordUpdateDto: {
+            doctorNotes?: string;
+            finalDiagnosis?: string;
+            prescriptions?: components["schemas"]["Prescription"][];
+            billingAmount?: number;
+        };
+        Prescription: {
+            medicineName?: string;
+            dosage?: string;
+            frequency?: string;
+        };
+        MedicalRecord: {
+            id?: string;
+            patientId?: string;
+            doctorId?: string;
+            visitReason?: string;
+            patientDescription?: string;
+            doctorNotes?: string;
+            finalDiagnosis?: string;
+            prescriptions?: components["schemas"]["Prescription"][];
+            billingAmount?: number;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -401,10 +759,11 @@ export interface components {
         };
         AppointmentUpdateDto: {
             /** @enum {string} */
-            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
             visitReason?: string;
         };
         UserCreateDto: {
+            name?: string;
             email?: string;
             password?: string;
             phoneNumber?: string;
@@ -423,7 +782,7 @@ export interface components {
             /** Format: date */
             dateOfBirth?: string;
             phoneNumber?: string;
-            roles?: ("Admin" | "Doctor" | "Patient")[];
+            roles?: ("Admin" | "Doctor" | "Patient" | "Guest")[];
             jwtId?: string;
             /** Format: date-time */
             createdAt?: string;
@@ -482,10 +841,29 @@ export interface components {
             /** Format: date-time */
             reportedAt?: string;
         };
+        PaymentCreateDto: {
+            medicalRecordId?: string;
+            amount?: number;
+            /** @enum {string} */
+            status?: "Pending" | "Processing" | "Completed" | "Failed";
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         PatientCreateDto: {
             name?: string;
             personalHealthNumber?: string;
             address?: string;
+        };
+        MedicalRecordCreateDto: {
+            patientId?: string;
+            visitReason?: string;
+            patientDescription?: string;
+            doctorNotes?: string;
+            finalDiagnosis?: string;
+            prescriptions?: components["schemas"]["Prescription"][];
+            billingAmount: number;
         };
         DoctorCreateDto: {
             name?: string;
@@ -500,20 +878,48 @@ export interface components {
             id?: string;
             patientId?: string;
             doctorId?: string;
+            patientName?: string;
+            doctorName?: string;
             slot?: components["schemas"]["SlotDetails"];
             visitReason?: string;
             /** @enum {string} */
-            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
         };
         SlotDetails: {
+            id?: string;
             /** Format: date-time */
             startTime?: string;
             /** Format: date-time */
             endTime?: string;
+        };
+        AnalyticsFilterDto: {
+            /** Format: int32 */
+            year?: number;
+            /** Format: int32 */
+            month?: number;
+        };
+        TopDoctorsDto: {
+            doctorId?: string;
+            doctorName?: string;
+            specialization?: string;
+            /** Format: int32 */
+            appointmentCount?: number;
+        };
+        SpecialtyStatsDto: {
+            specialty?: string;
+            /** Format: int64 */
+            appointmentCount?: number;
+        };
+        IndexRequest: {
+            commands?: string;
+        };
+        AggregationRequest: {
+            collection?: string;
+            pipeline?: string;
         };
         SlotFilter: {
             doctorId?: string;
@@ -532,7 +938,14 @@ export interface components {
             /** Format: date-time */
             to?: string;
             /** @enum {string} */
-            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+            status?: "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+        };
+        RoleDistributionDto: Record<string, never>;
+        DoctorCountBySpecialtyDto: Record<string, never>;
+        AgeDistributionDto: {
+            ageGroup?: string;
+            /** Format: int64 */
+            patientCount?: number;
         };
     };
     responses: never;
@@ -543,6 +956,122 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["User"];
+                };
+            };
+        };
+    };
+    updateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
+    getPayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    updatePayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    deletePayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getPatientById: {
         parameters: {
             query?: never;
@@ -611,6 +1140,131 @@ export interface operations {
             };
         };
     };
+    getMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+        };
+    };
+    updateMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalRecordUpdateDto"];
+            };
+        };
+        responses: {
+            /** @description Medical record updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Forbidden - Only the creator can update */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Medical record not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+        };
+    };
+    deleteMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Medical record deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden - Only the creator can delete */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Medical record not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getDoctorById: {
         parameters: {
             query?: never;
@@ -670,12 +1324,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description No Content */
-            204: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": Record<string, never>;
+                };
             };
         };
     };
@@ -813,6 +1469,26 @@ export interface operations {
             };
         };
     };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
     login: {
         parameters: {
             query?: never;
@@ -856,7 +1532,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": Record<string, never>;
+                    "*/*": string;
                 };
             };
         };
@@ -954,6 +1630,30 @@ export interface operations {
             };
         };
     };
+    createPayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentCreateDto"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
     getAllPatients: {
         parameters: {
             query?: never;
@@ -994,6 +1694,66 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    createMedicalRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalRecordCreateDto"];
+            };
+        };
+        responses: {
+            /** @description Medical record created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Forbidden - Only doctors can create records */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
+                };
+            };
+            /** @description Patient not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"];
                 };
             };
         };
@@ -1088,6 +1848,104 @@ export interface operations {
             };
         };
     };
+    getTopDoctors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsFilterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TopDoctorsDto"][];
+                };
+            };
+        };
+    };
+    getSpecialtyStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalyticsFilterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SpecialtyStatsDto"][];
+                };
+            };
+        };
+    };
+    createIndexes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IndexRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: Record<string, never>;
+                    };
+                };
+            };
+        };
+    };
+    executeAggregation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AggregationRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
     getUsers: {
         parameters: {
             query?: never;
@@ -1104,28 +1962,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["User"][];
-                };
-            };
-        };
-    };
-    getUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["User"];
                 };
             };
         };
@@ -1216,6 +2052,72 @@ export interface operations {
             };
         };
     };
+    getPaymentsByMedicalRecordId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                medicalRecordId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Payment"][];
+                };
+            };
+        };
+    };
+    getMedicalRecordsByPatientId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                patientId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"][];
+                };
+            };
+        };
+    };
+    getMedicalRecordsByDoctorId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                doctorId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MedicalRecord"][];
+                };
+            };
+        };
+    };
     getDoctorByUserId: {
         parameters: {
             query?: never;
@@ -1234,6 +2136,66 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Doctor"];
+                };
+            };
+        };
+    };
+    getUserRoleDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoleDistributionDto"][];
+                };
+            };
+        };
+    };
+    getDoctorCountBySpecialty: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DoctorCountBySpecialtyDto"][];
+                };
+            };
+        };
+    };
+    getAgeDistribution: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AgeDistributionDto"][];
                 };
             };
         };

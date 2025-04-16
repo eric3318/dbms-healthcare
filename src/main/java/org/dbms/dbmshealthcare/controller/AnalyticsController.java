@@ -4,6 +4,10 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
@@ -13,11 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.dbms.dbmshealthcare.dto.analytics.AgeDistributionDto;
+import org.dbms.dbmshealthcare.dto.analytics.AnalyticsFilterDto;
+import org.dbms.dbmshealthcare.dto.analytics.SpecialtyStatsDto;
+import org.dbms.dbmshealthcare.dto.analytics.TopDoctorsDto;
+import org.dbms.dbmshealthcare.dto.analytics.DoctorCountBySpecialtyDto;
+import org.dbms.dbmshealthcare.dto.analytics.RoleDistributionDto;
+import org.dbms.dbmshealthcare.service.AnalyticsService;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/analytics")
@@ -27,6 +34,7 @@ import java.util.Map;
 public class AnalyticsController {
 
     private final MongoTemplate mongoTemplate;
+    private final AnalyticsService analyticsService;
 
     @Operation(summary = "Execute aggregation pipeline", description = "Run a custom MongoDB aggregation pipeline on a specified collection")
     @PostMapping("/aggregate")
@@ -148,6 +156,41 @@ public class AnalyticsController {
             response.put("error", e.getMessage());
             return ResponseEntity.status(500).body(response);
         }
+    }
+
+    @Operation(summary = "Get top 5 doctors with most appointments", 
+        description = "Retrieves the top 5 doctors with the most appointments in the specified month")
+    @PostMapping("/top-doctors")
+    public ResponseEntity<List<TopDoctorsDto>> getTopDoctors(@RequestBody AnalyticsFilterDto filter) {
+        return ResponseEntity.ok(analyticsService.getTopDoctors(filter));
+    }
+
+    @Operation(summary = "Get specialty statistics", 
+        description = "Retrieves statistics about the most chosen specialties in the specified month")
+    @PostMapping("/specialty-stats")
+    public ResponseEntity<List<SpecialtyStatsDto>> getSpecialtyStats(@RequestBody AnalyticsFilterDto filter) {
+        return ResponseEntity.ok(analyticsService.getSpecialtyStats(filter));
+    }
+
+    @Operation(summary = "Get age distribution", 
+        description = "Retrieves the age distribution of patients")
+    @GetMapping("/age-distribution")
+    public ResponseEntity<List<AgeDistributionDto>> getAgeDistribution() {
+        return ResponseEntity.ok(analyticsService.getAgeDistribution());
+    }
+
+    @Operation(summary = "Get doctor count by specialty", 
+        description = "Retrieves the number of doctors in each specialty")
+    @GetMapping("/doctor-count-by-specialty")
+    public ResponseEntity<List<DoctorCountBySpecialtyDto>> getDoctorCountBySpecialty() {
+        return ResponseEntity.ok(analyticsService.getDoctorCountBySpecialty());
+    }
+
+    @Operation(summary = "Get user role distribution", 
+        description = "Retrieves the distribution of user roles")
+    @GetMapping("/user-role-distribution")
+    public ResponseEntity<List<RoleDistributionDto>> getUserRoleDistribution() {
+        return ResponseEntity.ok(analyticsService.getUserRoleDistribution());
     }
 
     // Request objects

@@ -25,7 +25,9 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -43,25 +45,36 @@ public class SecurityConfig {
       throws Exception {
     http
         .securityMatcher(new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/**"), // comment out when inserting data
-            new AntPathRequestMatcher("/auth/me")
+            new AndRequestMatcher(
+                new AntPathRequestMatcher("/api/**"),
+                new NegatedRequestMatcher(new AntPathRequestMatcher("/api/doctors", "GET"))
+            ),
+// COMMENT OUT LIKE THIS WHEN INSERTING DATA
+//            new AndRequestMatcher(
+//                new AntPathRequestMatcher("/api/**"),
+//                new NegatedRequestMatcher(new AntPathRequestMatcher("/api/doctors", "GET"))
+//            ),
+            new AntPathRequestMatcher("/auth/me"),
+            new AntPathRequestMatcher("/auth/identity")
         ))
-        .csrf(AbstractHttpConfigurer::disable)
-        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .authorizeHttpRequests(
-            auth ->
-                auth.anyRequest().authenticated()
-        )
-        .oauth2ResourceServer((oauth2) -> oauth2.jwt(
-            jwt -> jwt.decoder(jwtDecoder).jwtAuthenticationConverter(new MyJwtAuthenticationConverter())
-        ))
-        .sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .exceptionHandling(ex -> {
-          ex.authenticationEntryPoint(new CustomAuthEntryPoint());
-          ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
-        })
-        .addFilterBefore(JwtFilterFactory.create("access_token"), UsernamePasswordAuthenticationFilter.class);
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .authorizeHttpRequests(
+                auth ->
+                    auth.anyRequest().authenticated()
+            )
+            .oauth2ResourceServer((oauth2) -> oauth2.jwt(
+                jwt -> jwt.decoder(jwtDecoder)
+                    .jwtAuthenticationConverter(new MyJwtAuthenticationConverter())
+            ))
+            .sessionManagement(
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(ex -> {
+              ex.authenticationEntryPoint(new CustomAuthEntryPoint());
+              ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
+            })
+            .addFilterBefore(JwtFilterFactory.create("access_token"),
+                UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
@@ -80,7 +93,8 @@ public class SecurityConfig {
                 auth.anyRequest().authenticated()
         )
         .oauth2ResourceServer((oauth2) -> oauth2.jwt(
-            jwt -> jwt.decoder(jwtDecoder).jwtAuthenticationConverter(new MyJwtAuthenticationConverter())
+            jwt -> jwt.decoder(jwtDecoder)
+                .jwtAuthenticationConverter(new MyJwtAuthenticationConverter())
         ))
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -88,7 +102,8 @@ public class SecurityConfig {
           ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint());
           ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
         })
-        .addFilterBefore(JwtFilterFactory.create("refresh_token"), UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(JwtFilterFactory.create("refresh_token"),
+            UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 

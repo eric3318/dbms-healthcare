@@ -1,6 +1,30 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    row-gap: var(--mantine-spacing-xl);
-    height: calc(100vh - 100px);
+    padding: 2rem;
+}
+
+.filterSection {
+    margin-bottom: 2rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.card {
+    height: 100%;
+}
+
+.doctorInfo {
+    margin: 1rem 0;
+}
+
+.noResults {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    width: 100%;
 }

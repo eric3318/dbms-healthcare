@@ -4,8 +4,9 @@ import VerticalBar from '../../components/VerticalBar/VerticalBar';
 import Doctor from './components/Doctor/Doctor';
 import Patient from './components/Patient/Patient';
 import Admin from './components/Admin/Admin';
+import Guest from './components/Guest/Guest';
+
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 type Option = {
     label: string;
@@ -32,13 +33,6 @@ const options: Record<string, Option[]> = {
 
 export default function Dashboard() {
     const { user } = useAuth();
-    const navigate = useNavigate();
-
-    if (user === null) {
-        navigate('/signin');
-        return;
-    }
-
     const userRoles = user?.roles;
 
     const [activeOption, setActiveOption] = useState<string>('');
@@ -46,14 +40,17 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (userRoles) {
-            setSelectedRole(userRoles[0].toLowerCase());
-            setActiveOption(options[userRoles[0].toLowerCase()][0].value);
+            const role = userRoles[0].toLowerCase();
+            setSelectedRole(role);
+            if (role !== 'guest') {
+                setActiveOption(options[role][0].value);
+            }
         }
     }, [userRoles]);
 
     return (
         <div className={styles.container}>
-            {user && selectedRole && (
+            {user && selectedRole && selectedRole !== 'guest' && (
                 <VerticalBar
                     user={user}
                     selectedRole={selectedRole}
@@ -68,6 +65,7 @@ export default function Dashboard() {
                 {selectedRole === 'admin' && <Admin active={activeOption} />}
                 {selectedRole === 'patient' && <Patient active={activeOption} />}
                 {selectedRole === 'doctor' && <Doctor active={activeOption} />}
+                {selectedRole === 'guest' && <Guest />}
             </div>
         </div>
     );
