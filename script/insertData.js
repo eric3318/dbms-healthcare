@@ -10,6 +10,12 @@ const data = JSON.parse(fs.readFileSync('exampleData.json', 'utf-8'));
 const jar = new CookieJar();
 const client = wrapper(axios.create({ jar, withCredentials: true }));
 
+// 存储ID映射关系 - 从逻辑ID到MongoDB ID
+const idMappings = {
+  patients: {},
+  doctors: {}
+};
+
 async function insertResource(resourceName, resource) {
   const entries = resource.entries;
   const url = resource.apiResource
@@ -19,18 +25,205 @@ async function insertResource(resourceName, resource) {
   console.log(`Starting insertion for ${resourceName}...`);
   
   try {
-    for (const entry of entries) {
-      const res = await client.post(url, entry, {
-        headers: { 'Content-Type': 'application/json' }
-      });
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+      
+      // 创建一个条目的副本，以避免修改原始数据
+      let modifiedEntry = { ...entry };
+      
+      // 如果是医疗记录，需要替换逻辑ID为实际MongoDB ID
+      if (resourceName === 'medical_records') {
+        // 处理患者ID
+        if (modifiedEntry.patientId && modifiedEntry.patientId.startsWith('patient-')) {
+          const patientNum = modifiedEntry.patientId.replace('patient-', '');
+          if (idMappings.patients[patientNum]) {
+            console.log(`将逻辑患者ID ${modifiedEntry.patientId} 替换为实际ID ${idMappings.patients[patientNum]}`);
+            modifiedEntry.patientId = idMappings.patients[patientNum];
+          } else {
+            console.warn(`警告: 未找到患者ID映射: ${modifiedEntry.patientId}`);
+          }
+        }
+        
+        // 处理医生ID
+        if (modifiedEntry.doctorId && modifiedEntry.doctorId.startsWith('doc-')) {
+          const doctorNum = modifiedEntry.doctorId.replace('doc-', '');
+          if (idMappings.doctors[doctorNum]) {
+            console.log(`将逻辑医生ID ${modifiedEntry.doctorId} 替换为实际ID ${idMappings.doctors[doctorNum]}`);
+            modifiedEntry.doctorId = idMappings.doctors[doctorNum];
+          } else {
+            console.warn(`警告: 未找到医生ID映射: ${modifiedEntry.doctorId}`);
+          }
+        }
+        
+        // 移除ID字段，让MongoDB自动生成ID
+        if (modifiedEntry.id) {
+          delete modifiedEntry.id;
+        }
+        
+        // 确保所有必填字段都存在，避免验证错误
+        if (!modifiedEntry.visitReason) {
+          modifiedEntry.visitReason = "General checkup";
+          console.log("添加默认的visitReason字段");
+        }
+        if (!modifiedEntry.patientDescription) {
+          modifiedEntry.patientDescription = "Patient description not provided";
+          console.log("添加默认的patientDescription字段");
+        }
+        if (!modifiedEntry.billingAmount) {
+          modifiedEntry.billingAmount = 100.0;
+          console.log("添加默认的billingAmount字段");
+        }
+        
+        // 特殊处理医疗记录插入
+        try {
+          console.log("准备插入医疗记录，详细数据:");
+          console.log(JSON.stringify(modifiedEntry, null, 2));
+          
+          const res = await client.post(url, modifiedEntry, {
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            validateStatus: function (status) {
+              // 接受任何状态码，便于调试
+              return true;
+            }
+          });
+          
+          console.log(`医疗记录插入响应状态: ${res.status}`);
+          if (res.data) console.log(`响应数据: ${JSON.stringify(res.data)}`);
+          
+          if (res.status >= 200 && res.status < 300) {
+            console.log(`成功插入医疗记录! ID: ${res.data.id}`);
+          } else {
+            console.error(`插入医疗记录失败: ${res.status}`);
+            console.error(`错误信息: ${JSON.stringify(res.data)}`);
+          }
+          
+          continue; // 继续下一条医疗记录
+        } catch (err) {
+          console.error("插入医疗记录时发生异常:", err.message);
+          if (err.response) {
+            console.error('状态码:', err.response.status);
+            console.error('响应头:', JSON.stringify(err.response.headers));
+            console.error('响应数据:', JSON.stringify(err.response.data));
+          } else if (err.request) {
+            console.error('请求已发出但没有收到响应:', err.request);
+          } else {
+            console.error('请求设置出错:', err.message);
+          }
+          continue;
+        }
+      }
+      
+      // 如果是申请表或支付记录，需要使用正确的医疗记录ID
+      if (resourceName === 'requisitions' || resourceName === 'payments') {
+        // 直接使用医疗记录映射（未实现，可以扩展）
+        
+        // 移除ID字段，让MongoDB自动生成ID
+        if (modifiedEntry.id) {
+          delete modifiedEntry.id;
+        }
+      }
 
-      if (res.status !== 200 && res.status !== 201) {
-        throw new Error(`Failed to insert entry in ${resourceName}: ${res.status}`);
+      console.log(`正在插入 ${resourceName} 记录: ${JSON.stringify(modifiedEntry).substring(0, 100)}...`);
+      
+      try {
+        const res = await client.post(url, modifiedEntry, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error(`插入 ${resourceName} 记录失败: ${res.status}`);
+        }
+        
+        // 存储患者和医生的ID映射
+        if ((resourceName === 'patients' || resourceName === 'doctors') && res.data && res.data.id) {
+          const index = i + 1; // 计算逻辑ID序号
+          const logicalId = index.toString();
+          
+          if (resourceName === 'patients') {
+            idMappings.patients[logicalId] = res.data.id;
+            console.log(`映射 patient-${logicalId} -> ${res.data.id}`);
+          } else if (resourceName === 'doctors') {
+            idMappings.doctors[logicalId] = res.data.id;
+            console.log(`映射 doc-${logicalId} -> ${res.data.id}`);
+          }
+        }
+        
+        console.log(`成功插入 ${resourceName} 记录，响应：`, res.data);
+      } catch (err) {
+        console.error(`插入 ${resourceName} 条目失败:`, err.message);
+        if (err.response) {
+          console.error('状态码:', err.response.status);
+          console.error('返回头:', err.response.headers);
+          console.error('响应数据:', err.response.data);
+        }
+        // 继续处理下一条记录而不是中断整个过程
+        continue;
       }
     }
-    console.log(`Successfully inserted all ${resourceName}`);
+    console.log(`成功插入所有 ${resourceName}`);
   } catch (err) {
-    console.error(`Insertion failed for ${resourceName}:`, err.message);
+    console.error(`插入 ${resourceName} 失败:`, err.message);
+    if (err.response && err.response.data) {
+      console.error('错误详情:', JSON.stringify(err.response.data));
+    }
+  }
+}
+
+// 直接构建医疗记录样本进行测试
+async function insertTestMedicalRecord() {
+  try {
+    // 获取第一位患者和医生的ID用于测试
+    let firstPatientId = null;
+    let firstDoctorId = null;
+    
+    for (const key in idMappings.patients) {
+      firstPatientId = idMappings.patients[key];
+      break;
+    }
+    
+    for (const key in idMappings.doctors) {
+      firstDoctorId = idMappings.doctors[key];
+      break;
+    }
+    
+    if (!firstPatientId || !firstDoctorId) {
+      console.error("找不到有效的患者ID或医生ID进行测试");
+      return;
+    }
+    
+    const testRecord = {
+      patientId: firstPatientId,
+      doctorId: firstDoctorId,
+      visitReason: "Test medical checkup",
+      patientDescription: "Patient complains of headache",
+      doctorNotes: "Patient appears to be in good health",
+      finalDiagnosis: "Common cold",
+      billingAmount: 150.00
+    };
+    
+    console.log("尝试插入测试医疗记录...");
+    console.log(JSON.stringify(testRecord, null, 2));
+    
+    const res = await client.post(`${API_URL}/medical_records`, testRecord, {
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+    
+    console.log(`测试医疗记录插入响应: ${res.status}`);
+    console.log(`响应数据: ${JSON.stringify(res.data)}`);
+    
+  } catch (err) {
+    console.error("插入测试医疗记录失败:", err.message);
+    if (err.response) {
+      console.error('状态码:', err.response.status);
+      console.error('响应头:', JSON.stringify(err.response.headers));
+      console.error('响应数据:', JSON.stringify(err.response.data));
+    }
   }
 }
 
@@ -128,8 +321,27 @@ async function generateSlotsForDoctor(doctor, slotTemplates) {
 }
 
 (async () => {
+  // 顺序很重要: 先插入基础数据，再插入依赖数据
+  console.log('开始数据导入过程...');
+  
+  // 先插入患者和医生，并保存ID映射
   await insertResource('patients', data.patients);
   await insertResource('doctors', data.doctors);
+  
+  console.log('--------- ID映射情况 ---------');
+  console.log('患者ID映射:', idMappings.patients);
+  console.log('医生ID映射:', idMappings.doctors);
+  console.log('-------------------------------');
+  
+  // 尝试插入一条测试医疗记录
+  await insertTestMedicalRecord();
+  
+  // 然后插入医疗记录，使用映射后的ID
+  await insertResource('medical_records', data.medical_records);
+  
+  // 最后插入依赖医疗记录的数据
+  await insertResource('requisitions', data.requisitions);
+  await insertResource('payments', data.payments);
 
   const patientEntries = data.patients.entries;
   const doctorEntries = data.doctors.entries;

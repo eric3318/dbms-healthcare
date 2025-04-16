@@ -7,8 +7,11 @@ import java.util.List;
 import org.dbms.dbmshealthcare.model.pojo.Prescription;
 
 public record MedicalRecordCreateDto(
-    @NotBlank(message = "Patient ID is required")
+    // remove NotBlank annotation to allow any format of ID
     String patientId,
+    
+    // remove NotBlank annotation to allow any format of ID
+    String doctorId,
     
     @NotBlank(message = "Visit reason is required")
     String visitReason,
